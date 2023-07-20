@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="sqlmap.book_SQL">
+
+<mapper namespace="book">
+
+</mapper>
+
+
+
+</mapper>
+<!-- namespace : 매퍼xml 파일이 여러 개일 수 있음
+	이를 구별하기 위한 식별 용도로 사용
+ -->
+

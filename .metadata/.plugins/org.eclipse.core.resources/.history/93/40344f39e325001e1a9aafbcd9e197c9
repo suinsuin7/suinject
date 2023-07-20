@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<!-- 
+	[마이바티스] 스프링에서 "_"를 사용한 컬럼명을 사용 시(BOOK 테이블의 BOOK_ID 컬럼)
+	 -->
+	<settings>
+		<setting name="mapUnderscoreToCamelCase" value="true"/>
+	</settings>
+</configuration>

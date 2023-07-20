@@ -1,0 +1,5 @@
+package kr.or.ddit.service.impl;
+
+public class BookServiceImpl {
+
+}

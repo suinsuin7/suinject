@@ -1,0 +1,12 @@
+package kr.or.ddit.controller;
+
+import org.springframework.stereotype.Controller;
+
+/* Controller 어노테이션
+ 스프링 프레임워크에게 "이 클래스는 웹 브라우저의 요청(request)을 
+ 받아들이는 컨트롤러야"라고 알려 주는 것임. 
+ */
+@Controller
+public class BookController {
+
+}

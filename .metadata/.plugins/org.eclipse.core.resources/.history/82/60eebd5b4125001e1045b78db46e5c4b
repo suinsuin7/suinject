@@ -1,0 +1,7 @@
+package kr.or.ddit.vo;
+
+//자바빈 클래스
+//1) 멤버변수 2) 기본 생성자 3) getter/setter
+public class BookVO {
+
+}

@@ -1,0 +1,28 @@
+package kr.or.ddit.controller;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
+
+/* Controller 어노테이션
+ 스프링 프레임워크에게 "이 클래스는 웹 브라우저의 요청(request)을 
+ 받아들이는 컨트롤러야"라고 알려 주는 것임. 
+ 스프링은 servlet-context.xml의 context:component-scan의 설정에 의해
+ 이 클래스를 자바빈 객체로 등록(메모리에 바인딩)
+ */
+@Controller
+public class BookController {
+	/*
+	 요청URL : /create
+	 요청파라미터 : 없음
+	 요청방식 : get 
+	 */
+	@RequestMapping(value = "/create", method = RequestMethod.GET)
+	public ModelAndView create() {
+		/*
+		 ModelAndView
+		 1) Model : Contriller가 반환할 데이터(String, int, List, Map, VO...)를 담당
+		 */
+	}
+}
