@@ -23,7 +23,6 @@ public class ProductVO implements Serializable {
 	//<input type="file" id="productImage" name="productImage" 
 	private MultipartFile productImage;
 	private int quantity;	//장바구니에 담은 개수
-	
 	//기본생성자
 	public ProductVO() {}
 	//생성자(상품아이디, 상품명, 상품가격 초기화)
@@ -99,14 +98,13 @@ public class ProductVO implements Serializable {
 		return serialVersionUID;
 	}
 	
+	
 	public MultipartFile getProductImage() {
 		return productImage;
 	}
 	public void setProductImage(MultipartFile productImage) {
 		this.productImage = productImage;
 	}
-	
-	
 	@Override
 	public String toString() {
 		return "ProductVO [productId=" + productId + ", pname=" + pname + ", unitPrice=" + unitPrice + ", description="
@@ -114,7 +112,6 @@ public class ProductVO implements Serializable {
 				+ unitsInStock + ", condition=" + condition + ", filename=" + filename + ", productImage="
 				+ productImage + ", quantity=" + quantity + "]";
 	}
-	
 	
 	
 }

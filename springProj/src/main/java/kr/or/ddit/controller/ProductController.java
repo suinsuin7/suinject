@@ -69,7 +69,7 @@ public class ProductController {
 		//파일 업로드 시작
 		// 1) 업로드 폴더 설정
 		String uploadFolder 
-			= "E:\\eGovFrame3.10.0\\workspace\\springProj\\src\\main\\webapp\\resources\\images";
+			= "C:\\Users\\si\\Desktop\\suinject\\springProj\\src\\main\\webapp\\resources\\images";
 		log.info("uploadFolder : " + uploadFolder);
 		//vo객체에서 이미지 파일 객체를 get함
 		MultipartFile multipartFile = productVO.getProductImage();
@@ -147,65 +147,88 @@ public class ProductController {
 		return mav;
 	}
 	
-    //addToCart (장바구니)
-    @RequestMapping(value = "/shopping/addCart", method = RequestMethod.POST)
-    public ModelAndView addCart(ModelAndView mav, @RequestParam String productId, HttpServletRequest request ) {
-        log.info("productId: " + productId);
-        HttpSession session = request.getSession();
+	//상품 주문
+	//요청URI : /shopping/addCart?productId=P1234
+	//요청파라미터 : productId=P1234
+	//요청방식 : get
+	@RequestMapping(value="/shopping/addCart", method = RequestMethod.POST)
+	public ModelAndView addCart(@RequestParam String productId,
+			ModelAndView mav, HttpServletRequest request) {
+		log.info("productid : " + productId);
+		
+		HttpSession session = request.getSession();
+		
+		//from : product.jsp
+		//to   : post방식으로 addCart.jsp?productId=P1234
+		//요청방식 : post방식
+		
+		//trim() : 공백제거
+		//addCart.jsp or addCart.jsp?productId=
+		if(productId==null || productId.trim().equals("")){
+			mav.setViewName("redirect:/shopping/products");
+			return mav;
+		}
+		
+		//기본키인 P1234 코드의 상품을 찾아보자
+		//싱글톤 패턴으로 공유되어 있는 객체를 1회 생성
+		
+		//select * from Product where id = 'P1234'
+		ProductVO product = this.productService.product(productId);
+		
+		//상품 결과가 없으면..
+		if(product==null){
+			//[상품이 없음]예외처리 페이지로 강제 이동
+			mav.setViewName("redirect:/shopping/exceptionNoProductId");
+			return mav;
+		}
+		
+		//상품이 있으면 계속 실행
+		//장바구니(세션) => 세션명 : cartlist
+		ArrayList<ProductVO> list 
+			= (ArrayList<ProductVO>)session.getAttribute("cartlist");
+		
+		//장바구니가 없으면 생성
+		if(list==null){
+			//list는 null이므로 여기서 리스트를 생성해줘야 함
+			list = new ArrayList<ProductVO>();
+			//sertlist라는 세션명으로 생성
+			session.setAttribute("cartlist", list);
+		}
+		
+		int cnt = 0;
+		//장바구니가 있다면 다음을 실행
+		//1) 장바구니에 P1234 상품이 이미 들어있는 경우
+		//private int quantity;	//장바구니에 담은 개수
+		//quantity를 1 증가
+		for(int i=0;i<list.size();i++){
+			//list는 P1234, P1235, P1236
+			//list.get(0).getProductId().equals("P1234")
+			if(list.get(i).getProductId().equals(productId)){
+				cnt++;//장바구니에 넣을 상품을 찾았다면 1 증가
+				//장바구니에 상품이 이미 들어있다면 장바구니에 담은 개수를 1 증가
+				//list.get(i) : productVO
+				list.get(i).setQuantity(list.get(i).getQuantity()+1);
+			}
+		}
 
-        if (productId==null || productId.trim().equals("")) {
-            mav.setViewName("redirect:/shopping/products");
-            return mav;
-        }
-
-        ProductVO product = this.productService.product(productId);
-        //상품 결과가 없으면...
-        if (product==null) {
-            //[상품이 없음] 예외처리 페이지로 이동
-            mav.setViewName("redirect:/shopping/exceptionNoProductId");
-            return mav;
-        }
-
-        //상품이 있으면 계속 실행
-        //장바구니(session) => 세션명: cartlist
-        ArrayList<ProductVO> list
-                = (ArrayList<ProductVO>) session.getAttribute("cartlist");
-        //장바구니 없으면 생성
-        if (list==null) {
-            //list는 null이므로 여기서 리스트를 생성해줘야 함
-            list = new ArrayList<ProductVO>();
-            //cartlist라는 세션명으로 생성
-            session.setAttribute("cartlist", list);
-        }
-        int cnt = 0;
-        //장바구니가 있다면 다음을 실행
-        //1) 장바구니에 P1234 상품이 이미 있는 경우
-        //    private int quantity; 장바구니에 담은 개수
-        //    quantity를 1 증가
-        for (int i = 0; i < list.size(); i++) {
-            //list는 P1234, P1235, P1236
-            //list.get(0).getProductId().equals("P1234")
-            if (list.get(i).getProductId().equals(productId)) {
-                cnt++;//장바구니에 넣을 상품을 찾았다면 1 증가
-                //장바구니에 상품이 이미 들어있다면 장바구니에 담은 개수를 1개 증가
-                //list.get(i): productVO
-                list.get(i).setQuantity(list.get(i).getQuantity() + 1);
-            }
-        }
-        //2) 장바구니에 P1234 상품이 없는 경우
-        if (cnt==0) {
-            //    quantity를 1로 처리
-            product.setQuantity(1);
-            //    장바구니에 P1234 상품을 넣어주고
-            list.add(product);
-        }
-        //장바구니 확인
-        //ArrayList<productVO> : list
-        for (ProductVO vo : list) {
-            log.info( "vo: " + vo );
-        }
-        mav.setViewName("redirect:/shopping/product?productId="+productId);
-
-        return mav;
-    }
+		//2) 장바구니에 P1234 상품이 없는 경우
+		if(cnt==0){
+			// quantity를 1로 처리
+			product.setQuantity(1);
+			// 장바구니에 P1234 상품을 넣어주고
+			list.add(product);
+		}
+		
+		//장바구니 확인
+		//ArrayList<ProductVO> : list
+		for(ProductVO vo : list){
+			log.info("vo : " + vo);
+		}
+		
+		mav.setViewName("redirect:/shopping/product?productId="+productId);
+		
+		return mav;
+	}
 }
+
+
