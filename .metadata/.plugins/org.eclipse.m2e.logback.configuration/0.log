@@ -3,3 +3,9 @@
 2023-07-20 21:59:14,195 [Worker-19: Cleaning all projects] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Cleaning filtered folder for springProj
 2023-07-20 21:59:14,917 [Worker-26: Building] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Changed resources require a complete clean of filtered resources of springProj
 2023-07-20 21:59:14,917 [Worker-26: Building] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Executing resource filtering for springProj
+2023-07-21 20:48:27,336 [Worker-3: Cleaning all projects] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Cleaning filtered folder for springProj
+2023-07-21 20:48:34,507 [Worker-16: Building Workspace] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Changed resources require a complete clean of filtered resources of springProj
+2023-07-21 20:48:34,511 [Worker-16: Building Workspace] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Executing resource filtering for springProj
+2023-07-21 21:05:10,372 [Worker-16: Cleaning all projects] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Cleaning filtered folder for springProj
+2023-07-21 21:05:11,368 [Worker-25: Building Workspace] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Changed resources require a complete clean of filtered resources of springProj
+2023-07-21 21:05:11,369 [Worker-25: Building Workspace] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Executing resource filtering for springProj
