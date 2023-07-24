@@ -8,12 +8,14 @@ import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.websocket.Session;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import kr.or.ddit.service.ProductService;
@@ -147,7 +149,10 @@ public class ProductController {
 		return mav;
 	}
 	
-    //addToCart (장바구니)
+	//상품 주문
+	//요청URI : /shopping/addCart?productId=P1234
+	//요청파라미터 : productId=P1234
+	//요청방식 : get
     @RequestMapping(value = "/shopping/addCart", method = RequestMethod.POST)
     public ModelAndView addCart(ModelAndView mav, @RequestParam String productId, HttpServletRequest request ) {
         log.info("productId: " + productId);
@@ -208,4 +213,90 @@ public class ProductController {
 
         return mav;
     }
+    /* 	JSON : JavaScript Object Notation(자바스크립트 객체 표기법)
+      		- 텍스트에 기반을 둔 데이터 저장 및 교환을 위한 구문임
+      		- 브라우저와 서버 간에 데이터를 교환할 때 데이터는 텍스트일 뿐임
+      		- 모든 자바스크립트 객체를 JSON으로 변환하고 JSON을 서버로 보낼 수 있음
+     		- 서버에서 받은 JSON을 자바스크립트 객체로 변환할 수 있음
+     */
+    //장바구니 처리
+    //요청URI : /shopping/cart
+    //요청방식 : GET
+    //골뱅이ResponseBody 리턴타입이 JSON으로 변환되어 리턴
+    @RequestMapping("/shopping/cart")
+    public ModelAndView cart(HttpServletRequest request, ModelAndView mav) {
+    	//장바구니?세션
+    	HttpSession session = request.getSession();
+    	
+    	//세션의 고유 아이디(장바구니 번호)
+    	String cartId = session.getId();
+    	log.info("cartId : " + cartId);
+    	
+    	//session에 있는 세션 속성명인 cartlist를 통해
+    	//상품 목록을 가져와보자
+    	List<ProductVO> cartList = (List<ProductVO>)session.getAttribute("cartlist");
+    	
+    	log.info("cartList : " + cartList);
+    	
+    	//model
+    	mav.addObject("cartId", cartId);
+    	mav.addObject("cartList", cartList);
+    	//view
+    	//forwarding
+    	mav.setViewName("shopping/cart");
+    	
+    	//forwarding
+    	return mav;
+    }
+    
+    
+    //요청URI : /shopping/removeCart?productId=P1235
+    //요청파라미터 : prooductId=P1235
+    //요청방식 : GET
+    //만약../shopping/removeCart?productId=P1235 => RequestParam(value = "id")
+    @RequestMapping("/shopping/removeCart")
+    public ModelAndView removeCart(@RequestParam String productId, ModelAndView mav,
+    		HttpServletRequest request) {
+    	log.info("productId : " + productId);
+ 
+    	//만약에 productId가 null(/removeCart)이거나 데이터가 없다면(/removeCart?productId=)
+    	// /shopping/products를 재요청
+    	if(productId==null||productId.trim().equals("")) {
+    		//redirect : URL재요청
+    		mav.setViewName("redirect:/shopping/products");    		
+    	} else {
+    	
+    	// select * from product where product_id = 'Z1324' => 결과는 null
+    	ProductVO productVO = this.productService.product(productId);
+    	
+    	log.info("productVO : " + productVO);
+    	
+    	if(productVO==null) { //파라미터 값에 해당되는 상품 자체가 없을 때..
+    		mav.setViewName("/shopping/exceptionNoProductId");
+    	} else {
+	    	//세션의 장바구니 목록(cartlist)에서 P1234가 있는지 체크 후
+	    	HttpSession session = request.getSession();
+	    	ArrayList<ProductVO> cartlist 
+	    		= (ArrayList<ProductVO>)session.getAttribute("cartlist");
+	    	
+	    	//만약에 있다면 장바구니에서 제외처리
+	    	for(int i=0; i<cartlist.size(); i++) {
+	    		//cartlist.get(0) => 첫 번째 상품 productVO
+	    		//cartlist.get(1) => 두 번째 상품 productVO
+	    		//cartlist.get(2).getProductId() => 세 번째 상품 ProductVO객체의 상품아이디 데이터(P1235)
+	    		if(cartlist.get(i).getProductId().equals(productId)) {
+	    			//remove(Object)
+	    			cartlist.remove(cartlist.get(i));
+	    		}
+	    	}
+	    	//redirect
+	    	mav.setViewName("redirect:/shopping/cart");
+    	}//end inner if
+    }//end outer if
+    	
+    	return mav;
+    }
 }
+
+    
+

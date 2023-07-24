@@ -32,5 +32,55 @@
 		 WHERE BOOK_ID = #{bookId}
 	 </select>
 	 
+	 <!-- 책 목록
+	 String keyword = "수인"
+	 
+	 where 1 = 1은 늘 참임
+	 조건이 2개 이상일 때 where + and + and ...
+	 조건이 1개일 때 where이어야 함
+	 
+	 where 조건1(생략)
+	 and 조건2 => 오류 발생
+	 
+	 ==> 해결
+	 where 1 = 1
+	 and 조건1(생략)
+	 and 조건2 => 정상
+	  -->
+	 <select id="list" parameterType="String" resultType="bookVO">
+	 	
+	 	SELECT BOOK_ID, TITLE, CATEGORY, PRICE, CONTENT, INSERT_DATE
+		FROM BOOK
+		WHERE 1 = 1
+		<if test="keyword!=null and keyword!=''">
+		AND		(
+			TITLE 	 LIKE '%' || #{keyword} || '%' OR
+			CATEGORY LIKE '%' || #{keyword} || '%' OR
+			PRICE	 LIKE '%' || #{keyword} || '%' OR
+			CONTENT  LIKE '%' || #{keyword} || '%'
+		)
+		ORDER BY BOOK_ID DESC
+		</if>
+	 </select>
+	 
+	 <!-- 책 수정
+	 update 태그는 update 쿼리를 실행하기 위한 마이바티스 태그
+	  -->
+	 <update id="updatePost" parameterType="bookVO">
+	 	UPDATE BOOK
+		SET TITLE=#{title}, CATEGORY=#{category}, PRICE=#{price}, CONTENT=#{content}
+		WHERE BOOK_ID = #{bookId}
+	 </update>
+	 
+	 <!-- 책 삭제
+	 delete 태그는 삭제 쿼리를 실행하기 위한 mybatis 태그
+	 insert/update/delete의 경우 resultType은 생략하고 int 타입이 리턴됨
+	  -->
+	 <delete id="deletePost" parameterType="int">
+		DELETE FROM BOOK
+		WHERE BOOK_ID = #{bookId}
+	 </delete>
 	 
 </mapper>
+
+

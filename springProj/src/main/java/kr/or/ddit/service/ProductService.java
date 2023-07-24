@@ -15,5 +15,5 @@ public interface ProductService {
 
 	//상품 상세 보기
 	public ProductVO product(String productId);
-
+	
 }

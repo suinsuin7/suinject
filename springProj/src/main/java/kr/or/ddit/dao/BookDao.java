@@ -1,5 +1,9 @@
 package kr.or.ddit.dao;
 
+
+
+import java.util.List;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -48,6 +52,27 @@ public class BookDao {
 		return this.sqlSessionTemplate.selectOne("book.detail", bookVO);
 		
 	}
+	
+	//책 목록
+	//<select id="list" parameterType="String" resultType="bookVO">
+	public List<BookVO> list(String keyword) {
+		//select 결과를 목록으로 받음. .selectList("namespace.id",[파라미터])
+		return this.sqlSessionTemplate.selectList("book.list", keyword);
+	}
+	
+	//책 수정
+	//<update id="updatePost" parameterType="bookVO">
+	public int updatePost(BookVO bookVO) {
+		//.update("namespace.id, 파라미터)
+		return this.sqlSessionTemplate.update("book.updatePost", bookVO);
+	}
+	
+	//책 삭제
+	//<delete id="deletePost" parameterType="int">
+	public int deletePost(int bookId) {
+		return this.sqlSessionTemplate.delete("book.deletePost", bookId);
+	}
+	
 }
 
 
