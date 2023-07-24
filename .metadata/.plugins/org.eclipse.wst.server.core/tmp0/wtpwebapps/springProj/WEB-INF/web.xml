@@ -38,6 +38,15 @@ web.xml : tomcat 서버의 설정
 			<param-value>/WEB-INF/spring/appServlet/servlet-context.xml</param-value>
 		</init-param>
 		<load-on-startup>1</load-on-startup>
+		
+		<!-- 파일업로드 설정 시작 -->
+		<multipart-config>
+			<location>c:\\upload</location><!-- 어딘데? -->
+			<max-file-size>20971520</max-file-size><!-- 최대가 얼만데? 20MB -->
+			<max-request-size>41943040</max-request-size><!-- 한번에 최대가 얼만데? 40M -->
+			<file-size-threshold>20971520</file-size-threshold><!-- 메모리 사용 크기 : 20MB -->
+		</multipart-config>
+		<!-- 파일업로드 설정 끝 -->
 	</servlet>
 		
 	<servlet-mapping>
@@ -62,4 +71,19 @@ web.xml : tomcat 서버의 설정
       <filter-name>encodingFilter</filter-name>
       <url-pattern>/*</url-pattern>
    </filter-mapping>
+
+	<!-- 파일업로드 설정 시작, 한글 처리 다음에 넣기 -->
+	<filter>
+		<display-name>springMultipartFilter</display-name>
+		<filter-name>springMultipartFilter</filter-name>
+		<filter-class>org.springframework.web.multipart.support.MultipartFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>springMultipartFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	<!-- 파일업로드 설정 끝 -->
 </web-app>
+
+
+

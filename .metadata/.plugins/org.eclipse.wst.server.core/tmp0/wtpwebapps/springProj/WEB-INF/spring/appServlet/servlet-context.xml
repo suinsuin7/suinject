@@ -19,6 +19,14 @@
 	<annotation-driven />
 
 	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
+	<!-- static folder설정(정적 폴더 설정)=> css, images, upload, js
+	서버에서 앞서 처리될 필요가 없는 정적 리소스 파일을 처리하는 역할 수행
+	웹 애플리케이션의 물리적 경로 이름을 설정하고 이 경로에 정적 리소스 파일들을 저장하면
+	소스 코드나 웹 브라우저의 주소창에서 해당 리소스의 경로를 사용하여 직접 접속할 수 있음
+	정적 리소스란 클라이언트에서 요청이 들어왔을 때 요청 리소스가 이미 만들어져 있어 그대로 응답하는 것
+	mapping : 웹 요청 경로 패턴을 설정. 컨텍스트 경로를 제외한 나머지 부분의 경로와 매핑
+	location : 웹 애플리케이션 내에서 실제 요청 경로의 패턴에 해당하는 자원 위치를 설정, 위치가 여러 곳이면 각 위치를 쉼표로 구분
+	 -->
 	<resources mapping="/resources/**" location="/resources/" />
 
 	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
