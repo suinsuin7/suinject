@@ -1,8 +1,15 @@
 package spring.di.entity;
 
-public class NewlecExam implements Exam {
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
+
+public class NewlecExam implements Exam {
+	
+	@Value("20")
 	private int kor;
+	@Value("30")
 	private int eng;
 	private int math;
 	private int com;
