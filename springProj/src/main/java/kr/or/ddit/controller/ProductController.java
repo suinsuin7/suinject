@@ -3,7 +3,9 @@ package kr.or.ddit.controller;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
@@ -12,6 +14,7 @@ import javax.websocket.Session;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -71,7 +74,7 @@ public class ProductController {
 		//파일 업로드 시작
 		// 1) 업로드 폴더 설정
 		String uploadFolder 
-			= "C:\\Users\\si\\Desktop\\suinject\\springProj\\src\\main\\webapp\\resources\\images";
+			= "E:\\eGovFrame3.10.0\\workspace\\springProj\\src\\main\\webapp\\resources\\images";
 		log.info("uploadFolder : " + uploadFolder);
 		//vo객체에서 이미지 파일 객체를 get함
 		MultipartFile multipartFile = productVO.getProductImage();
@@ -153,7 +156,6 @@ public class ProductController {
 	//요청URI : /shopping/addCart?productId=P1234
 	//요청파라미터 : productId=P1234
 	//요청방식 : get
-<<<<<<< HEAD
     @RequestMapping(value = "/shopping/addCart", method = RequestMethod.POST)
     public ModelAndView addCart(ModelAndView mav, @RequestParam String productId, HttpServletRequest request ) {
         log.info("productId: " + productId);
@@ -297,89 +299,108 @@ public class ProductController {
     	
     	return mav;
     }
+    
+    //장바구니 모두 삭제 요청 처리
+    //요청URI : /shopping/deleteCart?cartId=
+    //요청파라미터 : cartId=
+    @RequestMapping("/shopping/deleteCart")
+    public ModelAndView deleteCart(@RequestParam String cartId, ModelAndView mav
+    		, HttpServletRequest request) {
+    	log.info("cartId : " + cartId);
+    	
+    	//cartId가 없으면 /shopping/cart를 재요청(ModelAndView)
+    	if(cartId==null||cartId.trim().equals("")) {
+    		mav.setViewName("redirect:/shopping/cart");
+    	} else { //cartId가 정상적으로 있을 때
+			//장바구니(세션=cartlist라는 속성명을 가진 세션)를 비울 것임
+
+			HttpSession session = request.getSession();
+			session.removeAttribute("cartlist");
+			
+    		// /shopping/cart를 재요청
+    		mav.setViewName("redirect:/shopping/cart");
+		}
+    		
+    	return mav;
+    }
+    
+    //요청URL : /shopping/shippingInfo?cartId=644A205567EF9D33C15357FC7603D848
+    //요청파라미터 : cartId=644A205567EF9D33C15357FC7603D848
+    //요청방식 : get
+    @RequestMapping(value = "/shopping/shippingInfo", method = RequestMethod.GET)
+    public ModelAndView shippingInfo(String cartId, ModelAndView mav) {
+    	log.info("cartId : " + cartId);
+    	//Model
+    	mav.addObject("cartId", cartId);
+    	
+    	//View
+    	//forwarding
+    	//조립? 7) ViewResolver
+    	//설정? Servlet-context.xml
+    	mav.setViewName("shopping/shippingInfo");
+    	
+    	return mav;
+    }
+    
+    // 주문하기 요청 접수 및 기능 호출
+    // 요청URI : /shopping/processShippingInfo
+    // 요청파라미터 : {cartId=,name=개똥이,shippingDate=2023-07-25,country=,zipCode=,addressName=}
+    // 요청방식 : post
+    @RequestMapping(value = "/shopping/processShippingInfo", method = RequestMethod.POST)
+    public ModelAndView processShippingInfo(@RequestParam Map<String,Object> param, ModelAndView mav) {
+    	log.info("param" + param);
+    	//Mode : 받은 map 그대로 orderConfirmation.jsp로 보내줌
+    	
+    	mav.addObject("map", param);
+    	
+    	//forwarding
+    	mav.setViewName("shopping/orderConfirmation");
+    	
+    	return mav;
+    }
+    
+    //요청 완료
+    //1) get
+    //요청URI : /shopping/thankCustomer?shippingDate=2023-07-25&cartId=ASDAS
+    //요청방식 : get
+    //2) post
+    //요청URL : /shopping/thankCustomer
+    //요청파라미터 " {shippingDate=2023-07-25&cartId=ASDAS}
+    //요청방식 : post
+    @ResponseBody
+    @RequestMapping(value = "/shopping/thankCustomer", method = RequestMethod.POST)
+    public String thankCustomer(ModelAndView mav, HttpSession session,
+    		@RequestParam Map<String, Object> param) {
+    	//shippingDate, cartId
+    	log.info("param 이거 머임? : " + param);
+    	
+    	//session에 shippingDate와 cartId를 넣어주자
+    	Map<String, Object> shippingDateMap = new HashMap<String, Object>();
+    	shippingDateMap.put("shippingDate", param.get("shippingDate").toString());
+    	Map<String, Object> cartIdMap = new HashMap<String, Object>();
+    	cartIdMap.put("cartId", param.get("cartId").toString());
+    	
+    	session.setAttribute("shippingDateMap", shippingDateMap);
+    	session.setAttribute("cartIdMap", cartIdMap);
+    	
+    	//장바구니 비우기(세션=>속성명cartlist) 비우기
+		session.removeAttribute("cartlist");
+
+    	//forwarding, ajax로 호출 시 비동기기 때문에 mav를 쓰지 않는다
+    	//mav.setViewName("/shopping/thankCustomer");
+    	
+    	return "success";
+
+    }
+    //orderConfirmation.jsp에서 location.href-"/shopping/thankCustomer"
+    //동일한 요청URL이더라도 요청방식을 다르게 하여 메소드 매핑을 분기할 수 있음
+    @RequestMapping(value = "/shopping/thankCustomer", method = RequestMethod.GET)
+    public ModelAndView thankCustomer(ModelAndView mav) {
+    	//forwarding
+    	mav.setViewName("shopping/thankCustomer");
+    	
+    	return mav;
+    }
 }
 
     
-=======
-	@RequestMapping(value="/shopping/addCart", method = RequestMethod.POST)
-	public ModelAndView addCart(@RequestParam String productId,
-			ModelAndView mav, HttpServletRequest request) {
-		log.info("productid : " + productId);
-		
-		HttpSession session = request.getSession();
-		
-		//from : product.jsp
-		//to   : post방식으로 addCart.jsp?productId=P1234
-		//요청방식 : post방식
-		
-		//trim() : 공백제거
-		//addCart.jsp or addCart.jsp?productId=
-		if(productId==null || productId.trim().equals("")){
-			mav.setViewName("redirect:/shopping/products");
-			return mav;
-		}
-		
-		//기본키인 P1234 코드의 상품을 찾아보자
-		//싱글톤 패턴으로 공유되어 있는 객체를 1회 생성
-		
-		//select * from Product where id = 'P1234'
-		ProductVO product = this.productService.product(productId);
-		
-		//상품 결과가 없으면..
-		if(product==null){
-			//[상품이 없음]예외처리 페이지로 강제 이동
-			mav.setViewName("redirect:/shopping/exceptionNoProductId");
-			return mav;
-		}
-		
-		//상품이 있으면 계속 실행
-		//장바구니(세션) => 세션명 : cartlist
-		ArrayList<ProductVO> list 
-			= (ArrayList<ProductVO>)session.getAttribute("cartlist");
-		
-		//장바구니가 없으면 생성
-		if(list==null){
-			//list는 null이므로 여기서 리스트를 생성해줘야 함
-			list = new ArrayList<ProductVO>();
-			//sertlist라는 세션명으로 생성
-			session.setAttribute("cartlist", list);
-		}
-		
-		int cnt = 0;
-		//장바구니가 있다면 다음을 실행
-		//1) 장바구니에 P1234 상품이 이미 들어있는 경우
-		//private int quantity;	//장바구니에 담은 개수
-		//quantity를 1 증가
-		for(int i=0;i<list.size();i++){
-			//list는 P1234, P1235, P1236
-			//list.get(0).getProductId().equals("P1234")
-			if(list.get(i).getProductId().equals(productId)){
-				cnt++;//장바구니에 넣을 상품을 찾았다면 1 증가
-				//장바구니에 상품이 이미 들어있다면 장바구니에 담은 개수를 1 증가
-				//list.get(i) : productVO
-				list.get(i).setQuantity(list.get(i).getQuantity()+1);
-			}
-		}
-
-		//2) 장바구니에 P1234 상품이 없는 경우
-		if(cnt==0){
-			// quantity를 1로 처리
-			product.setQuantity(1);
-			// 장바구니에 P1234 상품을 넣어주고
-			list.add(product);
-		}
-		
-		//장바구니 확인
-		//ArrayList<ProductVO> : list
-		for(ProductVO vo : list){
-			log.info("vo : " + vo);
-		}
-		
-		mav.setViewName("redirect:/shopping/product?productId="+productId);
-		
-		return mav;
-	}
-}
-
->>>>>>> 2661322c58f83df28d23795dd360d76d431e33f3
-
