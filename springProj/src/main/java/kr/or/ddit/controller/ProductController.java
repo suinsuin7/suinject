@@ -401,6 +401,25 @@ public class ProductController {
     	
     	return mav;
     }
+    
+    //취소하기
+    //요청URL : /shopping/checkOutCancelled
+    @RequestMapping(value = "/shopping/checkOutCancelled", method = RequestMethod.GET)
+    public ModelAndView checkOutCancelled(HttpSession session, 
+    		ModelAndView mav) {
+    	
+    	session.removeAttribute("cartlist");
+ 
+    	//forwarding
+    	mav.setViewName("/shopping/checkOutCancelled");
+    	
+    	return mav;
+    }
 }
 
     
+
+
+
+
+
