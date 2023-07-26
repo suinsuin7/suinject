@@ -32,4 +32,11 @@
 <fullyQualifiedTypeName name="spring.di.entity.NewlecExam"/>
 <fullyQualifiedTypeName name="org.springframework.context.annotation.AnnotationConfigApplicationContext"/>
 <fullyQualifiedTypeName name="spring.di.NewlecDIConfig"/>
+<fullyQualifiedTypeName name="spring.aop.entity.NewlecExam"/>
+<fullyQualifiedTypeName name="java.lang.System"/>
+<fullyQualifiedTypeName name="java.lang.Thread"/>
+<fullyQualifiedTypeName name="java.lang.reflect.Proxy"/>
+<fullyQualifiedTypeName name="org.springframework.core.type.classreading.CachingMetadataReaderFactory"/>
+<fullyQualifiedTypeName name="spring.aop.entity.Exam"/>
+<fullyQualifiedTypeName name="java.lang.reflect.InvocationHandler"/>
 </qualifiedTypeNameHistroy>
