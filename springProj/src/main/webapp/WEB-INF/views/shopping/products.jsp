@@ -14,8 +14,6 @@
 scope영역       : page(동일jsp) / request(동일요청)/ session(동일웹브라우저) / application(모든웹브라우저)
 scope객체        : pageContext  / request        / session             / application  
  -->
-	<!-- include 액션 태그. header -->
-	<jsp:include page="menu.jsp" />
 	
 	<!-- ////////////// body 시작 /////////////// -->
 	<div class="jumbotron">
@@ -51,9 +49,7 @@ scope객체        : pageContext  / request        / session             / appli
 		</div>
 	</div>
 	<!-- ////////////// body 끝 /////////////// -->
-	
-	<!-- footer -->
-	<jsp:include page="footer.jsp" />
+
 </body>
 </html>
 

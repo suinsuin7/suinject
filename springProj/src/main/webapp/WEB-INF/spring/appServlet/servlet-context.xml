@@ -30,10 +30,30 @@
 	<resources mapping="/resources/**" location="/resources/" />
 
 	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
+	<!-- setOrder("2") => tiles를 작동한 후에 ViewResolver를 작동하겠다는 의미 -->
 	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<beans:property name="prefix" value="/WEB-INF/views/" />
 		<beans:property name="suffix" value=".jsp" />
+		<beans:property name="order" value="2" />
 	</beans:bean>
+	
+	<!-- Tiles 설정 시작 -->
+	<beans:bean id="tilesConfigurer"
+		class="org.springframework.web.servlet.view.tiles3.TilesConfigurer">
+		<beans:property name="definitions">
+			<beans:list>
+				<beans:value>/WEB-INF/spring/tiles-config.xml</beans:value>
+			</beans:list>
+		</beans:property>
+	</beans:bean>
+	<!-- UrlBasedViewResolver tilesViewResolver = new UrlBasedViewResolver -->
+	<beans:bean id="tilesViewResolver"
+		class="org.springframework.web.servlet.view.UrlBasedViewResolver">
+		<beans:property name="viewClass"
+			value="org.springframework.web.servlet.view.tiles3.TilesView" />
+		<beans:property name="order" value="1" />
+	</beans:bean>
+	<!-- Tiles 설정 끝 -->
 	
 	<!-- kr.or.ddit 패키지를 컴포넌트 스캔 대상으로 함 
 	

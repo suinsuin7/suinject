@@ -1,0 +1,97 @@
+1. 스프링 시큐리티에서 submit할 때
+	1) <form 태그 사용시>
+			<sec:csrfInput />
+		</form>
+	2) ajax사용시 
+		beforeSend:function(xhr){
+					xhr.setRequestHeader("${_csrf.headerName}","${_csrf.token}");
+				},
+		success앞에 꼭쓰기
+	3) 파일 업로드 시 
+		"action", "/item/updatePost?${_csrf.parameterName}=${_csrf.token}"
+		"enctype" , "multupart/form-data"
+		
+2. 자동 로그인
+	1) 로그인하면 특정 시간 동안 다시 로그인 할 필요가 없는 기능
+	2) 스프링 시큐리티는 데이터베이스를 사용하여 처리  persistent_logins 테이블이용
+	3) security-context.xml 에서 remember-me 태그를 이용하여 구현
+
+3. 스프링 시큐리티 표현식
+	1) hasRole("ROLE_MEMBER") : 해당 롤이 있으면 true
+	2) hasAnyRole ("ROLE_MEMBER", "ROLE_ADMIN") : 여러 롤들 중에서 하나라도 해당하는 롤이 있으면 true
+	3) principal : 인증된 사용자의 사용자 정보(UserDetails 인터페이스를 구현한 클래스의 객체)
+	4) authentication : 인증된 사용자의 인증 정보 (Authentication 인터페이스를 구현한 클래스의 객체)
+	5) permitAll : 모든 사용자에게 허용
+	6) denyAll : 모든 사용자에게 거부
+	7) isAnonymous() : 익명의 사용자의 경우 (로그인을 하지 않은 경우도 해당)
+	8) isAuthenticated() : 인증된 사용자의 경우 true
+	9) isFullyAuthenticated() : Remember-me로 인증된 것이 아닌 일반적인 방법으로 인증된 사용자인 경우 true
+	
+	
+4. CKEditor 사용방법
+<script>
+	CKEDITOR.replace('editor');
+	//html 태그 사라지는 오류 해결
+	CKEDITOR.config.allowedContent = true;
+	//내용 미리 넣기
+	CKEDITOR.instances.editor.setData('<p>aaa</p>'); 
+	//ckeditor 안에 있는 내용을 태그 포함해서 다 가져오기
+	CKEDITOR.instances.editor.getData();
+	//입력란 읽기전용
+	$("#editor").attr("readOnly",true);
+	//입력란 활성화
+	CKEDITOR.instances['editor'].setReadOnly(false);
+</script>
+	
+
+5. SBAdmin2 입력창 처리
+<script type="text/javascript">
+//document 내 모든 요소가 로딩된 후에 실행
+$(function(){
+	//이미지 미리보기 시작///////////////////////////////
+	//<input type="file" name="bookImage"...
+	$("input[name='bookImage']").on("change", handleImgFileSelect);
+	
+	//e : onchange 이벤트 객체
+	function handleImgFileSelect(e){
+		//e.target : <input type="file" name="bookImage"...
+		let files = e.target.files;
+		//이미지 오브젝트 배열
+		let fileArr = Array.prototype.slice.call(files);
+		//f : fileArr(이미지 오브젝트 배열)에서 이미지 오브젝트 1개
+		fileArr.forEach(function(f){
+			//f.type : 이미지 오브젝트의 MIME 타입
+			if(!f.type.match("image.*")){
+				alert("이미지 확장자만 가능합니다.");
+				//함수 종료
+				return;
+			}
+		
+			//if문 통과(이미지라면...)
+			//이미지를 읽어보자
+			let reader = new FileReader();
+			reader.onload = function(e) {
+				//e.target : 읽고 있는 이미지 객체
+				let img_html = "<img src='" + e.target.result + "' style='width:100%;' />";
+	               $("#row").children("div").first().html(img_html);
+	               $(".bg-register-image").removeClass("bg-register-image");
+			}
+			//다음 이미지 파일(f)을 위해 reader를 초기화
+			reader.readAsDataURL(f);
+		});//end forEach
+		
+		//$(".bg-register-image").removeClass("bg-register-image");
+		//이미지를 담고 있는 div
+		//$("#row").first().html();
+	}
+	//이미지 미리보기 끝///////////////////////////////
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
