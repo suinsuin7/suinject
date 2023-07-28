@@ -1,5 +1,7 @@
 package kr.or.ddit.vo;
 
+import java.util.List;
+
 import org.springframework.web.multipart.MultipartFile;
 
 import lombok.Data;
@@ -20,4 +22,7 @@ public class BookInfoVO {
 	private String condition;
 	//<input type="file" name="bookImage"
 	private MultipartFile bookImage;
+	
+	//BookInfoVO : AttachVO = 1 : N
+	private List<AttachVO> attachVOList;
 }

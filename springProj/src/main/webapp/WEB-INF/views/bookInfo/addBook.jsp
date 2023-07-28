@@ -61,6 +61,25 @@ $(function(){
 		//<input type="hidden" name="category" />
 		$("input[name='category']").val(category);
 	});
+	
+	//도서코드 자동생성
+	$("#aBookId").on("click", function(){
+		console.log("수인이");		
+		
+		//아작나써유피씨다타써
+		//contentType: 보내는 타입
+		//dataType: 응답 타입
+		$.ajax({
+			url:"/bookInfo/getBookId",
+			type:"post",
+			dataType:"text",
+			success:function(result){
+				console.log("result : " + result);
+				//도서코드 텍스트박스에 값 넣기
+				$("#bookId").val(result);
+			}
+		});
+	});
 });
 
 </script>
@@ -83,7 +102,14 @@ $(function(){
 				<div class="form-group row">
 					<div class="col-sm-6 mb-3 mb-sm-0">
 						<input type="text" class="form-control form-control-user"
-							id="bookId" name="bookId" placeholder="도서코드" />
+							id="bookId" name="bookId" placeholder="도서코드"
+							readonly required />
+						<a href="#" id="aBookId" class="btn btn-info btn-icon-split">
+		                	<span class="icon text-white-50">
+		                    	<i class="fas fa-info-circle"></i>
+		                    </span>
+		                    <span class="text">도서코드생성</span>
+                         </a>
 					</div>
 					<div class="col-sm-6">
 						<input type="text" class="form-control form-control-user"
