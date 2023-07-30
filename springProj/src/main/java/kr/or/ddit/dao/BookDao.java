@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import kr.or.ddit.vo.BookVO;
+import lombok.extern.java.Log;
 import lombok.extern.slf4j.Slf4j;
 
 //DAO(Data Access Object) 클래스

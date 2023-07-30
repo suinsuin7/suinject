@@ -7,7 +7,6 @@
 <fullyQualifiedTypeName name="org.mybatis.spring.SqlSessionFactoryBean"/>
 <fullyQualifiedTypeName name="org.springframework.stereotype.Repository"/>
 <fullyQualifiedTypeName name="org.mybatis.spring.SqlSessionTemplate"/>
-<fullyQualifiedTypeName name="lombok.extern.slf4j.Slf4j"/>
 <fullyQualifiedTypeName name="kr.or.ddit.dao.BookDao"/>
 <fullyQualifiedTypeName name="java.lang.Override"/>
 <fullyQualifiedTypeName name="kr.or.ddit.service.BookService"/>
@@ -52,4 +51,8 @@
 <fullyQualifiedTypeName name="java.lang.IllegalArgumentException"/>
 <fullyQualifiedTypeName name="org.springframework.aop.support.NameMatchMethodPointcut"/>
 <fullyQualifiedTypeName name="org.springframework.aop.support.DefaultBeanFactoryPointcutAdvisor"/>
+<fullyQualifiedTypeName name="lombok.extern.slf4j.Slf4j"/>
+<fullyQualifiedTypeName name="lombok.extern.java.Log"/>
+<fullyQualifiedTypeName name="java.io.IOException"/>
+<fullyQualifiedTypeName name="java.lang.IllegalStateException"/>
 </qualifiedTypeNameHistroy>

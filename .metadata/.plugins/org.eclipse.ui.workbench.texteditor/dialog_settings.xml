@@ -6,8 +6,10 @@
 		<item key="wholeword" value="false"/>
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
-		<item key="selection" value="attributeValue"/>
+		<item key="selection" value="&lt;properties&gt;"/>
 		<list key="findhistory">
+			<item value="&lt;properties&gt;"/>
+			<item value="maven"/>
 			<item value="attributeValue"/>
 			<item value="cofigLocation"/>
 			<item value="1.18.22"/>
