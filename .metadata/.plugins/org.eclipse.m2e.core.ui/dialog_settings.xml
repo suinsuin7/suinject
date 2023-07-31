@@ -14,6 +14,7 @@
 	</section>
 	<section name="MavenProjectWizardLocationPage">
 		<list key="location">
+			<item value="C:\eGovFrameDev-3.10.0-64bit\suinject\spring"/>
 		</list>
 		<list key="projectNameTemplate">
 			<item value="[artifactId]"/>
@@ -55,10 +56,12 @@
 	</section>
 	<section name="MavenProjectWizardArtifactPage">
 		<list key="groupId">
+			<item value="com.newlecture"/>
 		</list>
 		<list key="name">
 		</list>
 		<list key="artifactId">
+			<item value="webprj"/>
 		</list>
 		<list key="projectNameTemplate">
 			<item value="[artifactId]"/>
@@ -86,9 +89,9 @@
 		</list>
 	</section>
 	<section name="org.eclipse.m2e.core.ui.internal.dialogs.MavenRepositorySearchDialog">
-		<item key="width" value="480"/>
+		<item key="width" value="530"/>
 		<item key="height" value="667"/>
-		<item key="x" value="720"/>
-		<item key="y" value="71"/>
+		<item key="x" value="419"/>
+		<item key="y" value="94"/>
 	</section>
 </section>
