@@ -16,7 +16,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import kr.or.ddit.service.BookService;
 import kr.or.ddit.vo.BookVO;
-import lombok.extern.java.Log;
 import lombok.extern.slf4j.Slf4j;
 
 import org.apache.commons.dbcp2.BasicDataSource;
@@ -74,7 +73,7 @@ public class BookController {
 		// price);
 
 		log.info("bookVO : " + bookVO);
-	
+
 		int result = this.bookService.insert(bookVO);
 		log.info("result : " + result);
 

@@ -70,14 +70,15 @@
 							<tbody>
 							<!-- 
 							mav.addObject("data", data)
-							data : List<BookInfoVO>
+							data : ArticlePage
+							data.content : List<BookInfoVO>
 							
 							stat.count : 1부터 시작
 							stat.index : 0부터 시작
 							 -->
-							<c:forEach var="bookInfoVO" items="${data}" varStatus="stat">
+							<c:forEach var="bookInfoVO" items="${data.content}" varStatus="stat">
 								<tr class="odd">
-									<td class="sorting_1">${stat.count}</td>
+									<td class="sorting_1">${bookInfoVO.rnum}</td>
 									<td>${bookInfoVO.category}</td>
 									<td>${bookInfoVO.name}</td>
 									<td>${bookInfoVO.description}</td>
@@ -99,30 +100,32 @@
 						<div class="dataTables_paginate paging_simple_numbers"
 							id="dataTable_paginate">
 							<ul class="pagination">
-								<li class="paginate_button page-item previous disabled"
-									id="dataTable_previous"><a href="#"
+								<!-- class="...disabled" => 비활성 -->
+								<li class="paginate_button page-item previous
+									<c:if test='${data.startPage lt 6}'>disabled</c:if>
+								"
+									id="dataTable_previous">
+									<a href="/bookInfo/listBook?currentPage=${data.startPage-5}&size=${data.size}"
 									aria-controls="dataTable" data-dt-idx="0" tabindex="0"
 									class="page-link">Previous</a></li>
-								<li class="paginate_button page-item active"><a href="#"
+								<c:forEach var="pNo" begin="${data.startPage}" end="${data.endPage}">
+								<li class='paginate_button page-item
+											<c:if test="${param.currentPage==pNo}">active</c:if>
+								'><a href="/bookInfo/listBook?currentPage=${pNo}&size=${data.size}"
 									aria-controls="dataTable" data-dt-idx="1" tabindex="0"
-									class="page-link">1</a></li>
-								<li class="paginate_button page-item "><a href="#"
-									aria-controls="dataTable" data-dt-idx="2" tabindex="0"
-									class="page-link">2</a></li>
-								<li class="paginate_button page-item "><a href="#"
-									aria-controls="dataTable" data-dt-idx="3" tabindex="0"
-									class="page-link">3</a></li>
-								<li class="paginate_button page-item "><a href="#"
-									aria-controls="dataTable" data-dt-idx="4" tabindex="0"
-									class="page-link">4</a></li>
-								<li class="paginate_button page-item "><a href="#"
-									aria-controls="dataTable" data-dt-idx="5" tabindex="0"
-									class="page-link">5</a></li>
-								<li class="paginate_button page-item "><a href="#"
-									aria-controls="dataTable" data-dt-idx="6" tabindex="0"
-									class="page-link">6</a></li>
-								<li class="paginate_button page-item next" id="dataTable_next"><a
-									href="#" aria-controls="dataTable" data-dt-idx="7" tabindex="0"
+									class="page-link">${pNo}</a></li>
+								</c:forEach>
+								<!-- 
+								eq : equal(==)
+								ne : not equal(!=)
+								lt : less than(<)
+								gt : greater than(>)
+								le : less equal(<=)
+								ge : greater equal (>=) -->
+								<li class="paginate_button page-item next
+									<c:if test='${data.endPage ge data.totalPages}'>disabled</c:if>
+								" id="dataTable_next"><a
+									href="/bookInfo/listBook?currentPage=${data.startPage+5}&size=${data.size}" aria-controls="dataTable" data-dt-idx="7" tabindex="0"
 									class="page-link">Next</a></li>
 							</ul>
 						</div>

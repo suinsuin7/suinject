@@ -1,6 +1,7 @@
 package kr.or.ddit.service;
 
 import java.util.List;
+import java.util.Map;
 
 import kr.or.ddit.vo.BookInfoVO;
 
@@ -13,6 +14,8 @@ public interface BookInfoService {
 	public String getBookId();
 
 	//도서목록
-	public List<BookInfoVO> listBook();
+	public List<BookInfoVO> listBook(Map<String, Object> map);
 
+	//테이블 전체
+	public int getBookInfoTotal();
 }

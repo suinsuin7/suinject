@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -105,11 +106,16 @@ public class BookInfoServiceImpl implements BookInfoService {
 			return this.bookInfoDAO.getBookId();
 	}
 	
-	
 	//도서목록
 	@Override
-	public List<BookInfoVO> listBook(){
-		return this.bookInfoDAO.listBook();
+	public List<BookInfoVO> listBook(Map<String, Object> map){
+		return this.bookInfoDAO.listBook(map);
+	}
+	
+	//BOOK_INFO 테이블의 전체 행 수 
+	@Override
+	public int getBookInfoTotal() {
+		return this.bookInfoDAO.getBookInfoTotal();
 	}
 	
 }

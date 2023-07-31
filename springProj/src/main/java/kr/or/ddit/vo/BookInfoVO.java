@@ -9,6 +9,7 @@ import lombok.Data;
 //PoJo(Plan Old Java Object)에 위배되지만 편하므로 일단 쓴다
 @Data
 public class BookInfoVO {
+	private int rnum;
 	private String bookId;
 	private String name;
 	private int unitPrice;

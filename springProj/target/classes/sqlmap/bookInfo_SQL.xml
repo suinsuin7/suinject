@@ -31,6 +31,7 @@
    </select>
 
    <resultMap type="bookInfoVO" id="bookInfoMap">
+      <result property="rnum" column="RNUM" />
       <result property="bookId" column="BOOK_ID" />
       <result property="name" column="NAME" />
       <result property="unitPrice" column="UNIT_PRICE" />
@@ -51,18 +52,38 @@
       <result property="filename" column="FILENAME" />
    </resultMap>
 
-   <!-- 도서 목록 관계차수 => BOOK_INFO : ATTACH = 1 : N -->
-   <select id="listBook" resultMap="bookInfoMap">
-   <![CDATA[
-      SELECT
-         A.BOOK_ID, A.NAME, A.UNIT_PRICE, A.AUTHOR, 
-         SUBSTR(A.DESCRIPTION,1,7) || '..<p>' DESCRIPTION,
-         A.PUBLISHER, A.CATEGORY, A.UNITS_IN_STOCK, A.TOTAL_PAGES,
-         A.RELEASE_DATE, A.CONDITION,
-         B.SEQ, B.FILENAME
-      FROM BOOK_INFO A LEFT OUTER JOIN ATTACH B
-      ON(A.BOOK_ID = B.BOOK_ID)
-      ORDER BY A.BOOK_ID DESC
-      ]]>
+   <!-- 도서 목록 관계차수 => BOOK_INFO : ATTACH = 1 : N
+   map : {"currentPage":3,"size":10}
+    -->
+   <select id="listBook" parameterType="hashMap" resultMap="bookInfoMap">
+	   <![CDATA[
+		WITH U AS(
+			SELECT ROW_NUMBER() OVER(ORDER BY T.BOOK_ID DESC) RNUM
+			      ,T.*
+			FROM
+			(
+			    SELECT
+			        A.BOOK_ID, A.NAME, A.UNIT_PRICE, A.AUTHOR, 
+			        SUBSTR(A.DESCRIPTION,1,7) || '..<p>' DESCRIPTION,
+			        A.PUBLISHER, A.CATEGORY, A.UNITS_IN_STOCK, A.TOTAL_PAGES,
+			        A.RELEASE_DATE, A.CONDITION,
+			        B.SEQ, B.FILENAME
+			    FROM BOOK_INFO A LEFT OUTER JOIN ATTACH B
+			    ON(A.BOOK_ID = B.BOOK_ID)
+			    ) T
+			)
+			SELECT U.*
+			FROM U
+			WHERE U.RNUM BETWEEN (#{currentPage} * #{size})-(#{size}-1) AND (#{currentPage} * #{size})
+      		]]>
    </select>
+   
+   <!-- BOOK_INFO 테이블의 전체 행 수 -->
+   <select id="getBookInfoTotal" resultType="int">
+		SELECT COUNT(*) FROM BOOK_INFO
+   </select>   
 </mapper>
+
+
+
+

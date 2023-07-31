@@ -1,6 +1,7 @@
 package kr.or.ddit.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,8 +42,17 @@ public class BookInfoDAO {
 	//도서목록
 	//<resultMap type="bookInfoVO" id="bookInfoMap">
 	//<select id="listBook" resultMap="bookInfoMap">
-	public List<BookInfoVO> listBook(){
-		return this.sqlSessionTemplate.selectList("bookInfo.listBook");
+	public List<BookInfoVO> listBook(Map<String, Object> map){
+		return this.sqlSessionTemplate.selectList("bookInfo.listBook", map);
 	}
 	
+	//<!-- BOOK_INFO 테이블의 전체 행 수 -->
+	//<select id="getBookInfoTotal" resultType="int">
+	public int getBookInfoTotal() {
+		return this.sqlSessionTemplate.selectOne("bookInfo.getBookInfoTotal");
+	}
 }
+
+
+
+
