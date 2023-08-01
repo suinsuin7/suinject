@@ -1,6 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="bookInfo">
+
+	<sql id="where">
+		<!-- 전체검색 -->
+		<if test="keyword!=null and keyword!=''">
+		AND (
+                CATEGORY    LIKE '%' || #{keyword} || '%' OR
+                NAME        LIKE '%' || #{keyword} || '%' OR
+                DESCRIPTION LIKE '%' || #{keyword} || '%' OR
+                AUTHOR      LIKE '%' || #{keyword} || '%' OR
+                PUBLISHER   LIKE '%' || #{keyword} || '%'
+            )
+        </if>
+	</sql>
+
+
    <!-- 1-1) 도서 정보 등록 BookInfoVO(author=개똥이, bookId="ISBN1234, ....) -->
    <!-- insert/update/delete 태그의 경우 resultType은 생략 트랜잭션 : 데이터베이스를 변경하기 위해 수행되어야 
       할 논리적 단위. 여러개의 sql로 구성됨 -->
@@ -56,12 +71,12 @@
    map : {"currentPage":3,"size":10}
     -->
    <select id="listBook" parameterType="hashMap" resultMap="bookInfoMap">
-	   <![CDATA[
 		WITH U AS(
 			SELECT ROW_NUMBER() OVER(ORDER BY T.BOOK_ID DESC) RNUM
 			      ,T.*
 			FROM
 			(
+	   			<![CDATA[
 			    SELECT
 			        A.BOOK_ID, A.NAME, A.UNIT_PRICE, A.AUTHOR, 
 			        SUBSTR(A.DESCRIPTION,1,7) || '..<p>' DESCRIPTION,
@@ -70,18 +85,31 @@
 			        B.SEQ, B.FILENAME
 			    FROM BOOK_INFO A LEFT OUTER JOIN ATTACH B
 			    ON(A.BOOK_ID = B.BOOK_ID)
+      			]]>
+			    WHERE 1 = 1
+			    <include refid="where"></include>
 			    ) T
 			)
 			SELECT U.*
 			FROM U
 			WHERE U.RNUM BETWEEN (#{currentPage} * #{size})-(#{size}-1) AND (#{currentPage} * #{size})
-      		]]>
    </select>
    
    <!-- BOOK_INFO 테이블의 전체 행 수 -->
-   <select id="getBookInfoTotal" resultType="int">
+   <select id="getBookInfoTotal" parameterType="hashMap" resultType="int">
 		SELECT COUNT(*) FROM BOOK_INFO
+		WHERE 1 = 1
+		<include refid="where"></include>
    </select>   
+   
+   <!-- detailBook -->
+   <select id="detailBook" parameterType="String" resultMap="bookInfoMap">
+   		SELECT B.BOOK_ID, B.NAME, B.UNIT_PRICE, B.AUTHOR, B.DESCRIPTION
+   			, B.PUBLISHER, B.CATEGORY, B.UNITS_IN_STOCK, B.TOTAL_PAGES, B.RELEASE_DATE, B.CONDITION
+			, A.SEQ, A.BOOK_ID, A.FILENAME
+		FROM BOOK_INFO B LEFT OUTER JOIN ATTACH A ON(B.BOOK_ID = A.BOOK_ID)
+		WHERE B.BOOK_ID = #{bookId}
+   </select>
 </mapper>
 
 

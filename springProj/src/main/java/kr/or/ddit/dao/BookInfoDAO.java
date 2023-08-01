@@ -48,8 +48,13 @@ public class BookInfoDAO {
 	
 	//<!-- BOOK_INFO 테이블의 전체 행 수 -->
 	//<select id="getBookInfoTotal" resultType="int">
-	public int getBookInfoTotal() {
-		return this.sqlSessionTemplate.selectOne("bookInfo.getBookInfoTotal");
+	public int getBookInfoTotal(Map<String, Object> map) {
+		return this.sqlSessionTemplate.selectOne("bookInfo.getBookInfoTotal", map);
+	}
+	
+	//도서 상세
+	public BookInfoVO detailBook(String bookId) {
+		return this.sqlSessionTemplate.selectOne("bookInfo.detailBook", bookId);
 	}
 }
 

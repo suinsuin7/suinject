@@ -114,8 +114,12 @@ public class BookInfoServiceImpl implements BookInfoService {
 	
 	//BOOK_INFO 테이블의 전체 행 수 
 	@Override
-	public int getBookInfoTotal() {
-		return this.bookInfoDAO.getBookInfoTotal();
+	public int getBookInfoTotal(Map<String, Object> map) {
+		return this.bookInfoDAO.getBookInfoTotal(map);
 	}
 	
+	//도서 상세
+	public BookInfoVO detailBook(String bookId) {
+		return this.bookInfoDAO.detailBook(bookId);
+	}
 }
