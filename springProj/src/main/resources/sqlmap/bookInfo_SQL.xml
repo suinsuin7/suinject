@@ -109,7 +109,45 @@
 			, A.SEQ, A.BOOK_ID, A.FILENAME
 		FROM BOOK_INFO B LEFT OUTER JOIN ATTACH A ON(B.BOOK_ID = A.BOOK_ID)
 		WHERE B.BOOK_ID = #{bookId}
+		ORDER BY A.SEQ ASC
    </select>
+   
+   
+   <!-- 1) 도서 정보 수정 -->
+   <update id="updateBookPost" parameterType="bookInfoVO">
+   		UPDATE BOOK_INFO
+		SET    NAME=#{name}, UNIT_PRICE=#{unitPrice}, AUTHOR=#{author}, 
+			   DESCRIPTION=#{description}, PUBLISHER=#{publisher}, 
+			   CATEGORY=#{category}, UNITS_IN_STOCK=#{unitsInStock},
+		       TOTAL_PAGES=#{totalPages}, RELEASE_DATE=#{releaseDate}, 
+		       CONDITION=#{condition}
+		WHERE  BOOK_ID=#{bookId}
+   </update>
+   
+   <!-- 2) BOOK_INFO테이블을 update한 뒤 ATTACH테이블도 update 할 수 있음
+   한 권의 책에 첨부파일이 여러개일 경우 첫번째 첨부파일만 변경
+    -->
+   <update id="updateAttach" parameterType="attachVO">
+		MERGE INTO ATTACH A
+		USING DUAL ON(A.BOOK_ID = #{bookId})
+		WHEN MATCHED THEN
+			    UPDATE
+			    SET    A.FILENAME = #{filename}
+			    WHERE  A.SEQ = (
+					        SELECT MIN(B.SEQ)
+					        FROM ATTACH B
+					        WHERE B.BOOK_ID = A.BOOK_ID
+			            )
+		WHEN NOT MATCHED THEN
+		    INSERT (SEQ, BOOK_ID, FILENAME)
+		    VALUES((SELECT NVL(MAX(SEQ),0)+1 FROM ATTACH), #{bookId}, #{filename})
+   </update>
+   
+   <!-- 도서 삭제 -->
+   <delete id="deleteBookPost" parameterType="bookInfoVO">
+   		DELETE FROM BOOK_INFO
+		WHERE BOOK_ID = #{bookId}
+   </delete>
 </mapper>
 
 

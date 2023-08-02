@@ -115,11 +115,29 @@
           
           //도서아이디는 계속 비활성화
           $("input[name='bookId']").attr("readonly", true);
-      })
+      });
 
-      
-      
-   })
+      //삭제버튼 클릭
+      $("#delete").on("click", function(){
+    	//<form class="bookInfoFrm" action의 속성값을 /bookInfo/deleteBookPost로 변경
+    	$(".bookInfoFrm").attr("action", "/bookInfo/deleteBookPost");
+    	//BookInfoController에서 해당 URI를 받아서 
+    	//log.info("bookId : " + bookInfoVO.getBookId());
+    	//도서 목록으로 redirect
+    	
+    	//삭제하시겠습니까? confirm 처리
+		let result = confirm("삭제하시겠습니까?");
+		console.log("result : " + result);
+		
+    	if(result==true) { //확인
+    		//form 요소를 선택하여 submit처리	
+    		$(".bookInfoFrm").submit();
+    	}else{ //취소
+    		//삭제가 취소되었습니다. 경고창 처리
+    		alert("삭제가 취소되었습니다.");
+    	}
+      });
+   });
 </script>
 <div class="row" id="row">
 <!-- attachVOList : List<AttachVO> -->
@@ -135,7 +153,7 @@
          요청파라미터 : {bookId=ISBN1234,name=...}
          요청방식 : post
           -->
-         <form class="bookInfoFrm" action="/bookInfo/addBookPost" method="post"
+         <form class="bookInfoFrm" action="/bookInfo/updatePost" method="post"
             enctype="multipart/form-data" >
          <!-- 폼데이터 -->
             <div class="form-group row">
@@ -183,7 +201,7 @@
                         class="dropdown-item clsCategory" href="#">IT 모바일</a> <a
                         class="dropdown-item clsCategory" href="#">소설</a>
                   </div>
-                  <input type="hidden" name="category" />
+                  <input type="hidden" name="category" value="${data.category}" />
                </div>
             </div>
             <div class="form-group">

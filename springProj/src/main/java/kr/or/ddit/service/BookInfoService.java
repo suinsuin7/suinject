@@ -21,4 +21,10 @@ public interface BookInfoService {
 	
 	//도서 상세
 	public BookInfoVO detailBook(String bookId);
+
+	//도서정보 및 첨부파일이 함께 존재
+	public int updateBookPost(BookInfoVO bookInfoVO);
+	
+	//도서 삭제
+	public int deleteBookPost(BookInfoVO bookInfoVO);
 }

@@ -56,6 +56,24 @@ public class BookInfoDAO {
 	public BookInfoVO detailBook(String bookId) {
 		return this.sqlSessionTemplate.selectOne("bookInfo.detailBook", bookId);
 	}
+	
+	//<!-- 1) 도서 정보 수정 -->
+	//<update id="updateBookPost" parameterType="bookInfoVO">
+	public int updateBookPost(BookInfoVO bookInfoVO) {
+		return this.sqlSessionTemplate.update("bookInfo.updateBookPost", bookInfoVO);
+	}
+	
+	//<!-- 2) BOOK_INFO테이블을 update한 뒤 ATTACH테이블도 update 할 수 있음
+	//<update id="updateAttach" parameterType="attachVO">
+	public int updateAttach(AttachVO attachVO) {
+	 	return this.sqlSessionTemplate.update("bookInfo.updateAttach", attachVO);
+	}
+	
+	//도서삭제 deleteBookPost
+	//<delete id="deleteBookPost" parameterType="bookInfoVO">
+	public int deleteBookPost(BookInfoVO bookInfoVO) {
+		return this.sqlSessionTemplate.delete("bookInfo.deleteBookPost", bookInfoVO);
+	}
 }
 
 

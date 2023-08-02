@@ -119,7 +119,94 @@ public class BookInfoServiceImpl implements BookInfoService {
 	}
 	
 	//도서 상세
+	@Override
 	public BookInfoVO detailBook(String bookId) {
 		return this.bookInfoDAO.detailBook(bookId);
 	}
+	
+	//도서 정보 및 첨부파일이 함께 수정 -->
+	@Override
+	public int updateBookPost(BookInfoVO bookInfoVO) {
+		//1) 도서 정보 수정
+		int result = this.bookInfoDAO.updateBookPost(bookInfoVO);
+		
+		//2) 첨부파일정보 수정
+		//2-1) 파일객체가 있음(파일도 수정하겠음) bookInfoVO{..bookImage=org...}
+		if(bookInfoVO.getBookImage().getSize()>0) {
+			log.info("파일객체가 있음");
+			//업로드 폴더 설정
+			String uploadFolder = 
+					"E:\\eGovFrame3.10.0\\workspace\\springProj\\src\\main\\webapp\\resources\\images";
+				
+				File uploadPath = new File(uploadFolder, getFoleder());
+				log.info("uploadPath : " + uploadPath);
+				
+				//만약 연/월/일 해당 폴더가 없으면 생성
+				if(uploadPath.exists()==false) {
+					uploadPath.mkdirs();
+				}
+				
+				//원래 파일명을 할당할 변수
+				String uploadFileName = "";
+				
+				//파일객체(업로드 대상)
+				MultipartFile multipartFile = bookInfoVO.getBookImage();
+				log.info("파일명 : " + multipartFile.getOriginalFilename());
+				log.info("파일 크기 : " + multipartFile.getSize());
+				log.info("MIME타입 : " + multipartFile.getContentType());
+				
+				//java.util.UUID => 랜덤값 생성
+				UUID uuid = UUID.randomUUID();
+				
+				//File객체 복사 설계(복사할 대상 경로, 파일명)
+				uploadFileName = uuid.toString() + "_" + multipartFile.getOriginalFilename(); 
+				File saveFile = new File(uploadPath, uploadFileName);
+				
+				//설계대로 파일 복사 실행
+				try {
+					multipartFile.transferTo(saveFile);
+					
+					AttachVO attachVO = new AttachVO();
+					attachVO.setBookId(bookInfoVO.getBookId());
+					// web경로를 setting
+					// /2023/08/02/dsajds._파일이름.jpg
+					attachVO.setFilename("/" + getFoleder().replace("\\", "/") + "/" + uploadFileName);
+					
+					result += this.bookInfoDAO.updateAttach(attachVO);
+					
+					log.info("최종result : " + result);
+					
+					return result;
+				} catch (IllegalStateException | IOException e) {
+					log.error(e.getMessage());
+					return 0;
+				}
+			}else {
+				log.info("파일객체가 없음");
+				//2-2) 파일객체가 없음(파일 수정안함) bookInfoVO{..bookImage=null}
+				
+				return result;
+			}//end if
+	}
+	
+	//도서 삭제
+	@Override
+	public int deleteBookPost(BookInfoVO bookInfoVO) {
+		return this.bookInfoDAO.deleteBookPost(bookInfoVO);
+	}
+	
+	//연월일 폴더 생성
+	public String getFoleder() {
+		//2023-08-02 형식(format)지정
+		//간단한 날짜 형식
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		//날짜 객체 생성(java.util.Date)
+		Date date = new Date();
+		
+		String str = sdf.format(date);
+		
+		//File.separator : 윈도우 폴더 구분자(\\)
+		return str.replace("-", File.separator);
+	}
+	
 }

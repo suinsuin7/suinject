@@ -149,15 +149,35 @@ public class BookInfoController {
 	public ModelAndView updateBookPost(ModelAndView mav, BookInfoVO bookInfoVO) {
 		log.info("" + bookInfoVO);
 		
+		int result = this.bookinfoService.updateBookPost(bookInfoVO);
+		log.info("updateBookPost->result : " + result);
+		
+		//redirect
 		mav.setViewName("redirect:/bookInfo/detailBook?bookId="+bookInfoVO.getBookId());
 		
 		return mav;
 		
 	}
+	
+	//요청URL : bookInfo/deleteBookPost
+	//요청파라미터 : {bookId=,name=}
+	//요청방식 : POST
+	//BookInfoController에서 해당 URI를 받아서 
+	//log.info("bookId : " + bookInfoVO.getBookId());
+	//도서 목록으로 redirect
+	@RequestMapping(value = "bookInfo/deleteBookPost", method = RequestMethod.POST)
+	public ModelAndView deleteBookPost(ModelAndView mav, BookInfoVO bookInfoVO) {
+		log.info("bookId 삭제 : " + bookInfoVO.getBookId());
+		
+		int result = this.bookinfoService.deleteBookPost(bookInfoVO);
+		log.info("deleteBookPost->result : " + result);
+		
+		//redirect
+		mav.setViewName("redirect:/bookInfo/listBook");
+		
+		return mav;
+	}
 }
-
-
-
 
 
 
