@@ -6,8 +6,11 @@
 		<item key="wholeword" value="false"/>
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
-		<item key="selection" value="&lt;properties&gt;"/>
+		<item key="selection" value="List"/>
 		<list key="findhistory">
+			<item value="attach"/>
+			<item value="List"/>
+			<item value="attachVOList"/>
 			<item value="&lt;properties&gt;"/>
 			<item value="maven"/>
 			<item value="attributeValue"/>
