@@ -80,6 +80,38 @@ $(function(){
 			}
 		});
 	});
+	
+	//요청URI : /board/detail/ISBN1234
+	//pathVariable : bookId
+	//data : bookId, name, unitPrice, author, totalPages
+	//요청방식 : post
+	//응답데이터 : SUCCESS
+	$("#btnHeaders").on("click", function(){
+		console.log("잘 찍히나? btnHeaders?");
+		
+		let data = {
+			"bookId":$("#bookId").val(),
+			"name":$("#name").val(),
+			"unitPrice":$("#unitPrice").val(),
+			"author":$("#author").val(),
+			"totalPages":$("#totalPages").val()			
+		};
+
+		console.log("data : " + JSON.stringify(data));
+
+		$.ajax({
+			url: "/board/detail/"+$("#bookId").val(),
+			contentType : "application/json;charset=utf-8",
+			type : "post",
+			data : JSON.stringify(data),
+			success: function(result){
+				
+        		console.log("btnHeaders result : " + result);
+        	}
+		});
+		
+	});
+	
 });
 
 </script>
@@ -177,8 +209,10 @@ $(function(){
 					  <input type="file" class="form-control" id="bookImage" name="bookImage" />
 					</div>
 				</div>
-				<button type="submit"class="btn btn-primary btn-user btn-block">
+				<button type="submit" class="btn btn-primary btn-user btn-block">
 					도서 등록</button>
+				<button type="button" id="btnHeaders" class="btn btn-primary btn-user btn-block">
+					headers매핑</button>
 			</form>
 		</div>
 	</div>
