@@ -11,6 +11,34 @@
 <script type="text/javascript" src="/resources/js/jquery.min.js"></script>
 <script type="text/javascript" src="/resources/ckeditor/ckeditor.js"></script>
 <title>책 상세</title>
+<script type="text/javascript">
+	// 1) /detail?bookId=1
+	let bookId = "${param.bookId}"; //1
+			
+	// 2) json object
+	let data = {"bookId":bookId};
+	console.log("data : " + JSON.stringify(data));
+	
+	// 3) ajax
+	$.ajax({
+		url:"/resp/goHome030105",
+		contentType:"application/json;charset:utf-8",
+		data:JSON.stringify(data),
+		type:"post",
+		success: function(result){
+			//컨트롤러 가서 찍히게 만들기... 어디 컨트롤러로 감??
+			console.log("result : " + JSON.stringify(result));
+			
+			$("input[name='bookId']").val(result.bookId);
+			$("input[name='title']").val(result.title);
+			$("input[name='category']").val(result.category);
+			$("input[name='price']").val(result.price);
+			$("textarea[name='content']").val(result.content);
+		}
+	});
+	
+	
+</script>
 </head>
 <body>
 <h1>책 상세</h1>
@@ -38,13 +66,13 @@ WHERE
  <form id="frm" name="frm" action="/updatePost" method="post">
  	<!-- 폼데이터 -->
  	<!-- data : BookVO bookVO -->
- 	<input type="hidden" name="bookId" value="${data.bookId}" />
- 	<p>제목 : <input type="text" name="title" class="formdata" value="${data.title}" readonly /></p>
- 	<p>카테고리 : <input type="text" name="category" class="formdata" value="${data.category}" readonly /></p>
+ 	<input type="hidden" name="bookId" value="" />
+ 	<p>제목 : <input type="text" name="title" class="formdata" value="" readonly /></p>
+ 	<p>카테고리 : <input type="text" name="category" class="formdata" value="" readonly /></p>
  	<p>가격 : <input type="text" name="price" class="formdata" maxLength="10" 
- 		value='<fmt:formatNumber type="number" value="${data.price}" pattern="#,###" />'
+ 		value='<fmt:formatNumber type="number" value="" pattern="#,###" />'
  		readonly /></p>
- 	<p>설명 : <textarea rows="5" cols="30" name="content" class="formdata" readonly>${data.content}</textarea> </p>
+ 	<p>설명 : <textarea rows="5" cols="30" name="content" class="formdata" readonly></textarea> </p>
  	
  	<!-- 일반모드 시작 -->
  	<p id="p1">
