@@ -1,6 +1,7 @@
 package com.newlecture.web.controller;
 
 import javax.servlet.http.HttpServletRequest;
+
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.web.servlet.ModelAndView;
@@ -11,9 +12,9 @@ public class IndexController implements Controller {
 	@Override
 	public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		System.out.println("콘솔 찍혀?");
-		ModelAndView mv = new ModelAndView();
+		ModelAndView mv = new ModelAndView("index");
 		mv.addObject("data", "Hello Spring MVC~");
-		mv.setViewName("index.jsp");
+		//mv.setViewName("/WEB-INF/view/index.jsp");
 		
 		return mv;
 	}

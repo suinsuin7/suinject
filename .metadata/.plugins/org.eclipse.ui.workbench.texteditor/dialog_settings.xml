@@ -6,8 +6,12 @@
 		<item key="wholeword" value="false"/>
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
-		<item key="selection" value="List"/>
+		<item key="selection" value="헤더"/>
 		<list key="findhistory">
+			<item value="헤더"/>
+			<item value="고객센터"/>
+			<item value="detail"/>
+			<item value="고객"/>
 			<item value="attach"/>
 			<item value="List"/>
 			<item value="attachVOList"/>
@@ -19,7 +23,6 @@
 			<item value="org.my"/>
 			<item value="의존"/>
 			<item value="jstl"/>
-			<item value="&#x09;&lt;filter&gt;"/>
 		</list>
 		<list key="replacehistory">
 		</list>

@@ -54,6 +54,7 @@
 <fullyQualifiedTypeName name="lombok.extern.java.Log"/>
 <fullyQualifiedTypeName name="java.io.IOException"/>
 <fullyQualifiedTypeName name="java.lang.IllegalStateException"/>
-<fullyQualifiedTypeName name="org.springframework.web.servlet.mvc.Controller"/>
 <fullyQualifiedTypeName name="org.springframework.web.servlet.ModelAndView"/>
+<fullyQualifiedTypeName name="org.springframework.web.servlet.view.InternalResourceViewResolver"/>
+<fullyQualifiedTypeName name="org.springframework.web.servlet.mvc.Controller"/>
 </qualifiedTypeNameHistroy>
