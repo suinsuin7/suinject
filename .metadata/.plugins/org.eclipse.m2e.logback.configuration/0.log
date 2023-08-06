@@ -78,3 +78,7 @@ Caused by: org.eclipse.core.runtime.CoreException: One or more constraints have 
 2023-08-05 15:13:58,003 [Worker-9: Cleaning selected projects] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Cleaning filtered folder for webprj
 2023-08-05 15:13:58,413 [Worker-16: Building] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Changed resources require a complete clean of filtered resources of webprj
 2023-08-05 15:13:58,416 [Worker-16: Building] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Executing resource filtering for webprj
+2023-08-06 15:55:20,545 [Worker-25: Building] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Changed resources require a complete clean of filtered resources of webprj
+2023-08-06 15:55:20,562 [Worker-25: Building] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Executing resource filtering for webprj
+2023-08-06 16:08:58,937 [Worker-23: Building] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Changed resources require a complete clean of filtered resources of webprj
+2023-08-06 16:08:58,944 [Worker-23: Building] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Executing resource filtering for webprj
