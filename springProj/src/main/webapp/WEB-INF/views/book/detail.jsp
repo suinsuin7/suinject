@@ -78,7 +78,8 @@ WHERE
  	<p id="p1">
  		<input type="button" id="edit" value="수정" />
  		<input type="button" id="delete" value="삭제" />
- 		<input type="button" id="list" value="목록" />
+ 		<input type="button" id="list" value="목록" 
+ 			onclick="javascript:location.href='/list';" />
  	</p>
  	<!-- 일반모드 끝 -->
  	
