@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<meta charset="UTF-8">
+<script>
+// JSON (JavaScript Object Notation) 자바스크립트 객체 표기법!
+
+/* 방법1
+var name = "myname";
+var roze = {    // new Object와 같음
+    name: "roze", // key값은 자동으로 문자열 처리됨!(일부 꼭 ""를 붙여야 하는 경우 있음)
+    "age": 26,
+    "song": "Gone"
+}
+*/
+
+// '배열식 접근법' *** 중요!!! ***
+// . 접근법보다 성능은 조금 떨어지지만
+// 프로그램은 아주 플렉시블하게 만들어줌!
+// [] 안에 변수가 올 수도 있음
+var name = "홍길동";
+var age = 100;
+var roze = {
+    [0]: "jenni",
+    [1]: 27,
+    [2]:"solo",
+    length: 3
+}
+// 객체 표기 대괄호로도 가능
+
+for(let i=0; i<roze.length; i++) {
+    alert(roze[i]);
+}
+
+//roze['300'] = "흥";    // 변수 명명규칙에 숫자로 시작할 수 없음
+
+console.log("체크: ", roze);
+
+/* 방법2 - 빈 객체를 만들고, 속성을 계속 추가해주는 방법
+var rose = {};
+roze.name = "roze";
+roze.age = 26;
+roze.song = "gone";
+*/
+
+</script>

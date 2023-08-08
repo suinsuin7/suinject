@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        #wrapper {
+            width: 500px;
+            margin: 30px auto;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        table {
+            width: 100%;
+        }
+
+        input[type="text"],
+        textarea {
+            width: 95%;
+            border: none;
+            padding: 5px;
+        }
+
+        textarea {
+            resize: none;
+        }
+
+        tr:last-child td {
+            text-align: center;
+            padding-top: 30px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="wrapper">
+        <h1>볼품없는 게시판</h1>
+        <hr />
+        <form action="write_action.html" method="get">
+            <input type="hidden" name="gid" value="">
+            <table border="1">
+                <tbody>
+                    <tr>
+                        <td>제목</td>
+                        <td><input type="text" name="title" required></td>
+                    </tr>
+                    <tr>
+                        <td>지은이</td>
+                        <td><input type="text" name="writer" disabled></td>
+                        <!-- readonly: 값이 전송됨, disabled: 값이 전송되지 않음-->
+                    </tr>
+                    <tr>
+                        <td>내용</td>
+                        <td><textarea name="content" cols="50" rows="10" required></textarea></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <input type="submit" onclick="fkch('mod')" value="수정">
+                            <input type="submit" onclick="fkch('del')" value="삭제">
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
+    <script src="jsp.js"></script>
+    <script>
+        function fkch(pAction) {
+            var myForm = document.forms[0]; // form태그는 id 안줘도 접근 가능함
+            event.preventDefault(); // 내장 이벤트 기능 막기 ex)submit
+            if (pAction == 'mod') {
+                myForm.action = "modify_action.html";
+            } else if (pAction == 'del') {
+                myForm.action = "delete_action.html";
+            }
+            // 내장 이벤트 기능을 막았기 때문에 직접 전송해야함
+            myForm.submit();
+        }
+
+        const myTitle = document.querySelector("[name=title]");
+        const myWriter = document.querySelector("[name=writer]");
+        const myContent = document.querySelector("[name=content]");
+        const myGid = document.querySelector("[name=gid]");
+        let gid = request.getParameter("gid");
+        myGid.value = gid;
+
+        let tblName = "hong";
+        let datas = JSON.parse(localStorage.getItem(tblName));
+        for (let i = 0; i < datas.length; i++) {
+            if (datas[i].id == gid) {
+                myTitle.value = datas[i].title;
+                myWriter.value = datas[i].writer;
+                myContent.value = datas[i].content;
+                break;
+            }
+        }
+
+    </script>
+</body>
+
+</html>

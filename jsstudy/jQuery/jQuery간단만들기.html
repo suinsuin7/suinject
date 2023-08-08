@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<meta charset="UTF-8">
+<body>   
+    <div class="su bbb">조수인</div>
+    <div class="su aaa">최서연</div>
+    <div class="su aaa">이소연</div>
+    <div class="su bbb">이혜진</div>
+    <input type="text" value="수수"><br>
+    <input type="text" value="애옹"><br>
+    <input type="text" value="꺄롱"><br>
+    <input type="text" value="오뚝"><br>
+</body>
+<script>
+    // jQuery 간략버전으로 만들어 보아용 $("선택자")
+    // function은 class 키워드의 의미로 사용되고 있음!
+    // new가 너무나 꼴보기 싫어! 가끔 빼먹는 실수도 하고...
+
+    //var $;
+
+
+    (function(){
+        const $ = function(pSel){
+            return new MyDom(pSel);
+        }
+    
+        const MyDom = function(pSel){
+            let elems = document.querySelectorAll(pSel); // 선택자에 해당하는 거
+            // 검색된 걸 자신의 속성으로 옮겨(정확히는 참조) 담음
+            this.length = elems.length;
+            for (let i = 0; i < this.length; i++){
+                this[i] = elems[i];
+            }
+            return this;
+        }
+        window.$=$; // 전역변수$와 지역변수 $를 서로 참조하게끔(곧 같은 곳을 가리키는 별명이 되어버림!)
+        //jQuery 사용자(개발자)들도 자기만의 메소드(jQuery 플러그인이라 부름)
+        //를 추가할 수 있도록(곧 확장) MyDom.prototype을 밖에서 접근할 수 있도록 해주어야 했음
+        //MyDom.prototype.메소드이름=function(){}
+        $.fn=MyDom.prototype;
+    })();
+
+    //jQuery 플러그인 마구 마악 맨들기!!!
+    $.fn.eq = function(pIndex) {
+        
+        //pIndex에 해당하는 dom 객체만 남기고, index번호를 0번으로 만들어야 함
+        return this;
+    }
+
+    // innerHTML 속성을 편하게 다루는 메소드 html()
+    // 오버로딩(매개변수를 시그니처로 같은 이름의 메소드를 구분하는 것)
+    // 자바스크립트에 없음
+
+    // value 속성을 편하게 쓸 수 있도록 도와주는 val 메소드,
+    $.fn.val = function(pArg) {
+        if(!pArg){  // 매개변수 값이 넘어오지 않았을 때!(읽기!-무조건 첫 번째 것)
+            return this[0].value
+
+        }
+
+        // 매개변수로 문자열이 넘고 넘어 왔을 때!!!..,,(전부쓰기!!)
+        if (typeof(pArg) == "string") {
+            for (let i = 0; i < this.length; i++) {
+                this[i].value = pArg;
+        }
+        return this;
+    }
+
+    
+        // 매개변수로 콜백함수가 왔을 때..(부분쓰기, 조건부쓰기)
+        if(typeof(pArg) == "function"){
+            for(let i=0; i<this.length; i++){
+                this[i].value = pArg.call(this[i],i,this[i].value);
+        }
+        return this;
+
+    }
+}
+
+    //alert($("input[type=text]").val()) //?
+    //$("input[type=text]").val("이미지");
+    $("input[type=text]").val(function(pIndex,pVal){
+        if(pIndex==1){
+            return "두 번째만 바꾸고 다 언디파인드";
+        }
+        return pVal; //받은대로 돌려주면 값 변화 없음!
+    })
+
+
+// 태그 안의 여ㅕ러가지 속성을 지정해서 값을 읽고/변경할 수 있는 attr
+$.fn.attr = function(pArg1,pArg2) {
+        if(!pArg2){  // 매개변수 값이 넘어오지 않았을 때!(읽기!-무조건 첫 번째 것)
+            return this[0][pArg1]; // 첫번째 해당 속성값
+        }
+
+        // 매개변수로 문자열이 넘고 넘어 왔을 때!!!..,,(전부쓰기!!)
+        if (typeof(pArg2) == "string") {
+            for (let i = 0; i < this.length; i++) {
+                this[i][pArg1] = pArg2;
+        }
+        return this;
+    }
+
+    
+        // 매개변수로 콜백함수가 왔을 때..(부분쓰기, 조건부쓰기)
+        if(typeof(pArg2) == "function"){
+            for(let i=0; i<this.length; i++){
+                this[i][pArg1] = pArg2.call(this[i],i,this[i][pArg1]);
+        }
+        return this; //메소드 체이닝
+
+    }
+}
+
+// jQuery 이벤트 등록 메소드 on을 후다닥 만들어 보새요
+$.fn.on = function(pEvent, pCb){
+    for(let i=0; i<this.length; i++){
+        this[i].addEventListener(pEvent, pCb);
+    }
+    return this; // 메소드 체이닝
+
+}
+
+/* $("div").on("click",function(){
+    console.log("체크:",this);
+    alert("나 눌렀니?" + this.innerHTML);
+}) */
+
+$("div").html("click",function(pEvent, pCb){
+    if(pIndex == 1) {
+        return "<h1>메롱</h1>"
+    }
+    return pVal;
+}).on("click",function(){
+    console.log("체크:",this);
+    alert("나 눌렀니?" + this.innerHTML);
+})
+
+
+   //alert($("input").attr("type"));
+   //alert($("input").attr("value"));
+
+   //$("input").attr("type", "checkbox"); 전부 쓰기
+/* 
+   $("input").attr("type",function(pIndex,pVal){
+        if(pIndex == 3) {
+            return "checkbox";
+        }
+        return pVal;
+   })
+ */
+    //alert($("input[type=text]").val()) //?
+    //$("input[type=text]").val("이미지");
+    /*
+    $("input[type=text]").val(function(pIndex,pVal){
+        if(pIndex==1){
+            return "두 번째만 바꾸고 다 언디파인드";
+        }
+        return pVal; //받은대로 돌려주면 값 변화 없음!
+    })
+    */
+
+
+
+
+    //let susu = new MyDom(".su.aaa");
+    //let susu = $(".su");
+    //alert($(".su").html());
+    //$(".su").html("누가누가 졸리나요??");
+    /*
+    $(".su").html(function(pIndex, pHtml){
+        console.log("체크 : ", this)
+        //alert("index:" + pIndex  + "  " + "html:" + pHtml);
+        if(pIndex == 0) {
+            return pHtml + " 짱이다 짝짝짝짝";
+        }
+
+        if(pHtml.includes("최서연")){
+            return `<h1> ${pHtml} 천재! 짱이다!!! </h1>`;
+        }
+
+        return pHtml;
+
+    })
+
+    console.log("체크! : ", susu.eq(1));
+    */
+
+</script>

@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-war" name="jsstudy:war exploded">
+    <output-path>$PROJECT_DIR$/out/artifacts/jsstudy_war_exploded</output-path>
+    <root id="root">
+      <element id="javaee-facet-resources" facet="jsstudy/web/Web" />
+    </root>
+  </artifact>
+</component>

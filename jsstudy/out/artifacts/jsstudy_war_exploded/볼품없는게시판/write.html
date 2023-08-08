@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>게시판</title>
+    <style>
+        #wrapper {
+            width: 500px;
+            margin: 30px auto;
+        }
+    
+        h1 {
+            text-align: center;
+        }
+    
+        table {
+            width: 100%;
+        }
+    
+        input[type="text"],
+        textarea {
+            width: 95%;
+            border: none;
+            padding: 5px;
+        }
+    
+        textarea {
+            resize: none;
+        }
+    
+        tr:last-child td {
+            text-align: center;
+            padding-top: 30px;
+        }
+    </style>
+</head>
+<body>
+    <div id="wrapper">
+        <h1>볼품없는 게시판</h1>
+        <hr/>
+        <form action="write_action.html" method="get">
+            <table border="1">
+                <tbody>
+                    <tr>
+                        <td>제목</td>
+                        <td><input type="text" name="title"  required></td>
+                    </tr>
+                    <tr>
+                        <td>지은이</td>
+                        <td><input type="text" name="writer"  required></td>
+                    </tr>
+                    <tr>
+                        <td>내용</td>
+                        <td><textarea name="content"cols="50" rows="10" required></textarea></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <input type="submit" value="쓰기">
+                            <input type="reset" value="초기화">
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
+
+    <script>
+
+    </script>
+</body>
+</html>

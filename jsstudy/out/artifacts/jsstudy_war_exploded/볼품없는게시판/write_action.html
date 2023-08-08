@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<meta charset="UTF-8">
+<script src="jsp.js"></script>
+<script>
+    //  처리만
+    // var queryString = location.href.split("?")[1];
+    // alert(queryString);
+    /*
+        인코딩함수 escape   encodeURI   encodeURIComponent
+        디코딩함수 unescape   decodeURI   denodeURIComponent
+    */
+    // var items = queryString.split("&");
+    //  안타깝지만 아래 소스는 오직 한가지 경우에만 제대로 동작
+    //  개발자는 일반화(gemeralization) 자동화(auto)룰 해야함
+    // var title = decodeURIComponent(items[0].split("=")[1]);
+    // var writer = decodeURIComponent(items[1].split("=")[1]);
+    // var content = decodeURIComponent(items[2].split("=")[1]);
+    var title = request.getParameter("title");
+    var writer = request.getParameter("writer");
+    var content = request.getParameter("content");
+    var tblName = "hong";
+
+    var gDatas = JSON.parse(localStorage.getItem(tblName));
+
+    var gesiGeul = {};
+    gesiGeul.id = gDatas[gDatas.length - 1].id - 0 + 1;
+    gesiGeul.title = title;
+    gesiGeul.writer = writer;
+    gesiGeul.content = content;
+    gesiGeul.date = (new Date()).toDateString();
+
+    //  읽어온 데이터에 추가
+    gDatas.push(gesiGeul);
+
+    //  로컬 스토리지에 다시 저장하기
+    localStorage.setItem(tblName, JSON.stringify(gDatas));
+
+    alert("요청하신 게시글이 db에 잘 저장되었습니다.")
+
+    location.href = "list.html";    // 주소 표시줄에 list.html을 씀
+    // alert(title + " " + writer + " " + content);
+</script>

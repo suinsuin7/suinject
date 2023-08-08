@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<meta charset="UTF-8">
+<script>
+    // 자바스크립트 동적언어, 자바는 정적언어
+    // 자스 자동형변환 발생
+    // 문자열 ""는 false 그외는 전부 true
+    // 숫자는 0만 false고 그 외는 전부 true;
+    // let, const가 나중에 추가됨!
+    // caniuse.com에서 항상 개발 진행전에 최신버전 사용가능 여부 체크
+
+    var bool = !0;  // 문자 개수를 줄이기 위해 true 대신 !0으로 표현함
+
+    // let vs var의 차이
+    // let은 scope(범위)가 {} 안에 한정됨!
+    // var는 scope(범위)가 function() 안에 있냐 밖에 있냐로 결정!
+    // const에 오해! 객체(배열이나 JSON)가 오면
+    // 객체는 못 바꿔도 속성(내용물)은 바꿀 수 있음!
+    // 머릿속에 박스에 본드 칠해서 박스는 못 바꾸고, 내용물만 바꾼다라고 기억
+
+    const starName = {
+        man: "뷔",
+        woman: "제니"
+    }
+    starName.man = "석일임"; // 내용물 바꾸는 건 OK!
+    console.log("체킁:",starName);
+
+    starName = {}; // new Object()는 안 됨! 박스를 바꾸려는 시도!
+
+    for(let i=1;i<=10;i++){}
+    alert(i);
+
+    if(0) { // 자동으로 형변환이 발생!
+        alert("그렇당!");
+    }
+
+    
+
+</script>

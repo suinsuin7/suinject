@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<meta charset="UTF-8">
+<script src="jsp.js"></script>
+<script>
+    let gid = request.getParameter("gid");
+    const tblName = "hong";
+    let datas = JSON.parse(localStorage.getItem(tblName));
+    for (let i = 0; i < datas.length; i++) {
+        if (datas[i].id == gid) {
+            datas.splice(i, 1);
+            break;
+        }
+    }
+    localStorage.setItem(tblName, JSON.stringify(datas));
+    alert("삭제완");
+    location.replace("list.html");
+</script>

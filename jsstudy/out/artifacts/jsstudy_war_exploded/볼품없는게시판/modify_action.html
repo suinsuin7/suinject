@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<meta charset="UTF-8">
+<script src="jsp.js"></script>
+<script>
+    let gid = request.getParameter("gid");
+    let title = request.getParameter("title");
+    let content = request.getParameter("content");
+
+    const tblName = "hong";
+    let datas = JSON.parse(localStorage.getItem(tblName));
+    for (let i = 0; i < datas.length; i++) {
+        if (datas[i].id == gid) {
+            datas[i].title = title;
+            datas[i].content = content;
+            datas[i].date = ranDate();
+            break;
+        }
+    }
+
+    function ranDate() {
+        let jsj = new Date();
+        jsj.setDate(jsj.getDate() - Math.round(Math.random() * 90));
+        let myYear = jsj.getFullYear();
+        let myMonth = jsj.getMonth();
+        if (myMonth < 10) {
+            myMonth = "0" + myMonth;
+        }
+        let myDay = jsj.getDay();
+        if (myDay < 10) {
+            myDay = "0" + myDay;
+        }
+        return `${myYear}-${myMonth}-${myDay}`;
+    }
+
+    localStorage.setItem(tblName, JSON.stringify(datas));
+    alert("수정완");
+    location.href = "list.html";
+</script>

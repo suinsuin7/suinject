@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>this에 대하여</title>
+</head>
+<body>
+<script>
+  //this(이것, 나, 누가 말하냐에 따라 가리키는 대상이 달라짐)
+  function fthis(){//전역함수를 선언하는 것은 window의 메서드를 선언
+    console.log("this",this); // Window (최상위 객체)
+  }
+  //fthis();
+  wi뀜dow.fthis();  // 위와 동일
+
+  var v = "서연 짱"; // 전역변수를 선언하는 것은 window의 속성 선언
+  //alert(window.v); // 서연 짱
+
+  var isi = {name:"최서연", hobby:"영화"};
+    isi.movie = fthis;
+    //this가 어떻게(context맥락에 따라)불리느냐에 따라 가리키는 대상이 바
+    isi.movie();// 이떄 this는? {name:"최서연", hobby:"영화"};
+</script>
+
+</body>
+</html>

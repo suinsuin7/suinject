@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<meta charset="UTF-8">
+
+<script>
+    //  localStorage에 더미데이터 만들기(몽고디비형태)
+    var tblName = "hong";   //  테이블이름
+
+    var datas = [];         //  빈 배열
+
+    for (let i = 1; i <= 108; i++) {
+        var gesiGeul = {}                 // 빈객체
+        gesiGeul.id = i;                  // primary-key로 사용할 유일한 값 --> 검색에 쓰기 용이한 것
+        gesiGeul.title = "타이틀" + i;
+        gesiGeul.writer = "지으니" + i;
+        gesiGeul.content = "내용" + i;
+        /*
+        if(i == 5){
+            gesiGeul.merong = "메롱";
+        }
+        if(i == 6){
+            gesiGeul.merong = ["흥", "치", "뿡"];
+        }
+        */
+        gesiGeul.date = (new Date()).toDateString();
+        datas.push(gesiGeul);   //  배열에 담기
+    }
+
+    // localStorage에 저장
+    localStorage.setItem(tblName, JSON.stringify(datas));
+
+
+    //  관계형 DB : 정형화된 Data(한번 정한 그대로)         ||  객제지향 DB : 비정형화된 Data ==> flexible
+</script>

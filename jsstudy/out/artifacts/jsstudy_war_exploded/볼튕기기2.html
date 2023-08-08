@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    #ball {
+        position: absolute;
+        width: 100px;
+        height: 100px;
+        border-radius: 50%; /* 테두리를 동그랗게 */
+        background-color: cadetblue;
+        background-image: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRyM7ZmTtguWnVnDEUQetvJ0Sk2MWkBjHF15FiWiUhiIw&s");
+        background-image: url("https://i.pinimg.com/564x/1d/87/f4/1d87f4af877b9d55597ec3da9832650d.jpg");
+        background-size: 100% 100%;
+
+        transform: rotateZ(25deg); /* = rotateZ(15) */
+        transform:  skewY(45deg); /* skew 뒤틀리다 */
+
+        /* left: 10px; top: 50px; */
+    }
+</style>
+<body>
+    <button onclick="fProxy(this)">oO(움쥑~이는)</button> 
+    <div id="ball"></div>
+     <!-- div가 빈 공백일 땐 값이 false -->
+
+    <script>
+        /*  proxy(대리/대리인) pattern (프로그램 디자인 패턴)
+            대부분 문제가 막혔을 때(특히 si)쪽에서 proxy pattern을 떠올리면 문제 해결 쉽게 가능(?)
+
+        */
+
+        var isStart = false;    // 시작 안 된 상태 표시(이런 변수를 상태변수라 부름)
+                                // flag(깃발) 변수라고도 함
+        // 알고리즘이 막혔거나, 한개 한숨의 소스가 너무 길어질 때
+        // 대신 실행시킬 함수를 만들어볼까?를 생각해보면 꽤 작업이 쉬워지는 경우가 많아짐
+        function fProxy(){
+            if(!isStart) {  
+            fMove();            // 경유해서 부르기
+            isStart = true;     // 시작된 상태 표시
+            }
+        }
+    
+    const myBall = document.querySelector('#ball');
+    let mvWidth = 10;   // 움직이는 폭(x)
+    let mvHeight = 10;  // 움직이는 y
+    let rotGak = 0;     // 회전각
+    const fMove = (pthis) => {
+        console.log("체크: ", pthis);
+
+        /* 치사하지만 필요할 수도, 때론 적절한 방법일 수도
+            if(pthis){
+            pthis.disabled = true;  // 치사한 방법 못 누르게! -> 눌러도 소용X
+        } */
+
+        if(!myBall.style.left) {    // 값이 설정되어 있지 않다면
+            myBall.style.left = "50px";
+            myBall.style["top"] = "50px";
+            // alert("ppp" + myBall.style.left + "ppp");
+            // alert("qqq" + myBall.style["top"] + "qqq");
+        }
+
+        rotGak = rotGak + 10;
+
+        myBall.style.left = parseInt(myBall.style.left) + mvWidth + "px";
+        myBall.style.top = parseInt(myBall.style.top) + mvHeight + "px";
+        myBall.style.transform = `rotate(${rotGak}deg)`;
+        
+        var leftSu = parseInt(myBall.style.left);   // px글자 떼어내기 
+        var topSu = parseInt(myBall.style.top);   // px글자 떼어내기 
+        // 오른쪽 충돌 구현
+        if ((leftSu + 100) >= window.innerWidth || leftSu <= 0) {
+            mvWidth = -mvWidth;  // -1 * mvWidth
+        }
+
+        if((topSu + 100) >= window.innerHeight || topSu <= 0) {
+            mvHeight = -mvHeight; // -1 * mvWidth
+        }
+
+        // setTimeout(fMove, 500, pthis); // 함수이름을 FP(Function Pointer)라 부름
+        // fMove(), 500 <-- 이런식으로 쓰는 건 불가능
+
+        // console.log("보이는 화면넓이", window.innerWidth);
+        // console.log("보이는 화면높이", window.innerHeight);
+    }
+    </script>
+</body>
+</html>

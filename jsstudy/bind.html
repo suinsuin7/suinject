@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>BIND</title>
+</head>
+<body>
+<script>
+  //document.write("<h1>Hello World</h1>");
+  /*
+  function prt(msg) {
+    document.write(msg);
+  }
+  */
+  //참조(Reference)를 제대로 이해한 사람이라면...
+  var prt = document.write.bind(document);
+
+  prt("<h1>HELLO WORLD</h1>");
+  prt("<h1>HI ^0^</h1>");
+</script>
+</body>
+</html>

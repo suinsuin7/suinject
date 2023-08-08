@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    /*
+        레이아웃 자체를 정말 잘 짜고 싶다면,
+        grid를 공부해야 함!(추천)
+    */
+
+    div {border: 3px solid black;}
+
+    #wrapper {
+        width: 96vw;
+        height: 96vh;
+    }
+
+    .row {
+        height: 33%;    /* %를 주면 부모기준 */
+    }
+
+    .col {
+        display: inline-block; /* 옆에 누가 오는 걸 허락해야 함 */
+        width: 48%;
+        height: 100%;
+        vertical-align: top;
+    }
+
+    .bung {
+        height: 32%;
+    }
+
+    
+
+</style>
+<body>
+    <!-- 전체 영역 div 보통 wrapper나 container란 이름으로 많이 사용-->
+    <div id="wrapper"> 
+        <div class="row">붕</div>
+
+        <div class="row">
+            <div class="col">어</div>
+            <div class="col">
+                <div class="bung">붕</div>
+                <div class="bung">어</div>
+                <div class="bung">빵</div>
+            </div>
+        </div>
+
+        <div class="row">빵</div>
+
+    </div>
+</body>
+</html>

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<meta charset="UTF-8">
+<script>
+// localstorage 제약사항 -> 문자열밖에 저장안됨 (객체저장불가)
+
+var khInfo = {
+    name: "윤강혁",
+    alias: "이상한사람"
+}
+// 객체를 저장할 땐 꼭 문자열화(이것을 자바에서 serialize라고 함)해야함
+localStorage.setItem("khInfo", JSON.stringify(khInfo));
+
+// localStorage에 저장된 alias: 이상한 사람을 alias: 정상인 사람으로 변경
+
+// localStorage를 json 형태로 잘 쓰면, 그 형태가 그 유명한
+// 객체지향DB MongoDB와 같아서, 저절로 대단한 경험을 하게 됨!
+var readObj = JSON.parse(localStorage.getItem("khInfo")); // 문자열을 객체화
+readObj.alias = "정상인 사람";
+localStorage.setItem("khInfo", JSON.stringify(readObj));
+</script>

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>게시판</title>
+    <style>
+        #wrapper {
+            width: 500px;
+            margin: 30px auto;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        #disp {
+            align-items: center;
+            justify-content: center;
+        }
+
+        table {
+            margin-bottom: 10px;
+            border-collapse: collapse;
+        }
+
+        table td:not(:first-child) {
+            width: 200px;
+        }
+
+        .mark {
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="wrapper">
+        <h1>볼품없는 게시판</h1>
+        <hr />
+        <div id="disp"></div>
+        <a href="write.html">새글 쓰기</a>
+    </div>
+
+    <script src="jsp.js"></script>
+    <script>
+        var tblName = "hong";
+        var gesiGeuls = JSON.parse(localStorage.getItem(tblName));
+
+        /*
+        1페이지: 0번 ~ 9번 글
+        2페이지: 10번 ~ 19번 글
+        */
+        // 페이지 나누기 산수
+        const countPostPerPage = 10;
+        let totalPost = gesiGeuls.length;
+        let pageCount = Math.ceil(totalPost / countPostPerPage);
+        let page = request.getParameter("page"); // 디폴트값 1
+        if (!page) {
+            page = 1;
+        }
+        let startIndex = (page - 1) * countPostPerPage
+        let endIndex = startIndex + countPostPerPage; // for문에서 < 쓰면 -1 안하고 <= 쓰면 -1함
+        // 마지막 페이지 글 수가 항상 10개는 아님(부족할 수 있음)
+        if (endIndex > totalPost) {
+            endIndex = totalPost - 1;
+        }
+
+        // 태그해석 + 이미지 로딩이 끝나면 발생
+        const cdisp = document.querySelector("#disp");
+        window.onload = () => {
+            var tblTag = "<table border='1'>";
+            tblTag += "<tr><th>ID</th><th>제목</th><th>지은이</th><th>작성일</th></tr>";
+
+            for (let i = startIndex; i < endIndex; i++) {
+                console.log(i);
+                tblTag += "<tr>";
+                tblTag += `<td>${gesiGeuls[i].id}</td>`;
+                tblTag += `<td><a href="read.html?gid=${gesiGeuls[i].id}">${gesiGeuls[i].title}</a></td>`;
+                tblTag += `<td>${gesiGeuls[i].writer}</td>`;
+                tblTag += `<td>${gesiGeuls[i].date}</td>`;
+                tblTag += "</tr>"
+            }
+            tblTag += "</table>";
+            let pageStr = "<br>";
+            for (let i = 1; i <= pageCount; i++) {
+                if (i==page) {
+                    pageStr += `<a href=list.html?page=${i} class="mark">${i}</a>&nbsp;&nbsp;&nbsp;`
+                } else {
+                    pageStr += `<a href=list.html?page=${i}>${i}</a>&nbsp;&nbsp;&nbsp;`
+                }
+            }
+            tblTag += pageStr;
+            cdisp.innerHTML = tblTag;
+        }
+    </script>
+</body>
+
+</html>
