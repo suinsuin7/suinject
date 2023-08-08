@@ -1,0 +1,5 @@
+package com.suin.zzang.mapper;
+
+public interface Susu {
+
+}

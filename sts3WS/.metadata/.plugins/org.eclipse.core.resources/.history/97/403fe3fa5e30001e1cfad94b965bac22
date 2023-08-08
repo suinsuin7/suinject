@@ -1,0 +1,29 @@
+package com.suin.zzang.controller;
+
+import java.io.File;
+import java.io.IOException;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
+@Controller
+public class FileController {
+
+	@PostMapping("/mFile")
+	@ResponseBody	// AJAX 요청에 응답
+	public String getFile(MultipartFile suinFile) throws Exception {
+		log.debug(suinFile.getOriginalFilename());
+		log.debug(""+suinFile.getSize());
+		
+		String soyeon = "e:/uploads/" + suinFile.getOriginalFilename();
+		
+		suinFile.transferTo(new File(soyeon));
+		
+		return "/zzang/myfiles/" + suinFile.getOriginalFilename();
+	}
+}

@@ -1,0 +1,6 @@
+package com.suin.zzang.vo;
+
+public class Chahyun {
+	private String goodWords;
+	private String badWords;
+}

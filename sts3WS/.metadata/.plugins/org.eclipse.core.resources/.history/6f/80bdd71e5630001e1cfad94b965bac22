@@ -1,0 +1,13 @@
+package com.suin.zzang.controller;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PostMapping;
+
+@Controller
+public class FileController {
+
+	@PostMapping("/mFile")
+	public String getFile() {
+		return "OK";
+	}
+}
