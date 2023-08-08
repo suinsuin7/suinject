@@ -1,0 +1,16 @@
+package com.suin.zzang.mapper;
+
+import org.apache.ibatis.annotations.Mapper;
+
+@Mapper	// 명시적 표현 DAO에 해당
+public interface Susu {
+	// 읽기 리스트(여러 줄)
+	// 읽기 한줄
+	// 입력
+	// 수정
+	// 삭제
+	
+	
+	
+	public int insertDate();
+}

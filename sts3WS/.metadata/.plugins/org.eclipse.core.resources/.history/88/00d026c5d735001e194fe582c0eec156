@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd" >
+<configuration>
+	<settings>
+		<setting name="mapUnderscoreToCamelCase" value="true"/>
+		<setting name="jdbcTypeForNull" value="VARCHAR"/>
+	</settings>
+	<typeAliases>
+	<!-- 디렉토리(패키지 안에 있는 거 통째로 별명 지어줄 때 사용) 
+	<package name="com.suin.zzang.vo"/>
+	-->
+		<typeAlias type="com.suin.zzang.vo.Chahyun" alias="Chahyun"/>
+	</typeAliases>
+
+</configuration>

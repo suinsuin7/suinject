@@ -1,0 +1,8 @@
+package com.suin.zzang.mapper;
+
+/*
+ * 테스트는 spring 버전 또는 boot냐 아니냐 여부에 따라 어노테이션이 달라진다
+ */
+public class SusuTest {
+
+}

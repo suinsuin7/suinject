@@ -6,8 +6,9 @@
 		<item key="wholeword" value="false"/>
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
-		<item key="selection" value="&lt;!-- spring-jdbc --&gt;"/>
+		<item key="selection" value="Test"/>
 		<list key="findhistory">
+			<item value="test"/>
 			<item value="&lt;!-- spring-jdbc --&gt;"/>
 			<item value="spring-jdbc"/>
 			<item value="${org"/>

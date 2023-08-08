@@ -1,0 +1,15 @@
+package com.suin.zzang.mapper;
+
+/*
+ * 테스트는 spring 버전 또는 boot냐 아니냐 여부에 따라 어노테이션이 달라진다
+ */
+
+//Junit5 사용
+@ExtendWith(SpringExtension.class)
+
+//Context설정파일 지정 classpath를 사용해도 됨
+@ContextConfiguration("file:src/main/webapp/WEB-INF/spring/appServlet/servlet-context.xml")
+
+public class SusuTest {
+
+}

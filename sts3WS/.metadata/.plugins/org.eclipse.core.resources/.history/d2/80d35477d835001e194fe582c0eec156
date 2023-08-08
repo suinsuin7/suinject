@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.suin.zzang.mapper.Susu">
+
+<select id="listData" resultType="SusuVO">
+	select * from susu	
+</select>
+
+<select id="oneData" parameterType="SusuVO" resultType="SusuVO">
+	select * from susu	
+</select>
+	select * from susu where title = #{title}
+</mapper>
