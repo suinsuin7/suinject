@@ -77,6 +77,23 @@
 			<input type="text" name="addressVO.buildingName" placeholder="상세주소" /><br />
 	</p>
 	<p>
+			카드1-번호 <input type="text" name="cardVOList[0].no" /><br />
+			카드1-유효년월 <input type="text" name="cardVOList[0].validMonth" /><br />
+			카드2-번호 <input type="text" name="cardVOList[1].no" /><br />
+			카드2-유효년월 <input type="text" name="cardVOList[1].validMonth" /><br />
+			카드3-번호 <input type="text" name="cardVOList[2].no" /><br />
+			카드3-유효년월 <input type="text" name="cardVOList[2].validMonth" /><br />
+	</p>
+	<p> <!--
+			VARCHAR2(4000byte) : 1333자
+			CLOB : Character(문자열) Large OBject(4GB)
+				   result property="introduction" column="INTRODUCTION"
+				   		jdbcType="CLOB" javaType="java.lang.String" 
+		-->
+			자기소개 : 
+			<textarea name="introduction" rows="6" cols="50"></textarea>
+	</p>
+	<p>
 		<input type="submit" value="register0401" />
 	</p>
 <script type="text/javascript">

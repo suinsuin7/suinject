@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
+import kr.or.ddit.util.FileUploadUtils;
 import kr.or.ddit.vo.MemberVO;
 import lombok.extern.slf4j.Slf4j;
 
@@ -212,7 +214,7 @@ public class RequestController {
 			, @DateTimeFormat(pattern="yyyy-MM-dd") Date dateOfBirth
 			, String nationality, String[] cars, ArrayList<String> homeList
 			, String[] hobbys, String developer
-			, boolean foreigner
+			, boolean foreigner, String introduction
 			, MemberVO memberVO) {
 		log.info("userId : {}", userId);
 		log.info("coin : {}", coin);
@@ -239,12 +241,162 @@ public class RequestController {
 		log.info("developer : {}", developer);
 		//외국인 여부
 		log.info("foreigner : {}", foreigner);
+
+		log.info("introduction : {}", introduction);
 		
 		log.info("memberVO : {}", memberVO);
 		
 		return "SUCCESS";
 	}
 	
+	//8. 파일업로드 폼 방식 요청 처리
+	// 파일업로드 폼 파일 요소값을 스프링MVC가 지원하는 MultipartFile 매개변수로 처리함
+	@GetMapping("/registerFile01")
+	public String registerFile01() {
+		//forwarding
+		return "req/registerFile01";
+	}
+	
+	/*
+	요청URI: /req/registerFile01Post
+	요청파라미터 : {picture=파일객체}
+	요청방식 : post
+	*/
+	@ResponseBody
+	@PostMapping("/registerFile01Post")
+	public String registerFile01Post(MultipartFile picture) {
+		log.info("원본파일명 : {}", picture.getOriginalFilename());
+		log.info("파일크기 : {}", picture.getSize());
+		log.info("MINE타입 : {}", picture.getContentType());
+		
+		//뷰 경로가 아닌 데이터 ->ResponseBody
+		return "SUCCESS";
+	}
+	
+	@GetMapping("/registerFile02")
+	public String registerFile02() {
+		//forwarding
+		return "req/registerFile02";
+	}
+	
+	/*
+	요청URI: /req/registerFile02Post
+	요청방식 : post
+	*/
+	@ResponseBody
+	@PostMapping("/registerFile02Post")
+	public String registerFile02Post(String userId, String password,
+			MultipartFile picture) {
+		
+		log.info("userId : {}", userId);
+		log.info("password : {}", password);
+		
+		log.info("원본파일명 : {}", picture.getOriginalFilename());
+		log.info("파일크기 : {}", picture.getSize());
+		log.info("MINE타입 : {}", picture.getContentType());
+		
+		return "SUCCESS";
+	}
+	
+	
+	@GetMapping("/registerFile03")
+	public String registerFile03() {
+		//forwarding
+		return "req/registerFile03";
+	}
+	
+	/*
+	요청URI: /req/registerFile03Post
+	요청방식 : post
+	*/
+	//자바빈즈 매개변수를 통해 파일업로드 폼 파일 요소 값과 텍스트필드 요소값을 처리함
+	@ResponseBody
+	@PostMapping("/registerFile03Post")
+	public String registerFile03Post(MemberVO memberVO) {
+		//텍스트필드 요소값
+		log.info("userId : {}", memberVO.getUserId());
+		log.info("password : {}", memberVO.getPassword());
+		//파일업로드 폼 파일 요소값
+		MultipartFile picture = memberVO.getPicture();
+		
+		log.info("원본파일명 : {}", picture.getOriginalFilename());
+		log.info("파일크기 : {}", picture.getSize());
+		log.info("MINE타입 : {}", picture.getContentType());
+		
+		return "SUCCESS";
+	}
+	
+	@GetMapping("/registerFile04")
+	public String registerFile04() {
+		//forwarding
+		return "req/registerFile04";
+	}
+	
+	/*
+	요청URI: /req/registerFile04Post
+	요청방식 : post
+	 */
+	//자바빈즈 매개변수를 통해 파일업로드 폼 파일 요소 값과 텍스트필드 요소값을 처리함
+	@ResponseBody
+	@PostMapping("/registerFile04Post")
+	public String registerFile04Post(MemberVO memberVO) {
+		//텍스트필드 요소값
+		log.info("userId : {}", memberVO.getUserId());
+		log.info("password : {}", memberVO.getPassword());
+		//파일업로드 폼 파일 요소값
+		MultipartFile[] pictures = memberVO.getPictures();
+		
+		//파일업로드 처리
+		String result = FileUploadUtils.multiUpload(pictures);
+		log.info("result : {}", result);
+		
+		
+		return "SUCCESS";
+	}
+	
+	@GetMapping("/registerFile05")
+	public String registerFile05() {
+		//forwarding
+		return "req/registerFile05";
+	}
+	
+	@ResponseBody
+	@PostMapping("/registerFile05Post")
+	public String registerFile05(String userId, String password,
+			MultipartFile file) {
+		log.info("userId : {}", userId);
+		log.info("password : {}", password);
+		log.info("파일명 : {}", file.getOriginalFilename());
+		
+		return "SUCCESS";
+	}
+	
+	
+	@GetMapping("/registerFile06")
+	public String registerFile06() {
+		//forwarding
+		return "req/registerFile06";
+	}
+	
+	
+	// /req/registerFile06Post
+	@ResponseBody
+	@PostMapping("/registerFile06Post")
+	public String registerFile06Post(MemberVO memberVO) {
+		
+		log.info("userId : {}", memberVO.getUserId());
+		log.info("password : {}", memberVO.getPassword());
+		
+		MultipartFile[] pictures = memberVO.getPictures();
+		log.info("pictures.length : " + pictures.length);
+		//파일업로드 수행
+		String result = FileUploadUtils.multiUpload(pictures);
+		if (result.equals("1")) {
+			return "SUCCESS";
+		} else {
+			return "FAIL";
+		}
+	}
 }
 
 
