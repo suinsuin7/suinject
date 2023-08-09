@@ -253,6 +253,17 @@
 		</dependency>
 		
 		<!-- 타일즈 끝 -->
+		<!-- 입력값 검증을 위한 라이브러리 의존 관계 정의 시작
+		스프링 MVC는 Bean Validation 기능을 이용해 요청 파라미터 값이 바인딩된 도메인 클래스
+		또는 커맨드 클래스의 입력값 검증을 함
+		 -->
+		<!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-validator -->
+			<dependency>
+			    <groupId>org.hibernate</groupId>
+			    <artifactId>hibernate-validator</artifactId>
+			    <version>5.4.2.Final</version>
+			</dependency>
+		<!-- 입력값 검증을 위한 라이브러리 의존 관계 정의 끝 -->
 	</dependencies>
 	
 				

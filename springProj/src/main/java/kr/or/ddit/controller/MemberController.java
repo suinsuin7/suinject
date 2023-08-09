@@ -1,10 +1,23 @@
 package kr.or.ddit.controller;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.naming.spi.DirStateFactory.Result;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.validation.ObjectError;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import kr.or.ddit.vo.AddressVO;
 import kr.or.ddit.vo.MemberVO;
 import lombok.extern.slf4j.Slf4j;
 
@@ -44,4 +57,177 @@ public class MemberController {
 		//forwarding
 		return "member/registerForm05";
 	}
+
+	//골뱅이ModelAttribute 애너테이션으로 폼 객체의 속성명을 직접 지정할 수 있음
+	@GetMapping("/registerForm06")
+	public String registerForm06(@ModelAttribute("user") MemberVO memberVO,
+			 Model model) {
+		memberVO.setUserId("babo");
+		memberVO.setUserName("프로젝트클린지겨워");
+		memberVO.setCoin(1000);
+		
+		model.addAttribute("memberVO", memberVO);
+
+		//forwarding
+		return "member/registerForm06";
+	}
+	
+	@GetMapping("/registerForm07")
+	public String registerForm07(@ModelAttribute("addressVO") AddressVO addressVO) {
+		addressVO.setZonecode("34890");
+		addressVO.setAddress("대전 중구");
+		addressVO.setBuildingName("무슨동 123");
+		
+		//forwarding
+		return "member/registerForm07";
+	}
+	
+	@GetMapping("/registerForm08")
+	public String registerForm08(@ModelAttribute("memberVO") MemberVO memberVO,
+			Model model) {
+		memberVO.setUserId("susu");
+		memberVO.setUserName("수인");
+		//값을 setting해서 뷰에 전달해도 패스워드 필드에 반영되지 않음
+		memberVO.setPassword("1234");
+		memberVO.setIntroduction("안녕하세요 \n 반가워용");
+		
+		//취미를 미리 체크
+		String[] hobbys = {"sports","movie"};
+		memberVO.setHobbys(hobbys);
+		
+		Map<String, String> hobbyMap = new HashMap<String, String>();
+		hobbyMap.put("sports", "sports");
+		hobbyMap.put("music", "music");
+		hobbyMap.put("movie", "movie");
+		log.info("hobbyMap : {}", hobbyMap);
+		
+		model.addAttribute("hobbyMap", hobbyMap);
+		
+		//성별 미리 체크
+		memberVO.setGender("Female");
+		
+		//여러 개의 라디오 버튼 요소의 value와 label을 구성
+		Map<String, String> genderMap = new HashMap<String, String>();
+		genderMap.put("Female", "Female");
+		genderMap.put("Male", "Male");
+		genderMap.put("Other", "Other");
+		log.info("genderMap : {}", genderMap);
+		
+		model.addAttribute("genderMap", genderMap);
+		
+		//국적
+		Map<String, String> nationalityMap = new HashMap<String, String>();
+		nationalityMap.put("Korea","한국");
+		nationalityMap.put("Germany","독일");
+		nationalityMap.put("Australia","오스트레일리아");
+		
+		model.addAttribute("nationalityMap", nationalityMap);
+		
+		//자동차 다중 선택
+		Map<String, String> carsMap = new HashMap<String, String>();
+		carsMap.put("sm3","sm3");
+		carsMap.put("sm5","sm5");
+		carsMap.put("sm7","sm7");
+		model.addAttribute("carsMap", carsMap);
+		
+		//forwarding
+		return "member/registerForm08";
+	}
+	
+	//요청파라미터 : {userId=susu, userName=수인, password=1324,introduce=~~}
+	//입력값 검증을 할 도메인 클래스에 골뱅이Validated를 지정함
+	/*
+	 * 입력값 검증 결과
+	 * 입력값 검증 대상의 도메인 클래스 직후에 BindingResult를 정의함
+	 * BindingResult에는 요청 뎅터의 바인딩 에러와 입력값 검증 에러 정보가 저장됨
+	 * - hasErrors() : 오류 발생 시 true
+	 * - hasGlobalErrors() : 객체 레벨의 오류 발생 시 true
+	 * - hasFiledErrors() : 멤버변수 레벨의 오류 발생 시 true
+	 * - hasFieldErrors(String) : 인수에 지정한 멤버변수에 오류발생 시 true
+	 */
+	@PostMapping("/registerForm08Post")
+	public String registerForm08Post(@Validated MemberVO memberVO,
+			BindingResult result, Model model) {
+		log.info("memberVO : {}", memberVO);
+		log.info("result.hasErrors() : {}", result.hasErrors());
+		//유효성 검증 실패
+		if(result.hasErrors()) { //true(오류 발생함)
+			List<ObjectError> allErrors = result.getAllErrors(); //모든
+			List<ObjectError> globalErrors =result.getGlobalErrors(); //객체
+			List<FieldError> fieldErrors = result.getFieldErrors(); //멤버변수
+			
+			log.info("allError.size() : {}", allErrors.size());
+			log.info("globalErrors.size() : {}", globalErrors.size());
+			log.info("fieldErrors.size() : {}", fieldErrors.size());
+			
+			
+			for(int i=0; i<allErrors.size(); i++) {
+				ObjectError objectError = allErrors.get(i);
+				log.info("allError : {}", objectError);
+			}
+			
+			for(int i=0; i<globalErrors.size(); i++) {
+				ObjectError objectError = globalErrors.get(i);
+				log.info("globalErrors : {}", objectError);
+			}
+			
+			for(int i=0; i<fieldErrors.size(); i++) {
+				FieldError fieldError = fieldErrors.get(i);
+				log.info("fieldErrors : {}", fieldError);
+				log.info("fieldError.getDefaultMessage : {}", fieldError.getDefaultMessage());
+			}
+			
+			memberVO.setUserId("susu");
+			memberVO.setUserName("수인");
+			//값을 setting해서 뷰에 전달해도 패스워드 필드에 반영되지 않음
+			memberVO.setPassword("1234");
+			memberVO.setIntroduction("안녕하세요 \n 반가워용");
+			
+			//취미를 미리 체크
+			String[] hobbys = {"sports","movie"};
+			memberVO.setHobbys(hobbys);
+			
+			Map<String, String> hobbyMap = new HashMap<String, String>();
+			hobbyMap.put("sports", "sports");
+			hobbyMap.put("music", "music");
+			hobbyMap.put("movie", "movie");
+			log.info("hobbyMap : {}", hobbyMap);
+			
+			model.addAttribute("hobbyMap", hobbyMap);
+			
+			//성별 미리 체크
+			memberVO.setGender("Female");
+			
+			//여러 개의 라디오 버튼 요소의 value와 label을 구성
+			Map<String, String> genderMap = new HashMap<String, String>();
+			genderMap.put("Female", "Female");
+			genderMap.put("Male", "Male");
+			genderMap.put("Other", "Other");
+			log.info("genderMap : {}", genderMap);
+			
+			model.addAttribute("genderMap", genderMap);
+			
+			//국적
+			Map<String, String> nationalityMap = new HashMap<String, String>();
+			nationalityMap.put("Korea","한국");
+			nationalityMap.put("Germany","독일");
+			nationalityMap.put("Australia","오스트레일리아");
+			
+			model.addAttribute("nationalityMap", nationalityMap);
+			
+			//자동차 다중 선택
+			Map<String, String> carsMap = new HashMap<String, String>();
+			carsMap.put("sm3","sm3");
+			carsMap.put("sm5","sm5");
+			carsMap.put("sm7","sm7");
+			model.addAttribute("carsMap", carsMap);
+			
+			return "member/registerForm08";
+		}
+		//유효성 검증 통과
+		return "member/result";
+	}
+	
 }
+
+
