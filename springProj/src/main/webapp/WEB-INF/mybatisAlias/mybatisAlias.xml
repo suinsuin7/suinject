@@ -16,5 +16,9 @@
 		<typeAlias type="kr.or.ddit.vo.ProductVO" alias="productVO" />
 		<typeAlias type="kr.or.ddit.vo.BookInfoVO" alias="bookInfoVO" />
 		<typeAlias type="kr.or.ddit.vo.AttachVO" alias="attachVO" />
+		<typeAlias type="kr.or.ddit.vo.ItemVO" alias="ItemVO" />
+		<typeAlias type="kr.or.ddit.vo.Item2VO" alias="Item2VO" />
+		<typeAlias type="kr.or.ddit.vo.Item3VO" alias="Item3VO" />
+		<typeAlias type="kr.or.ddit.vo.ItemAttachVO" alias="itemAttachVO" />
 	</typeAliases>
 </configuration>

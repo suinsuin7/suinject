@@ -1,5 +1,7 @@
 package kr.or.ddit.vo;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import lombok.Data;
 
 //자바빈 클래스
@@ -10,4 +12,5 @@ public class ItemVO {
 	private int price;
 	private String description;//자료형(데이터타입)이 CLOB
 	private String pictureUrl;
+	private MultipartFile pictures;
 }
