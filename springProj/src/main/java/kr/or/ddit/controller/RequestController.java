@@ -347,9 +347,7 @@ public class RequestController {
 		MultipartFile[] pictures = memberVO.getPictures();
 		
 		//파일업로드 처리
-		String result = FileUploadUtils.multiUpload(pictures);
-		log.info("result : {}", result);
-		
+		FileUploadUtils.multiUpload(pictures);
 		
 		return "SUCCESS";
 	}
@@ -390,12 +388,9 @@ public class RequestController {
 		MultipartFile[] pictures = memberVO.getPictures();
 		log.info("pictures.length : " + pictures.length);
 		//파일업로드 수행
-		String result = FileUploadUtils.multiUpload(pictures);
-		if (result.equals("1")) {
-			return "SUCCESS";
-		} else {
-			return "FAIL";
-		}
+		FileUploadUtils.multiUpload(pictures);
+		
+		return "SUCCESS";
 	}
 }
 

@@ -2,8 +2,10 @@ package kr.or.ddit.service.impl;
 
 import java.util.List;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import kr.or.ddit.mapper.ItemMapper;
@@ -12,7 +14,6 @@ import kr.or.ddit.util.FileUploadUtils;
 import kr.or.ddit.vo.Item3VO;
 import kr.or.ddit.vo.ItemAttachVO;
 import kr.or.ddit.vo.ItemVO;
-import lombok.extern.java.Log;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -38,6 +39,8 @@ public class ItemServiceImpl implements ItemService {
 	}
 	
 	//아이템 등록 + 다중파일 등록
+	//Transactional : 클래스나 메서드의 트랜잭션 처리를 적용
+	@Transactional
 	@Override
 	public int registMultiPost(Item3VO item3VO) {
 		//1) item3VO ITEM3 테이블에 인서트
