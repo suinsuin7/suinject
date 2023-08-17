@@ -20,5 +20,7 @@
 		<typeAlias type="kr.or.ddit.vo.Item2VO" alias="Item2VO" />
 		<typeAlias type="kr.or.ddit.vo.Item3VO" alias="Item3VO" />
 		<typeAlias type="kr.or.ddit.vo.ItemAttachVO" alias="itemAttachVO" />
+		<typeAlias type="kr.or.ddit.vo.MemberVO" alias="memberVO" />
+		<typeAlias type="kr.or.ddit.vo.MemberAuthVO" alias="memberAuthVO" />
 	</typeAliases>
 </configuration>

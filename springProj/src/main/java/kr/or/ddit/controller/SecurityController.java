@@ -1,6 +1,9 @@
 package kr.or.ddit.controller;
 
+import org.springframework.security.core.Authentication;
+
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import lombok.extern.slf4j.Slf4j;
@@ -44,6 +47,17 @@ public class SecurityController {
 	public String noticeregister() {
 		
 		return "notice/register";
+	}
+	
+	//접근 거부 처리자의 URI를 지정
+	@GetMapping("/security/accessError")
+	public String accessError(Authentication auth, Model model) {
+		//auth : 로그인이 시도된 정보를 담고 있음 auth.getName() : 계정 아이디
+		log.info("access Denied : {}", auth.getName());
+		
+		model.addAttribute("msg", "Access Denied");
+		
+		return "security/accessError";
 	}
 
 }

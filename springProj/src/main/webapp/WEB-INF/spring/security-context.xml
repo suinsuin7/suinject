@@ -5,6 +5,24 @@
    xsi:schemaLocation="http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd
       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 <!-- xmlns:security : 스프링 시큐리티가 제공하는 XML 네임스페이스를 활성화 --> 
+   <!-- 인가(authorization) 불허
+   	  bean : 객체 / class="우리가 만든 클래스" / id : 우리가 만든 클래스를 인스턴스화 하여 만든 객체명
+    -->
+   <bean id="customAccessDenied"
+   	class="kr.or.ddit.security.CustomAccessDeniedHandler" ></bean>
+   
+   <!-- 로그인 성공 처리
+   	로그인 성공 후 이력 로그를 기록(DB, 파일)과 같은 작업을 하고자 할 때 사용
+   -->
+   <bean id="customLoginSuccess" class="kr.or.ddit.security.CustomLoginSuccessHandler"></bean>
+   
+   <!-- 사용자가 정의한 비밀번호 암호화 처리기를 빈(객체)으로 등록 -->
+   <bean id="customPasswordEncoder" class="kr.or.ddit.security.CustomNoOpPasswordEncoder"></bean>
+   
+   <!-- 스프링 시큐리티의 UserDetailsService를 구현한 클래스를 빈(객채)으로 등록 -->
+   <bean id="customUserDetailsService"
+   		class="kr.or.ddit.security.CustomUserDetailsService">
+   	</bean>
    
    <security:http>
    		<!-- 접근 제한 설정 : 시큐리티 설정을 통해서 특정 URI에 대한 접근을 제한할 수 있음 
@@ -17,7 +35,34 @@
    		<security:intercept-url pattern="/notice/register" access="hasRole('ROLE_ADMIN')" />
    		
    		<!-- 폼 기반 인증 기능 사용 -->
-		<security:form-login/>
+		<!-- <security:form-login/> -->
+		<!-- 사용자가 정의한 로그인(인증 : authentication) 페이지 URI를 지정 -->
+		<!-- <security:form-login login-page="/member/loginMember" /> -->
+		
+		<!-- 인증 성공 시 처리해줄 클래스의 인스턴스 명 작성 -->
+		<security:form-login login-page="/member/loginMember"
+			authentication-success-handler-ref="customLoginSuccess" />
+		
+		<!-- <sec:crfgInput/> 생략 가능 -->
+		<!-- <security -->
+		
+		<!-- 1. 접근 거부 처리(사용자 정의)
+		접근 거부가 발생한 상황에 단순 메시지 처리 이상의 다양한 처리를 하고 싶다면
+		AccessDeniedHandler를 직접 구현해야 함
+		-->
+		
+		<security:access-denied-handler ref="customAccessDenied" />
+		
+		<!-- 
+		1. 접근 거부 처리(시큐리티 제공)
+		1) 선제조건 : 계정 / 비밀번호가 맞아야 함 => 로그인 가능
+		2) 들어가려는 URL에 대한 권한이 없어야 함
+			/notice/register 요청에 member / java로 로그인한 경우[ROLE_MEMBER]
+		-->
+<!-- 		<security:access-denied-handler error-page="/security/accessError" /> -->
+		
+		<!-- 로그아웃 처리 -->
+		<security:logout logout-url="/logout" invalidate-session="true" />
    </security:http>
    
    <!-- 
@@ -30,13 +75,30 @@
  	암호화 처리기를 사용하지 않으면 noop 문자열을 비밀번호 앞에 사용함
    -->
    <security:authentication-manager>
-   		<security:authentication-provider>
-   			<security:user-service>
+   		<security:authentication-provider user-service-ref="customUserDetailsService">
+   			<!-- DB 사용을 위해 dataSource(root-context.xml)를 지정함 -->
+   			<!-- <security:jdbc-user-service data-source-ref="dataSource"/>  -->
+   			<!-- 
+   			users-by-username-query : 인증할 때 사용될 쿼리
+   			authorities-by-username-query : 권한을 확인할 때 사용될 쿼리
+   			 -->
+<!--    			<security:jdbc-user-service data-source-ref="dataSource"
+   			users-by-username-query="SELECT USER_NO, USER_PW, ENABLED FROM MEMBER
+									WHERE USER_NO = ?"
+			authorities-by-username-query="SELECT A.USER_NO, B.AUTH
+											FROM MEMBER A, MEMBER_AUTH B
+											WHERE A.USER_NO = B.USER_NO
+											AND A.USER_NO = ?"
+   			/> -->
+   			
+   			<!-- 사용자가 정의한 비밀번호 암호화 처리기를 자정함 -->
+   			<security:password-encoder ref="customPasswordEncoder" />
+   		<!-- 	<security:user-service>
    				<security:user name="member" password="{noop}java"
    						 authorities="ROLE_MEMBER"/>
    				<security:user name="admin" password="{noop}java"
    						 authorities="ROLE_ADMIN"/>
-   			</security:user-service>
+   			</security:user-service> -->
    		</security:authentication-provider>
    </security:authentication-manager>
    

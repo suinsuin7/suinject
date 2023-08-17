@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import kr.or.ddit.vo.AddressVO;
-import kr.or.ddit.vo.MemberVO;
+import kr.or.ddit.vo.MemberVO_backup;
 import lombok.extern.slf4j.Slf4j;
 
 //스프링이 자바빈으로 등록
@@ -26,12 +26,21 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/member")
 @Controller
 public class MemberController {
+	//로그인 페이지로 포워딩
+	//URI : /member/loginMember
+	//요청방식 : get
+	@GetMapping("/loginMember")
+	public String loginMember() {
+		return "member/loginMember";
+	}
+	
+	
 	//모델에 폼 객체를 추가하지 않으면 오류 발생
 	//뷰에 전달할 데이터를 위해 모델을 매개변수로 지정
 	@GetMapping("/registerForm01")
 	public String registerForm01(Model model) {
 		//모델의 속성명에 memberVO를 지정하고 폼 객체를 모델에 추가함
-		model.addAttribute("memberVO", new MemberVO());
+		model.addAttribute("memberVO", new MemberVO_backup());
 		//forwarding
 		return "member/registerForm01";
 	}
@@ -41,7 +50,7 @@ public class MemberController {
 	public String registerForm02(Model model) {
 		//모델의 속성명에 memberVO를 지정하고 폼 객체를 모델에 추가함
 		//model.addAttribute("suin", new MemberVO()); 이건 오류!
-		model.addAttribute("memberVO", new MemberVO());
+		model.addAttribute("memberVO", new MemberVO_backup());
 		//forwarding
 		return "member/registerForm02";
 	}
@@ -50,7 +59,7 @@ public class MemberController {
 	//forwarding 시 뷰(registerForm.jsp)로 memberVO를 전달함
 	//컨트롤러는 자바빈즈 규칙에 맞는 객체를 뷰로 전달함
 	@GetMapping("/registerForm05")
-	public String registerForm05(MemberVO memberVO) {
+	public String registerForm05(MemberVO_backup memberVO) {
 		//폼 객체의 속성명은 직접 지정하지 않으면 : 골뱅이ModelAttribute("속성명")를 생략
 		//폼 객체의 클래스명의 맨 처음 문자를
 		//소문자로 변환하여 처리함
@@ -60,7 +69,7 @@ public class MemberController {
 
 	//골뱅이ModelAttribute 애너테이션으로 폼 객체의 속성명을 직접 지정할 수 있음
 	@GetMapping("/registerForm06")
-	public String registerForm06(@ModelAttribute("user") MemberVO memberVO,
+	public String registerForm06(@ModelAttribute("user") MemberVO_backup memberVO,
 			 Model model) {
 		memberVO.setUserId("babo");
 		memberVO.setUserName("프로젝트클린지겨워");
@@ -83,7 +92,7 @@ public class MemberController {
 	}
 	
 	@GetMapping("/registerForm08")
-	public String registerForm08(@ModelAttribute("memberVO") MemberVO memberVO,
+	public String registerForm08(@ModelAttribute("memberVO") MemberVO_backup memberVO,
 			Model model) {
 		memberVO.setUserId("susu");
 		memberVO.setUserName("수인");
@@ -146,7 +155,7 @@ public class MemberController {
 	 * - hasFieldErrors(String) : 인수에 지정한 멤버변수에 오류발생 시 true
 	 */
 	@PostMapping("/registerForm08Post")
-	public String registerForm08Post(@Validated MemberVO memberVO,
+	public String registerForm08Post(@Validated MemberVO_backup memberVO,
 			BindingResult result, Model model) {
 		log.info("memberVO : {}", memberVO);
 		log.info("result.hasErrors() : {}", result.hasErrors());
