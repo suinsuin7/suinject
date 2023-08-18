@@ -1,6 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
+<!-- 로그인 되었다면 로그인 페이지로 접근 못하도록 처리 -->
+<sec:authorize access="isAuthenticated()">
+<script>location.href="/";</script>
+</sec:authorize>
 <div style="display: flex; justify-content: center; align-items: center;">
 <div class="login-box">
 	<div class="login-logo">
@@ -37,7 +41,7 @@
 				<div class="row">
 					<div class="col-8">
 						<div class="icheck-primary">
-							<input type="checkbox" id="remember"> <label
+							<input type="checkbox" id="remember" name="remember-me"> <label
 								for="remember"> Remember Me </label>
 						</div>
 					</div>

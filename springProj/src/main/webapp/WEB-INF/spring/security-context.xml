@@ -28,11 +28,15 @@
    		<!-- 접근 제한 설정 : 시큐리티 설정을 통해서 특정 URI에 대한 접근을 제한할 수 있음 
    		Role : 권한 / hasRole : 권한을 갖고 있니?
    		permitAll : 누구나 접근 가능
+   		
+   		스프링 시큐리티 애너테이션
+   		 - 스프링 시큐리티는 애너테이션을 사용하여 필요한 설정을 추가할 수 있음.
+   		 - 
    		-->
-   		<security:intercept-url pattern="/freeboard/list" access="permitAll" />
-   		<security:intercept-url pattern="/freeboard/register" access="hasRole('ROLE_MEMBER')" />
-   		<security:intercept-url pattern="/notice/list" access="permitAll" />
-   		<security:intercept-url pattern="/notice/register" access="hasRole('ROLE_ADMIN')" />
+<!--    		<security:intercept-url pattern="/freeboard/list" access="permitAll" /> -->
+<!--    		<security:intercept-url pattern="/freeboard/register" access="hasRole('ROLE_MEMBER')" /> -->
+<!--    		<security:intercept-url pattern="/notice/list" access="permitAll" /> -->
+<!--    		<security:intercept-url pattern="/notice/register" access="hasRole('ROLE_ADMIN')" /> -->
    		
    		<!-- 폼 기반 인증 기능 사용 -->
 		<!-- <security:form-login/> -->
@@ -44,7 +48,7 @@
 			authentication-success-handler-ref="customLoginSuccess" />
 		
 		<!-- <sec:crfgInput/> 생략 가능 -->
-		<!-- <security -->
+		<!-- <security:csrf disabled="true" /> -->
 		
 		<!-- 1. 접근 거부 처리(사용자 정의)
 		접근 거부가 발생한 상황에 단순 메시지 처리 이상의 다양한 처리를 하고 싶다면
@@ -52,6 +56,16 @@
 		-->
 		
 		<security:access-denied-handler ref="customAccessDenied" />
+		
+		<!-- 자동로그인
+		로그인하면 특정 시간 동안 다시 로그인할 필요가 없는 기능.
+		dataSource(root-context.xml)을 통해 지정한 데이터베이스의 약속된 테이블(PERSISTENT_LOGINS)
+		이용하여 기존 로그인 정보를 기록함
+		
+		token-validity-seconds : 쿠키의 유효시간(초). 604800초는 7일
+		 -->
+		<security:remember-me data-source-ref="dataSource"
+		 token-validity-seconds="604800" />
 		
 		<!-- 
 		1. 접근 거부 처리(시큐리티 제공)
@@ -62,7 +76,8 @@
 <!-- 		<security:access-denied-handler error-page="/security/accessError" /> -->
 		
 		<!-- 로그아웃 처리 -->
-		<security:logout logout-url="/logout" invalidate-session="true" />
+		<security:logout logout-url="/logout" invalidate-session="true" 
+		delete-cookies="remember-me, JSESSION_ID" />
    </security:http>
    
    <!-- 
