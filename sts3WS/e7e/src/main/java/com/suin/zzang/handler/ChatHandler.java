@@ -11,6 +11,11 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 import lombok.extern.slf4j.Slf4j;
 
 //중계소 (엔드포인트 / ws-chat)로 오는 메시지를 처리해 주는 사람
+
+// Jackson 라이브러리의 ObjectMapper를 이용
+// Json <-> JAVA 변환을 편하게 사용하여 전송 데이터 구조를 잘 만들면
+// 웬만한 필요한 건 다 할 수 있다!
+
 @Slf4j
 public class ChatHandler extends TextWebSocketHandler {
 	private static List<WebSocketSession> list = new ArrayList<WebSocketSession>();
@@ -23,19 +28,10 @@ public class ChatHandler extends TextWebSocketHandler {
 
 	@Override
 	protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
-		
-		log.debug("세션정보확인 : {}", session.getAttributes());
-		
-		String uMsg = message.getPayload();
-		log.debug("받은 메세지 : {}", uMsg);
-		
-		session.sendMessage(new TextMessage("나는 서버얌 너는 클라이언트세요?"));
-
-		/*
+		//String uMsg = message.getPayload();
 		for (WebSocketSession webSocketSession : list) {
 			webSocketSession.sendMessage(message);
 		}
-		*/
 	}
 	
 	@Override

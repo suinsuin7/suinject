@@ -1,0 +1,70 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>수인 restful 클라이언트</title>
+</head>
+<body>
+<div id="disp"></div>
+<hr>
+<form>
+    타이틀 <input type="text" name="title" id=""><br>
+    이름 <input type="text" name="sname" id=""><br>
+    내용 <textarea name="scont"></textarea>
+  <button onclick="fModaify()">수정</button>
+</form>
+<script>
+const myList = document.querySelector("#disp");
+const myTitle = document.querySelector("input[name=title]");
+const myName = document.querySelector("input[name=title]");
+const myCont = document.querySelector("textarea[name=scont]");
+//TR 마우스 오버
+function fmover(pthis){
+    pthis.style.backgroundColor = "black";
+    pthis.style.color="yellow";
+}
+
+//TR 마우스 아웃
+function fmout(pthis){
+    pthis.style.backgroundColor = "white";
+    pthis.style.color="black";
+}
+
+//Tr 클릭시
+function fmclick(pthis){
+    myTitle.value = pthis.children[0].innerHTML;
+    myName.value = pthis.children[1].innerHTML;
+    myCont.value = pthis.children[2].innerHTML;
+}
+
+// 리스트 가져다 뿌리기
+const getList = () => {
+    let xhr = new XMLHttpRequest();
+    xhr.open("get","/zzang/rest/suins",true);
+    xhr.onreadystatechange = () => {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+            //json 문자열을 json객체로 바꿔야 편하게 쓸 수 있음
+            let rslt = JSON.parse(xhr.responseText);
+
+            let tblStr = "<table border=1>";
+                tblStr += "<tr><th>타이틀</th><th>이름</th><th>내용</th></tr>";
+            for(let i=0; i<rslt.length; i++) {
+                tblStr += `<tr onmouseover=fmover(this) onmouseout=fmout(this)>`;
+                tblStr += `<td>\${rslt[i].title}</td>`;
+                tblStr += `<td>\${rslt[i].scont}</td>`;
+                tblStr += `<td>\${rslt[i].sname}</td>`;
+                tblStr += `</tr>`;
+            }
+            tblStr += "</table>";
+            myList.innerHTML = tblStr;
+        }
+    }
+    xhr.send();
+}
+getList();
+
+</script>
+</body>
+</html>

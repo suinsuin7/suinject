@@ -1,0 +1,5 @@
+package com.suin.zzang.service;
+
+public class SusuImpl implements Susu {
+
+}

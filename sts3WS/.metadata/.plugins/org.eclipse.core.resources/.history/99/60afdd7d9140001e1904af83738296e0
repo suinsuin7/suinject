@@ -1,0 +1,21 @@
+package com.suin.zzang.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.suin.zzang.service.Susu;
+
+@Controller
+@RequestMapping("/susu")
+public class SusuController {
+
+	@Autowired
+	private Susu susuSVC;
+	
+	public String getYerins() {
+		
+	}
+	
+	
+}

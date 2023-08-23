@@ -1,0 +1,25 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<input type="button" value="크로스오리진우회" onclick="fAround()" >
+<script>
+    function fAround(){
+        let xhr = new XMLHttpRequest();
+        xhr.open("GET", "/zzang/csi/test", true);
+        xhr.onreadystatechange = function(){
+            if (xhr.readyState == 4 && xhr.status == 200){
+                console.log(xhr.responseText);
+                document.body.innerHTML = xhr.responseText;
+            }
+        }
+        xhr.send();
+    }
+</script>
+</body>
+</html>
