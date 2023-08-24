@@ -1,0 +1,52 @@
+package com.suin.merong.controller;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.suin.merong.service.SuinService;
+import com.suin.merong.service.SuinServiceImpl;
+import com.suin.merong.vo.SuinVO;
+
+@RestController
+public class SuinController {
+
+	@Autowired
+	private SuinService suinService;
+	
+	@GetMapping("/rest/suin")
+	public List<SuinVO> getList() {
+		return suinService.listSuin();
+	}
+	
+	@GetMapping("/rest/suin/{num}")
+	public SuinVO getSuin(@PathVariable int num) {
+		return suinService.getSuin(suinVO);
+	}
+	
+	/*
+	@GetMapping("/rest/suin")
+	public List<SuinVO> getSuin() {
+		return suinService.listSuin();
+	}
+	
+	@GetMapping("/rest/suin")
+	public List<SuinVO> getList() {
+		return suinService.listSuin();
+	}
+	
+	@GetMapping("/rest/suin")
+	public List<SuinVO> getList() {
+		return suinService.listSuin();
+	}
+	
+	*/
+	
+	
+	
+	
+}

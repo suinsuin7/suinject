@@ -1,0 +1,22 @@
+# 아래 2개는 참공
+
+logging.level.com.suin.merong=debug
+server.port=2727
+
+
+# database 연결설정
+spring.datasource.url=jdbc:oracle:thin:@localhost:1521/xe
+spring.datasource.username=pc22
+spring.datasource.password=java
+
+
+mybatis.configuration.map-underscore-to-camel-case=true
+mybatis.configuration.jdbc-type-for-null=varchar
+mybatis.type-aliases-package=com.suin.merong.vo
+mybatis.mapper-locations=classpath:mybatis/mapper/*-Mapper.xml
+
+# 아래도 파일업로드 용량설정이당 그냥 참고하장
+# default 128K
+#spring.servlet.multipart.max-file-size=10MB
+#spring.servlet.multipart.max-request-size=12MB
+#spring.servlet.multipart.file-size-threshold=12MB

@@ -1,0 +1,20 @@
+package com.suin.merong.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.suin.merong.service.SuinServiceImpl;
+
+@RestController
+public class SuinController {
+
+	@Autowired
+	SuinServiceImpl suinServiceImpl;
+	
+	@GetMapping("/rest/suin")
+	public String getList() {
+		return "OK";
+	}
+}

@@ -1,0 +1,45 @@
+package com.suin.merong.mapper;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+
+import com.suin.merong.vo.SuinVO;
+
+@SpringBootTest
+public class SuinMapperTest {
+	
+	@Autowired
+	private SuinMapper suinMapper;
+	
+	@Test
+	@DisplayName("수인Insert테스트!")
+	@Disabled
+	public void insertTest() {
+		
+		SuinVO suinVO = new SuinVO(); // 현재는 이렇게 하는 게 좋은데
+		// 항상 좋은 것은 아님, 고객이 성능을 원하느냐 가독성(유지보수)을 원하느냐?
+		
+		for (int i=1; i <=10; i++) {
+			suinVO.setSuinContent("내용!"+i);
+			suinVO.setSuinFile("/merong/djWjrn/jpg");
+			suinVO.setSuinName("소연이 등장!"+i);			
+			assertEquals(1, suinMapper.insertSuin(suinVO));
+		}
+	}
+	
+	@Test
+	@DisplayName("수인Delete테스트")
+	public void deleteTest() {
+		
+		SuinVO suinVO = new SuinVO();
+		suinVO.setSuinNum(6);
+		assertEquals(1, suinMapper.deleteSuin(suinVO));
+	}
+	
+	
+}

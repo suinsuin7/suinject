@@ -1,0 +1,5 @@
+package com.suin.merong.service;
+
+public interface SuinService {
+
+}

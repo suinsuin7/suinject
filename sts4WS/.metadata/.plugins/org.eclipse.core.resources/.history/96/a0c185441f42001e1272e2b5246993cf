@@ -1,0 +1,5 @@
+package com.suin.merong.mapper;
+
+public interface SuinMapper {
+
+}

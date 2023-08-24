@@ -1,0 +1,13 @@
+package com.oho.aumu.controller;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+@Controller
+@RequestMapping("/suin")
+public class TestController {
+
+	public String getSuin() {
+		return "zzang";
+	}
+}

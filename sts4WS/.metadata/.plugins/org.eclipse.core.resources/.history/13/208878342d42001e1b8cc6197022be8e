@@ -1,0 +1,14 @@
+package com.suin.merong.service;
+
+import java.util.List;
+
+import com.suin.merong.vo.SuinVO;
+
+public interface SuinService {
+	
+	List<SuinVO> listSuin();
+	SuinVO getSuin(SuinVO suinVO);
+	int insertSuin(SuinVO suinVO);
+	int updateSuin(SuinVO suinVO);
+	int deleteSuin(SuinVO suinVO);
+}
