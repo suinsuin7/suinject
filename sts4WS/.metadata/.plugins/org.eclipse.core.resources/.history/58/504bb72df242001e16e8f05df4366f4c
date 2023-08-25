@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+</head>
+<body>
+    <form action="" enctype=""></form>
+<div id="list"></div>
+<form>
+    넘버: <input type="text" name="suinNum" value=""><br>
+    이름: <input type="text" name="suinName" value=""><br>
+    내용: <textarea name="suinContent" ></textarea><br>
+    파일: <input type="text" name="suinFile" value=""><br>
+    <button type="button" id="create">생성</button>
+    <button type="button" id="search">조회</button>
+</form>
+
+<script>
+    const $creBtn = $("#create");
+    const $schBtn = $("#search");
+
+    const $suinNum = $("input[name=suinNum]");
+    const $suinName = $("input[name=suinName]");
+    const $suinContent = $("textarea[name=suinContent]");
+    const $suinFile = $("input[name=suinFile]");
+
+    $schBtn.on("click",()=>{
+        $.ajax({
+            type: "get",
+            url: `/rest/suin/${$suinNum.val()}`,
+            dataType:"json",
+            success:function(rslt){
+                console.log("체크: " + rslt);
+            },
+            error: function(){
+                console.log("code: " + xhr.status);
+                console.log("message: " + xhr.responseText);
+                console.log("error: " + error);
+            }
+        });
+    });
+
+
+    $creBtn.on("click",()=>{
+            let suinVO = {
+                suinName: $suinName.val(),
+                suinContent:$suinContent.val(),
+                suinFile: $suinFile.val()
+            }
+            console.log("suinVO: " + suinVO); // 잊지 말고 꼭 눈으로 확인
+
+        $.ajax({
+            type: "post",
+            url: "/rest/suin",
+            data: JSON.stringify(suinVO),
+            contentType:"application/json;charset=utf-8",
+            dataType:"json",
+            success:function(rslt){
+
+                console.log("체크: " + rslt);
+
+                if (rslt) {
+                    alert("완료되었습니다");
+                    getList();
+                } else {
+                    alert("입력에 실패했습니다");
+                }
+            },
+            error: function(){
+                console.log("code: " + xhr.status);
+                console.log("message: " + xhr.responseText);
+                console.log("error: " + error);
+            }
+        });
+    });
+
+    // jQuery 생성자는 낭비되지 않도록 잘 사용해야 함
+    // 여러 번 사용될 거로 예상될 때는 꼭 변수로 받아서 사용!
+    const $list = $("#list");
+
+    //DOMContentLoaded 이벤트
+    $(()=> {
+        getList();
+    });
+
+
+    //페이지 시작하자마자 리스트 뿌리기
+    function getList() {
+        $.ajax({
+            type: "get",
+            url: "/rest/suin",
+            dataType: "text", // 요걸 알아서 해줌
+            success: function(rslt){
+                console.log("체크: " + rslt);
+                //rslt = JSON.parse(rslt);
+                rslt.sort((a,b)=>{
+                    return a.suinNum - b.suinNum;
+                });
+
+                let tblStr = "<table border=1>";
+                    tblStr += "<tr><th>넘버</th><th>이름</th><th>내용</th><th>파일</th></tr>";
+
+                    for(let i=0; i<rslt.length; i++) {
+                        tblStr += `<tr>`;
+                        tblStr += `<td>${rslt[i].suinNum}</td>`; 
+                        tblStr += `<td>${rslt[i].suinName}</td>`;
+                        tblStr += `<td>${rslt[i].suinContent}</td>`;
+                        tblStr += `<td>${rslt[i].suinFile}</td>`;
+                        tblStr += `</tr>`;
+                    }
+                    tblStr += "</table>";
+
+                    $list.html(tblStr);
+
+                //빨랑 테이블로 출력해 보삼!~ 하기 실헝~ ㅠㅠ 
+
+            },
+            error: function(){
+                console.log("code: " + xhr.status);
+                console.log("message: " + xhr.responseText);
+                console.log("error: " + error);
+            }
+        });
+    }
+    getList();
+
+</script>
+
+</body>
+</html>
