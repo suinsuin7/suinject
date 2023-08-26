@@ -1,0 +1,5 @@
+package com.suin.zzang.controller;
+
+public class ExternalRequest {
+
+}

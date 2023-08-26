@@ -1,0 +1,8 @@
+package com.suin.merong.vo;
+
+public class SuinVO {
+	private int suinNum;
+	private String suinName;
+	private String suinContent;
+	private String suinFile;
+}

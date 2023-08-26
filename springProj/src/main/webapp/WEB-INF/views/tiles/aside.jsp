@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>  
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
 	<!-- Brand Logo -->
 	<a href="index3.html" class="brand-link"> <img
@@ -12,6 +13,8 @@
 	<!-- Sidebar -->
 	<div class="sidebar">
 		<!-- Sidebar user panel (optional) -->
+		<!-- /////////// 로그인 안 한 경우 시작 /////////// -->
+		<sec:authorize access="isAnonymous()">
 		<div class="user-panel mt-3 pb-3 mb-3 d-flex">
 			<div class="image">
 				<img src="/resources/adminlte/dist/img/user2-160x160.jpg"
@@ -21,7 +24,39 @@
 				<a href="#" class="d-block">Alexander Pierce</a>
 			</div>
 		</div>
-
+		</sec:authorize>
+		<!-- /////////// 로그인 안 한 경우 끝 /////////// -->
+		<!-- Sidebar user panel (optional) -->
+		<!-- /////////// 로그인 한 경우 시작 /////////// -->
+		<sec:authorize access="isAuthenticated()">
+			<!-- principal는 CustomUser를 말하고
+				principal.memberVO는 CustomUser의 멤버변수 
+			 -->
+			 <!-- 회원정보를 변수에 담음 -->
+			<sec:authentication property="principal.memberVO" var="memberVO" />
+			<!-- 권한 정보 -->
+			<sec:authentication property="principal.memberVO.memberAuthVOList" var="memberAuthVOList"/>
+		<div class="user-panel mt-3 pb-3 mb-3 d-flex">
+			<div class="image">
+				<img src="/resources/adminlte/dist/img/강아지2.jpg"
+					class="img-circle elevation-2" alt="User Image">
+			</div>
+			<div class="info">
+				<a href="#" class="d-block">${memberVO.userName}</a>
+				<!-- List<MemberAuthVO> memberAuthVOList -->
+				<p style="color: white;">
+				<c:forEach var="memberAuthVO" items="${memberAuthVOList}">
+					${memberAuthVO.auth}&nbsp;
+				</c:forEach>
+				</p>
+				<form action="/logout" method="post">
+					<button type="submit" class="btn btn-block btn-warning btn-sm">로그아웃</button>
+					<sec:csrfInput />
+				</form>
+			</div>
+		</div>
+		</sec:authorize>
+		<!-- /////////// 로그인 한 경우 끝 /////////// -->
 		<!-- SidebarSearch Form -->
 		<div class="form-inline">
 			<div class="input-group" data-widget="sidebar-search">

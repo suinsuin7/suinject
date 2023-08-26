@@ -1,0 +1,26 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>수인 restful 클라이언트</title>
+</head>
+<body>
+<div id="disp"></div>
+<script>
+const myList = document.querySelector("#disp");
+// 리스트 가져다 뿌리기
+const getList = () => {
+    let xht = new XMLHttpRequest();
+    xhr.open("GET","/zzang/rest/suins",true);
+    xhr.onreadystatechange = () => {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+            console.log("항상체크:",xhr.responseText);
+        }
+    }
+}
+
+</script>
+</body>
+</html>

@@ -1,0 +1,11 @@
+package com.suin.merong.vo;
+
+import lombok.Getter;
+
+@Getter
+public class SuinVO {
+	private int suinNum;
+	private String suinName;
+	private String suinContent;
+	private String suinFile;
+}

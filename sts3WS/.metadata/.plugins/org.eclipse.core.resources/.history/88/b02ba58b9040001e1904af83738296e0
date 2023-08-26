@@ -1,0 +1,44 @@
+package com.suin.zzang.service;
+
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+
+import com.suin.zzang.vo.SusuVO;
+
+@Service
+public class SusuImpl implements Susu {
+	
+	private 
+	
+	@Override
+	public List<SusuVO> listData() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public SusuVO oneData(SusuVO susuVO) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public int insertData(SusuVO susuVO) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int updateData(SusuVO susuVO) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int deleteData(SusuVO susuVO) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+}

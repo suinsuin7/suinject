@@ -1,0 +1,22 @@
+package com.oho.aumu.controller;
+
+import java.awt.List;
+import java.util.ArrayList;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+@Controller
+@RequestMapping("/suin")
+public class TestController {
+
+	@GetMapping("/merong")
+	public String getSuin(Model model) {
+		
+		List<String> myList = new ArrayList<>();
+		
+		return "zzang";
+	}
+}

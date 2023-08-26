@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.suin.merong.mapper.SuinMapper">
+
+	<select id="listSuin" resultType="SuinVO">
+		select * from suin
+	</select>
+	
+	<select id="getsuin" parameterType="SuinVO" resultSets="SuinVO">
+		select * from suin where suin_num=#{suinNum}
+	</select>
+	
+	<insert id="insertsuin" parameterType="SuinVO">
+		insert into suin(suin_num,suin_name,suin_content,suin_file)
+		values(seq_suin.nextval,#{suinName},#{suinContent},#{suinFile})
+	</insert>
+
+	<update id="updatesuin" parameterType="SuinVO">
+		UPDATE suin
+	 	SET 
+	 	suinName=#{suinName},
+	 	suinContent=#{suinContent}
+	 	suinFile=#{suinfile}
+		WHERE
+		suin_num=#{suinNum}
+	</update>
+	
+	<delete id="deletesuin" parameterType="suinVO">
+		delete from suin where suin_num=#{suinNum}
+	</delete>
+	
+	
+
+
+</mapper>

@@ -1,0 +1,42 @@
+package com.suin.merong.service;
+
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+
+import com.suin.merong.vo.SuinVO;
+
+@Service
+public class SuinServiceImpl implements SuinService {
+
+	@Override
+	public List<SuinVO> listSuin() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public SuinVO getSuin(SuinVO suinVO) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public int insertSuin(SuinVO suinVO) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int updateSuin(SuinVO suinVO) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int deleteSuin(SuinVO suinVO) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+}

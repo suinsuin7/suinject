@@ -1,60 +1,66 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <!DOCTYPE html>
 <html>
 <head>
+
+<!-- jQuery -->
+<script type="text/javascript" src="/resources/js/jquery-3.6.0.js"></script>
+
 <title>도서 목록</title>
 </head>
 <body>
-<!-- p.98 -->
-<h1>책 목록</h1>
-	<p>
-		<!-- action 속성 및 값이 생략 시, 현재 URI(/list)를 재요청
-			method는 GET(form 태그의 기본 HTTP 메소드는 GET임)
-		 -->
-		<form>
-			<input type="text" placeholder="검색어를 입력해주세요!" name="keyword"
-				value="${param.keyword}" />
-			<input type="submit" value="검색" />
-		</form>
-	</p>
 
+	<div class="card">
+		<div class="card-header">
+			<h3 class="card-title">목록</h3>
+		</div>
+		<div class="card-body">
+			<div id="example1_wrapper" class="dataTables_wrapper dt-bootstrap4">
+				<div class="row">
+					<div class="col-sm-12">
+						<table id="example1"
+							class="table table-bordered table-striped dataTable dtr-inline"
+							aria-describedby="example1_info">
+							<thead>
+								<tr>
+									<th onclick="event.cancelBubble=true">번호</th>
+									<th onclick="event.cancelBubble=true">제목</th>
+									<th onclick="event.cancelBubble=true">카테고리</th>
+									<th onclick="event.cancelBubble=true">가격</th>
+								</tr>
+							</thead>
+							<tbody>
+								<c:forEach var="bookVO" items="${list}" varStatus="stat">
+									<tr>
+										<td>${stat.count}</td>
+										<td><a href="/detail/?bookId=${bookVO.bookId}">${bookVO.title}</a></td>
+										<td>${bookVO.category}</td>
+										<td>${bookVO.price}</td>	
+									</tr>
+								</c:forEach>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+<script>
+$(function () {
+	$("#example1").DataTable({
+		"responsive": true, 
+		"lengthChange": false, 
+		"autoWidth": false,
+		"buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+	}).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+});
+</script>
 
-	<table border="1">
-		<thead>
-			<tr>
-				<th>번호</th>			
-				<th>제목</th>			
-				<th>카테고리</th>			
-				<th>가격</th>			
-			</tr>
-		</thead>
-		<tbody>
-		<!-- forEach 태그? 배열(String[], int[][]), Collection(List, Set)
-			, Map(HashTable HashMap SortedMap)에 저장되어 있는 값들을
-			순차적으로 처리할 때 사용할 수 있다. 자바의 for, do~while을 대신해서 사용한다
-			var : 변수
-			items : 아이템(배열, Collection, Map)
-			varStatus : 루프 정보를 담은 객체
-				- .index : 루프 실행 시 현재 인덱스(0부터 시작)
-				- .count : 실행 회수(1부터 시작. 보통 행번호를 출력)
-				
-			mav.addObject("list", list)
-			list : List<BookVO>
-		 -->
-		 <c:forEach var="bookVO" items="${list}" varStatus="stat">
-			<tr>
-				<td>${stat.count}</td>			
-				<td><a href="/detail/?bookId=${bookVO.bookId}">${bookVO.title}</a></td>			
-				<td>${bookVO.category}</td>			
-				<td>${bookVO.price}</td>				
-			</tr>	
-		 </c:forEach>
-		</tbody>
-	</table>
-	<p>
-		<a href="/create">책 등록</a>
-	</p>
 
 </body>
 </html>

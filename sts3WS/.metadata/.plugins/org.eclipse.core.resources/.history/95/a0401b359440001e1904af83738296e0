@@ -1,0 +1,66 @@
+package com.suin.zzang.controller;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.suin.zzang.service.Susu;
+import com.suin.zzang.vo.SusuVO;
+
+@Controller
+@RequestMapping("/rest")
+public class SusuController {
+
+	@Autowired
+	private Susu susuSVC;
+	
+	//RESTFUL 방식을 적용하면 기본 5가지(get(리스트, 1개),post,put,delete)
+	//리스트 조회
+	@ResponseBody
+	@GetMapping(value =  "/suins", produces = "application/json;charset=utf-8")
+	public List<SusuVO> getSuins() {
+		return susuSVC.listData();
+	}
+	
+	//1개 조회
+	@ResponseBody
+	@GetMapping(value =  "/suin/{title}", produces = "application/json;charset=utf-8")
+	public SusuVO getSuin(@PathVariable String title) {
+		SusuVO susuVO = new SusuVO();
+		susuVO.setTitle(title);
+		return susuSVC.oneData(susuVO);
+	}
+	
+	// 1개 insert
+	@ResponseBody
+	@PostMapping(value =  "/suin", produces = "application/json;charset=utf-8")
+	public String postSuins(@RequestBody SusuVO susuVO) {
+		return Integer.toString(susuSVC.insertData(susuVO));
+	}
+	
+	// 1개 수정
+	@ResponseBody
+	@PutMapping(value =  "/suin", produces = "application/json;charset=utf-8")
+	public String putSuins(@RequestBody SusuVO susuVO) {
+		return Integer.toString(susuSVC.updateData(susuVO));
+	}
+	
+	// 1개 삭제
+	@ResponseBody
+	@DeleteMapping("/suin/{title}")
+	public String deleteSuins(@PathVariable String title) {
+		SusuVO susuVO = new SusuVO();
+		susuVO.setTitle(title);
+		return Integer.toString(susuSVC.deleteData(susuVO));
+	}
+	
+}

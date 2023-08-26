@@ -1,0 +1,41 @@
+package com.suin.zzang.controller;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.suin.zzang.service.Susu;
+import com.suin.zzang.vo.SusuVO;
+
+@Controller
+@RequestMapping("/susu")
+public class SusuController {
+
+	@Autowired
+	private Susu susuSVC;
+	
+	//RESTFUL 방식을 적용하면 기본 5가지(get(리스트, 1개),post,put,delete)
+	public List<SusuVO> getSuins() {
+		return susuSVC.listData();
+	}
+
+	public String getSuin() {
+		return "수인";
+	}
+	
+	public String postSuins() {
+		return "수인";
+	}
+	
+	public String putSuins() {
+		return "수인";
+	}
+	
+	public String deleteSuins() {
+		return "수인";
+	}
+	
+	
+}

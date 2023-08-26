@@ -1,0 +1,17 @@
+package com.suin.merong.mapper;
+
+import org.apache.ibatis.annotations.Mapper;
+
+@Mapper
+public class SuinMapper {
+	  // Get List
+	  List<SujinVO> listSujin();
+	  // Get One
+	  SujinVO getSujin(SujinVO sujinVO);
+	  // insert
+	   int  insertSujin(SujinVO sujinVO);
+	   // update
+	   int  updateSujin(SujinVO sujinVO);
+	   // delete
+	   int  deleteSujin(SujinVO sujinVO);
+}

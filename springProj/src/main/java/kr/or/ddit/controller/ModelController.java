@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import kr.or.ddit.vo.AddressVO;
 import kr.or.ddit.vo.CardVO;
-import kr.or.ddit.vo.MemberVO;
+import kr.or.ddit.vo.MemberVO_backup;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -64,7 +64,7 @@ public class ModelController {
 	//		뷰(jsp)에서 참조할 이름을 클래스명의 앞글자를 소문자로 변환하여 처리함
 	@GetMapping("/read02")
 	public String read02(Model model) {
-		MemberVO memberVO = new MemberVO();
+		MemberVO_backup memberVO = new MemberVO_backup();
 		
 		memberVO.setUserId("suin");
 		memberVO.setPassword("suin");
@@ -87,7 +87,7 @@ public class ModelController {
 	//요청URI : /model/read03
 	@GetMapping("/read03")
 	public String read03(Model model) {
-		MemberVO memberVO = new MemberVO();
+		MemberVO_backup memberVO = new MemberVO_backup();
 		
 		memberVO.setUserId("suin");
 		memberVO.setPassword("suin");
@@ -129,7 +129,7 @@ public class ModelController {
 	//요청URI : /model/read05
 	@GetMapping("/read05")
 	public String read05(Model model) {
-		MemberVO memberVO = new MemberVO();
+		MemberVO_backup memberVO = new MemberVO_backup();
 		
 		//private AddressVO addressVO;
 		AddressVO addressVO = new AddressVO();
@@ -210,7 +210,7 @@ public class ModelController {
 	//	매개변수로 선언하면 기본적으로 forwarding 시 데이터를 전달함
 	//  ModelAttribute 생략 가능
 	@PostMapping("/register04")
-	public String register04(@ModelAttribute MemberVO memberVO) {
+	public String register04(@ModelAttribute MemberVO_backup memberVO) {
 		log.info("userId : {}", memberVO.getUserId());
 		log.info("password : {}", memberVO.getPassword());
 		

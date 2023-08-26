@@ -1,0 +1,8 @@
+package com.suin.merong.service;
+
+import org.springframework.stereotype.Service;
+
+@Service
+public class SuinServiceImpl {
+
+}

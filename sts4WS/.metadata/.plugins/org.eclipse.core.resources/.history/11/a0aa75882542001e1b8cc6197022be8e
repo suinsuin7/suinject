@@ -1,0 +1,29 @@
+package com.suin.merong.mapper;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+
+import com.suin.merong.vo.SuinVO;
+
+@SpringBootTest
+public class SuinMapperTest {
+	
+	@Autowired
+	private SuinMapper suinMapper;
+	
+	@Test
+	public void insertTest() {
+		
+		SuinVO suinVO = new SuinVO();
+		suinVO.setSuinContent("내용!");
+		suinVO.setSuinFile("/merong/djWjrn/jpg");
+		suinVO.setSuinName("소연이 등장!");
+		
+		suinMapper.insertSuin(suinVO);
+	
+		assertEquals(1, suinMapper.insertSuin(suinVO));
+	}
+}

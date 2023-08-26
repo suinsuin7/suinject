@@ -1,0 +1,25 @@
+package com.suin.zzang.service;
+
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+
+import com.suin.zzang.vo.SusuVO;
+
+@Service
+public interface Susu {
+	// 읽기 리스트(여러 줄)
+	public List<SusuVO> listData();
+	
+	// 읽기 한줄
+	public SusuVO oneData(SusuVO susuVO);
+	
+	// 입력
+	public int insertData(SusuVO susuVO);
+	
+	// 수정
+	public int updateData(SusuVO susuVO);
+	
+	// 삭제
+	public int deleteData(SusuVO susuVO);
+}

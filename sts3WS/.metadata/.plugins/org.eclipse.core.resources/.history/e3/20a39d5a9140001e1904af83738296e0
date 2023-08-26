@@ -1,0 +1,13 @@
+package com.suin.zzang.controller;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.suin.zzang.service.Susu;
+
+@Controller
+@RequestMapping("/susu")
+public class SusuController {
+
+	private Susu susuSVCSusu;
+}

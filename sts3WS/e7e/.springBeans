@@ -10,6 +10,7 @@
 		<config>src/main/resources/config/spring/root-context.xml</config>
 		<config>src/main/resources/config/spring/servlet-context.xml</config>
 		<config>src/main/resources/config/spring/database-context.xml</config>
+		<config>src/main/resources/config/spring/websocket-context.xml</config>
 	</configs>
 	<autoconfigs>
 	</autoconfigs>

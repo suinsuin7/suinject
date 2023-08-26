@@ -1,0 +1,27 @@
+package com.suin.zzang.handler;
+
+//중계소 
+@Slf4j
+public class ChatHandler extends TextWebSocketHandler {
+	private static List<WebSocketSession> list = new ArrayList<WebSocketSession>();
+	
+	@Override
+	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
+		log.info("## 누군가 접속");
+		list.add(session);
+	}
+
+	@Override
+	protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
+		//String uMsg = message.getPayload();
+		for (WebSocketSession webSocketSession : list) {
+			webSocketSession.sendMessage(message);
+		}
+	}
+	
+	@Override
+	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
+		log.info("## 누군가 떠남");
+		list.remove(session);
+	}
+}

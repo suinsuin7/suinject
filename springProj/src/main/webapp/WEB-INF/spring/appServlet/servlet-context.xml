@@ -3,9 +3,12 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:beans="http://www.springframework.org/schema/beans"
 	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:security="http://www.springframework.org/schema/security"
 	xsi:schemaLocation="http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd
 		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
-		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
+		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/security https://www.springframework.org/schema/security/spring-security-4.2.xsd">
+		 
 	<!-- servlet-context.xml : 스프링 웹(view) 설정 파일 
 	뷰(JSP 웹 페이지)와 관련 있는 빈(bean) 객체를 설정함. 즉, 컨트롤러, MultipartResolver, Intercepter, URI와
 		관련 설정을 담는 클래스를 설정함
@@ -54,6 +57,16 @@
 		<beans:property name="order" value="1" />
 	</beans:bean>
 	<!-- Tiles 설정 끝 -->
+	
+	<!-- 스프링 시큐리티 애너테이션을 활성화 
+	- pre-post-annotations="enabled" => 골뱅이 PreAuthorize, 골뱅이PostAuthorize 활성화
+	 *** 골뱅이PreAuthorize : 특정 메소드를 실행하기 전에 role(권한) 체킹
+	 	  골뱅이PostAuthorize : 특정 메소드를 실행한 후에 role(권한) 체킹
+	- secured-annotations="enabled" => 골뱅이Secured를 활성화
+	  Secured : 스프링 시큐리티 모듈을 지원하기 위한 애너테이션
+	-->
+	<security:global-method-security pre-post-annotations="enabled"
+		secured-annotations="enabled" />
 	
 	<!-- kr.or.ddit 패키지를 컴포넌트 스캔 대상으로 함 
 	

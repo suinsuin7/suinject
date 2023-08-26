@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+</head>
+<body>
+    <form action="" enctype=""></form>
+<div id="list"></div>
+<script>
+    //페이지 시작하자마자 리스트 뿌리기
+    function getList() {
+        $.ajax({
+            type: "get",
+            url: "/rest/suin",
+            dataType: "json", // 요걸 알아서 해줌
+            success: function(rslt){
+                console.log("체크: " + rslt);
+            },
+            error: function(){
+                console.log("code: " + xhr.status);
+                console.log("message: " + xhr.responseText);
+                console.log("error: " + error);
+            }
+        });
+    }
+    getList();
+
+</script>
+
+</body>
+</html>

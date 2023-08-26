@@ -1,6 +1,11 @@
 package kr.or.ddit.controller;
 
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import lombok.extern.slf4j.Slf4j;
@@ -21,7 +26,10 @@ public class SecurityController {
 	
 	//요청URI : /freeboard/register
 	//회원게시판의 등록
-	//로그인한 회원만 접근 가능
+	//로그인한 회원 중에서 ROLE_ADMIN 또는 ROLE_MEMBER 권한을 가진 경우 접근 가능
+	//@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_MEMBER')")
+	//@Secured({"ROLE_ADMIN", "ROLE_MEMBER"})
+	@PreAuthorize("hasRole('ROLE_MEMBER') or hasRole('ROLE_ADMIN')")
 	@GetMapping("/freeboard/register")
 	public String freeboardRegister() {
 		
@@ -31,6 +39,8 @@ public class SecurityController {
 	//요청URI : /notice/list
 	//공지사항 게시판의 목록
 	//누구나 접근 가능
+	//누구나 접근 가능 -> ROLE_MEMBER 권한 또는 ROLE_ADMIN 권한에 상관없이 로그인한 경우
+	@PreAuthorize("isAuthenticated()")
 	@GetMapping("/notice/list")
 	public String noticeList() {
 		
@@ -38,12 +48,24 @@ public class SecurityController {
 	}
 	
 	//요청URI : /notice/register
-	//공지사항 게시판의 등록
-	//로그인한 관리자만 접근 가능
-	@GetMapping("/notice/register")
-	public String noticeregister() {
+    //공지사항 게시판의 등록
+    //로그인한 관리자만 접근 가능
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @GetMapping("/notice/register")
+    public String noticeRegister() {
+        //forwarding
+        return "notice/register";
+    }
+	
+	//접근 거부 처리자의 URI를 지정
+	@GetMapping("/security/accessError")
+	public String accessError(Authentication auth, Model model) {
+		//auth : 로그인이 시도된 정보를 담고 있음 auth.getName() : 계정 아이디
+		log.info("access Denied : {}", auth.getName());
 		
-		return "notice/register";
+		model.addAttribute("msg", "Access Denied");
+		
+		return "security/accessError";
 	}
 
 }
