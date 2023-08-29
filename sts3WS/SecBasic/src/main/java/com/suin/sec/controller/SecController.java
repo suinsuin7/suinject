@@ -1,0 +1,50 @@
+package com.suin.sec.controller;
+
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import lombok.extern.slf4j.Slf4j;
+
+
+@Slf4j
+@Controller
+@RequestMapping("/angma")
+public class SecController {
+
+	@GetMapping("/suin")
+	public String suin(Authentication auth) {
+		log.debug("auth:" + auth);
+		log.debug("auth:" + auth.getPrincipal());
+		log.debug("auth:" + auth.getAuthorities());
+		
+		// 시큐리티 포인트!
+		SecurityContext secCont = SecurityContextHolder.getContext();
+		
+		log.debug("check:" + secCont);
+		
+		return "suin";
+	}
+	
+	@GetMapping("/susu")
+	public String susu() {
+		return "susu";
+	}
+	
+	@PostMapping("/seoju")
+	@ResponseBody
+	public String seoju(@RequestBody String mName) {
+		
+		return mName + " 거기 서주세요!";
+	}
+	
+	
+	
+}

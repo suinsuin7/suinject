@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+</head>
+<body>
+<div id="list"></div>
+<div id="photo"></div>
+<form action="">
+    넘버: <input type="text" name="hamNum" value=""><br>
+    이름: <input type="text" name="hamName" value=""><br>
+    내용: <textarea name="hamContent"></textarea><br>
+    파일: <input type="file" name="hamFile"><br>
+    파일인풋: <input type="file" name="hamFile2"><br>
+    <button id="create" type="button">생성</button>
+    <button id="search" type="button">조회</button>
+    <button id="modify" type="button">수정</button>
+    <button id="delete" type="button">삭제</button>
+    <button id="fileUp" type="button">업로드</button>
+    <button id="go" type="button">전송</button>
+    <button type="button" id="part">아주 가끔</button>
+</form>
+<script>
+    const $list = $("#list");
+    $(function () {
+        getList();
+    });
+
+    const $part = $("#part");
+    const $creBtn = $("#create");
+    const $schBtn = $("#search");
+    const $modBtn = $("#modify");
+    const $delBtn = $("#delete");
+    const $fileUp = $("#fileUp");
+    const $photo = $("#photo");
+    const $go = $("#go");
+
+    const $hamNum = $("input[name=hamNum]");
+    const $hamName = $("input[name=hamName]");
+    const $hamContent = $("textarea[name=hamContent]");
+    const $hamFile = $("input[name=hamFile]");
+    const $hamFile2 = $("input[name=hamFile2]");
+
+    $go.on("click", () => {
+        let formData = new FormData(document.forms[0]);
+        console.log(formData);
+
+        let xhr = new XMLHttpRequest();
+        xhr.open("post", "/rest/ham", true);
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                let result = xhr.responseText;
+                if (result == 1) {
+                    alert("입력 완.");
+                    getList();
+                } else {
+                    alert("입력실패");
+                }
+            }
+        }
+        xhr.send(formData);
+    })
+
+    $fileUp.on("click", () => {
+        let formData = new FormData(); //전송방식이 무조건 multipart/formdata
+        formData.append("fileTest", $testFile2[0].files[0]);
+
+        $.ajax({
+            type: 'post',
+            url: '/rest/ham2',
+            data: formData, //JSON.stringify 하지 않음 !
+            contentType: false,    //default: application/x-www-form-urlencoded
+            processData: false,     //default: application/x-www-form-urlencoded
+            cache: false, //선택 권장 사항
+            dataType: 'text',
+            success: function (result) {
+                console.log(result);
+
+                $("<img></img>").attr("src", result).appendTo($photo);
+            },
+            error: function (xhr) {
+                console.log("CODE: ", xhr.status)
+                console.log("MESSAGE: ", xhr.responseText)
+                console.log("ERROR: ", error);
+            }
+        });
+    })
+
+    $schBtn.on("click", function () {
+        $.ajax({
+            type: "get",
+            url: `/rest/ham/${$hamNum.val()}`,
+            dataType: "text",
+            success: function (result) {
+                if (result) {
+                    console.log(result);
+                    result = JSON.parse(result);
+                    $hamName.val(result.hamName);
+                    $hamContent.val(result.hamContent);
+                    $hamFile.val(result.hamFile);
+                } else {
+                    alert("없는 번호입니다.");
+                }
+            },
+            error: function (xhr, status, error) {
+                console.log("code: " + xhr.status);
+                console.log("message: " + xhr.responseText);
+                console.log("error: " + xhr.error);
+            },
+        });
+    });
+
+    $creBtn.on("click", function () {
+        let hamVO = {
+            hamName: $hamName.val(),
+            $hamContent: $hamContent.val(),
+            $hamFile: $hamFile.val()
+        };
+        console.log("hamVO: ", hamVO);
+
+        $.ajax({
+            type: "post",
+            url: "/rest/ham",
+            data: JSON.stringify(hamVO),
+            contentType: "application/json;charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+                console.log(result);
+                if (result) {
+                    alert("완료되었습니다");
+                    getList();
+                } else {
+                    alert("입력에 실패했습니다");
+                }
+            },
+            error: function (xhr, status, error) {
+                console.log("code: " + xhr.status);
+                console.log("message: " + xhr.responseText);
+                console.log("error: " + xhr.error);
+            },
+        });
+    });
+
+    $modBtn.on("click", function () {
+        let hamVO = {
+            hamName: $hamName.val(),
+            $hamContent: $hamContent.val(),
+            $hamFile: $hamFile.val()
+        };
+        console.log("hamVO: ", hamVO);
+
+        $.ajax({
+            type: "put",
+            url: "/rest/ham",
+            data: JSON.stringify(hamVO),
+            contentType: "application/json;charset=utf-8",
+            dataType: "text",
+            success: function (result) {
+                console.log(result);
+                if (result) {
+                    alert("완료되었습니다");
+                    getList();
+                } else {
+                    alert("입력에 실패했습니다");
+                }
+            },
+            error: function (xhr, status, error) {
+                console.log("code: " + xhr.status);
+                console.log("message: " + xhr.responseText);
+                console.log("error: " + xhr.error);
+            },
+        });
+    });
+
+    $delBtn.on("click", function () {
+        $.ajax({
+            type: "delete",
+            url: `/rest/ham/${$hamNum.val()}`,
+            dataType: "text",
+            success: function (result) {
+                if (result) {
+                    console.log(result);
+                    getList();
+                } else {
+                    alert("없는 번호입니다.");
+                }
+            },
+            error: function (xhr, status, error) {
+                console.log("code: " + xhr.status);
+                console.log("message: " + xhr.responseText);
+                console.log("error: " + xhr.error);
+            },
+        });
+    });
+
+    function getList() {
+        $.ajax({
+            url: "/rest/ham",
+            type: "get",
+            dataType: "text",
+            success: function (result) {
+                result = JSON.parse(result);
+                console.log(result);
+                result.sort(function (b, a) {
+                    return a.hamNum - b.hamNum;
+                });
+
+                let tblStr = `<table border=1><tr><th>번호</th><th>이름</th><th>내용</th><th>파일</th><th>다운로드</th></tr>`
+                for (let i = 0; i < result.length; i++) {
+                    tblStr += `<tr>
+                            <td>${result[i].hamNum}</td>
+                            <td>${result[i].hamName}</td>
+                            <td>${result[i].hamContent}</td>`
+                    tblStr += `<td><a href='${result[i].hamFile}'>보기</a></td>
+                            <td><button onclick=fDownload('${result[i].hamFile}')>다운로드</button></td>
+                            </tr>`;
+                }
+                tblStr += `</table>`;
+                $list.html(tblStr);
+            },
+            error: function (xhr, status, error) {
+                console.log("code: " + xhr.status);
+                console.log("message: " + xhr.responseText);
+                console.log("error: " + xhr.error);
+            },
+        });
+    };
+
+    function fDownload(urlPath) {
+        let startIndex = urlPath.lastIndexOf("/") + 1;
+        let originalName = urlPath.substring(startIndex);
+
+        let aTag = document.createElement("a"); // a 태그 생성
+        aTag.href = urlPath;
+        aTag.download = originalName; // 클릭시 다운로드가 되도록 download 속성 추가
+
+        aTag.click(); // 강제 클릭 발생시킴
+    }
+
+</script>
+</body>
+</html>

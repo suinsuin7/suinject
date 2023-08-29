@@ -6,13 +6,13 @@
 		<item key="wholeword" value="false"/>
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
-		<item key="selection" value="Test"/>
+		<item key="selection" value="lom"/>
 		<list key="findhistory">
+			<item value="lom"/>
 			<item value="test"/>
 			<item value="&lt;!-- spring-jdbc --&gt;"/>
 			<item value="spring-jdbc"/>
 			<item value="${org"/>
-			<item value="lom"/>
 		</list>
 		<list key="replacehistory">
 		</list>

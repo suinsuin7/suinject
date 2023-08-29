@@ -1,0 +1,9 @@
+package com.suin.merong.vo;
+
+import java.util.List;
+
+public class TestVO {
+	private String name;
+	private int age;
+	private List<String> friends;
+}
