@@ -1,0 +1,5 @@
+package com.suin.sec.vo;
+
+public class AuthVO {
+
+}

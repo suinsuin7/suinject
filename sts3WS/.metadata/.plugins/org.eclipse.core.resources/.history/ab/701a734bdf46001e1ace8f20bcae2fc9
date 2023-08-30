@@ -1,0 +1,5 @@
+package com.suin.sec.security;
+
+public class customUserDetailsService {
+
+}

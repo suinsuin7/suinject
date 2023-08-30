@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:security="http://www.springframework.org/schema/security"
+	xsi:schemaLocation="http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="bCryptPasswordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" />
+	<!-- 웹 보안 -->
+	<!-- 멀티설정에는 기본제공 로그인페이지를 사용하지 않음 -->
+	<security:http pattern="/angma/**" auto-config="true">
+		<security:intercept-url pattern="/angma/aaa" access="hasRole('ROLE_ADMIN')" />
+		<security:form-login login-page="/angma/mylogin" />
+	</security:http>
+	
+	<security:http pattern="/angel/**" auto-config="true">
+		<security:intercept-url pattern="/angel/aaa" access="hasRole('ROLE_USER')" />
+		<security:form-login login-page="/angel/youlogin" />
+	</security:http>
+	
+	<!-- 나머지 전부 안 됨! 위 설정과 충돌함 -->
+	<security:http>
+		<security:intercept-url pattern="/ccc" access="hasRole('ROLE_USER')" />
+		<security:intercept-url pattern="/*" access="permitAll" />
+		<security:form-login login-page="/mlogin" />
+	</security:http>
+
+
+	<security:authentication-manager>
+		<security:authentication-provider>
+			<security:password-encoder ref="bCryptPasswordEncoder" />
+			<security:user-service>
+			<security:user name="suin" password="$2a$10$X/iU075U60IbIqY7jM4GIuiEBGUI54BvXqVW4j1CMK1FDVVsBF7gW" 
+			authorities="ROLE_ADMIN, ROLE_USER"/>
+			</security:user-service>
+		</security:authentication-provider>
+	</security:authentication-manager>
+	
+	<security:authentication-manager>
+		<security:authentication-provider>
+			<security:password-encoder ref="bCryptPasswordEncoder" />
+			<security:user-service>
+			<security:user name="sky" password="$2a$10$QN25qGR395LwCLVGQ6m0gOq.PZZvyBvRIrVW8g3VDTpQ6HoVHVu7K" 
+			authorities="ROLE_ADMIN, ROLE_USER"/>
+			</security:user-service>
+		</security:authentication-provider>
+	</security:authentication-manager>
+</beans>

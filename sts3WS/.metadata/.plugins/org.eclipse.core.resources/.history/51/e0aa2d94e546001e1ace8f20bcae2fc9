@@ -1,0 +1,9 @@
+package com.suin.sec.vo;
+
+@Setter
+@Getter
+@ToString
+public class AuthVO {
+	private String userid;
+	private String auth;
+}

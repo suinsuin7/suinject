@@ -1,0 +1,14 @@
+package com.suin.sec.mapper;
+
+import org.apache.ibatis.annotations.Mapper;
+
+import com.suin.sec.vo.AuthVO;
+import com.suin.sec.vo.MemberVO;
+
+@Mapper
+public interface MemberMapper {
+	
+	public int insertMember(MemberVO member);
+	public int insertAuth(AuthVO auth);	
+	public MemberVO read(String userid);
+}

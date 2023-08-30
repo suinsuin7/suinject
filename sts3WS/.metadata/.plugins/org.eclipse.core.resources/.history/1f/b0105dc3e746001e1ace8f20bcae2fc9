@@ -1,0 +1,59 @@
+package com.suin.sec.mapper;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
+import com.suin.sec.vo.AuthVO;
+import com.suin.sec.vo.MemberVO;
+
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
+@ExtendWith(SpringExtension.class)
+@ContextConfiguration("classpath:config/spring/root-context.xml")
+public class MemberTest {
+	
+	@Autowired
+	private PasswordEncoder passwordEncoder;
+	@Autowired
+	private MemberMapper memberMapper;
+	
+	@Test
+	@DisplayName("UserRegister")
+	@Disabled
+	public void insertUsers() {
+	   
+		MemberVO member = new MemberVO();
+		
+		for(int i=1; i<=10; i++) {
+			member.setUserid("jinsu" + i);
+			member.setUsername("niceJinsu"+i);
+			member.setUserpw(passwordEncoder.encode("jinsu"+i));
+			assertEquals(1,memberMapper.insertMember(member));
+		}
+	}
+
+	@Test
+	@DisplayName("AuthRegister")
+	@Disabled
+	public void insertAuth() {	   
+		AuthVO auth = new AuthVO();
+		
+		for(int i=1; i<=10; i++) {
+			auth.setUserid("jinsu" + i);
+			auth.setAuth("ROLE_USER");
+			assertEquals(1,memberMapper.insertAuth(auth));
+		}
+	}
+
+	@Test
+	@DisplayName("Select User")
+	public void readUser() {
+		
+		MemberVO member = memberMapper.read("jinsu1");
+		log.debug("check {}",member);
+		member.getAuthList().forEach(authVO -> log.debug("{}",authVO));
+	}
+	
+	
+}
