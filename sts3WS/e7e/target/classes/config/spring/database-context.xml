@@ -12,8 +12,8 @@
 			value="oracle.jdbc.OracleDriver"></property>
 		<property name="jdbcUrl"
 			value="jdbc:oracle:thin:@localhost:1521:XE"></property>
-		<property name="username" value="suin"></property>
-		<property name="password" value="suin"></property>
+		<property name="username" value="pc22"></property>
+		<property name="password" value="java"></property>
 	</bean>
 
 	<bean id="datasource" class="com.zaxxer.hikari.HikariDataSource" destroy-method="close">

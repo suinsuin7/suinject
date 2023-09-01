@@ -57,6 +57,4 @@
 <fullyQualifiedTypeName name="org.springframework.web.servlet.ModelAndView"/>
 <fullyQualifiedTypeName name="org.springframework.web.servlet.view.InternalResourceViewResolver"/>
 <fullyQualifiedTypeName name="org.springframework.web.servlet.mvc.Controller"/>
-<fullyQualifiedTypeName name="lombok.ToString"/>
-<fullyQualifiedTypeName name="lombok.Setter"/>
 </qualifiedTypeNameHistroy>
