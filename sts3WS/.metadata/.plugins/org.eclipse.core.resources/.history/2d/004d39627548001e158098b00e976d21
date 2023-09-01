@@ -1,0 +1,4 @@
+myFtp.server=192.168.142.19
+myFtp.port=21
+myFtp.username=272
+myFtp.password=suin

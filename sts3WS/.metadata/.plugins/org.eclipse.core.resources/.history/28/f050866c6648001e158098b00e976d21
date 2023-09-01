@@ -1,0 +1,21 @@
+package com.suin.zzang.utils;
+
+import org.springframework.beans.factory.annotation.Value;
+
+public class FtpUtils {
+	@Valueue("192.168.142.3")
+	private String server;
+	    
+	@Value("21")
+	private int port;
+	    
+	@Value("e7e")
+	private String username;
+	    
+	@Value("suzi")
+	private String password;
+	    
+	private FTPClient ftp;
+	
+	
+}

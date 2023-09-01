@@ -1,0 +1,5 @@
+package com.suin.zzang.scheduler;
+
+public class MyScheduler {
+
+}

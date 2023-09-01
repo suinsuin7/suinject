@@ -181,6 +181,13 @@
 		    <version>5.2.1</version>
 		</dependency>
 		
+		<!-- ftp 서버에 접속하기 위한 클라이언트 라이브러리 포함 -->
+		<dependency>
+			<groupId>commons-net</groupId>
+			<artifactId>commons-net</artifactId>
+			<version>3.9.0</version>
+		</dependency>
+		
 		<!-- Test -->
 		<!-- junit-jupiter-engine -->
 		<dependency>
