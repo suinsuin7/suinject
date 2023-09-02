@@ -6,8 +6,13 @@
 		<item key="wholeword" value="false"/>
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
-		<item key="selection" value="jstl"/>
+		<item key="selection" value="com.fasterxml.jackson.core"/>
 		<list key="findhistory">
+			<item value="com.fasterxml.jackson.core"/>
+			<item value="javax.servlet.jsp"/>
+			<item value="&lt;groupId&gt;javax.servlet.jsp&lt;/groupId&gt;"/>
+			<item value="&lt;groupId&gt;javax.servlet&lt;/groupId&gt;"/>
+			<item value="maven-com"/>
 			<item value="jstl"/>
 			<item value="tiles"/>
 			<item value="tile"/>
@@ -18,11 +23,6 @@
 			<item value="attach"/>
 			<item value="List"/>
 			<item value="attachVOList"/>
-			<item value="&lt;properties&gt;"/>
-			<item value="maven"/>
-			<item value="attributeValue"/>
-			<item value="cofigLocation"/>
-			<item value="1.18.22"/>
 		</list>
 		<list key="replacehistory">
 		</list>

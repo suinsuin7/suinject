@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="full.calendar.test.mapper.ScheduleMapper">
+	<insert id="insert" parameterType="scheduleVO">
+		INSERT INTO
+		SCHEDULE(SCHEDULE_ID,CREATOR_ID,SCHEDULE_DATE_TIME_START,SCHEDULE_DATE_TIME_END)
+		VALUES((SELECT NVL(MAX(SCHEDULE_ID)+1,1) FROM
+		SCHEDULE),#{creatorId},#{scheduleDateTimeStart},#{scheduleDateTimeEnd})
+	</insert>
+	<select id="findAll" resultType="scheduleVO">
+		SELECT
+		SCHEDULE_ID,CREATOR_ID,SCHEDULE_DATE_TIME_START,SCHEDULE_DATE_TIME_END
+		FROM SCHEDULE
+	</select>
+	<delete id="delete" parameterType="String">
+		DELETE FROM SCHEDULE WHERE SCHEDULE_DATE_TIME_START = #{data}
+	</delete>
+	<update id="update" parameterType="scheduleVO">
+		UPDATE SCHEDULE
+		SET SCHEDULE_DATE_TIME_START = #{scheduleDateTimeStart},
+		SCHEDULE_DATE_TIME_END = #{scheduleDateTimeEnd}
+		WHERE SCHEDULE_DATE_TIME_START = #{scheduleDateOlidTimeStart}
+	</update>
+</mapper>

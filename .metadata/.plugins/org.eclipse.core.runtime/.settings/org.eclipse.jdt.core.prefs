@@ -1,7 +1,9 @@
+JRE_LIB=C\:/Program Files/Java/jre-1.8/lib/rt.jar
+JRE_SRC=
 eclipse.preferences.version=1
 org.eclipse.jdt.core.classpathVariable.ECLIPSE_HOME=C\:/eGovFrameDev-3.10.0-64bit/eclipse/
-org.eclipse.jdt.core.classpathVariable.JRE_LIB=C\:/Program Files/Java/jre-1.8/lib/rt.jar
-org.eclipse.jdt.core.classpathVariable.JRE_SRC=
+org.eclipse.jdt.core.classpathVariable.JRE_LIB=C\:/Program Files/Java/jdk-1.8/jre/lib/rt.jar
+org.eclipse.jdt.core.classpathVariable.JRE_SRC=C\:/Program Files/Java/jdk-1.8/src.zip
 org.eclipse.jdt.core.classpathVariable.JRE_SRCROOT=
 org.eclipse.jdt.core.classpathVariable.JUNIT_HOME=C\:/eGovFrameDev-3.10.0-64bit/eclipse/plugins/org.junit_4.13.0.v20200204-1500.jar
 org.eclipse.jdt.core.classpathVariable.M2_REPO=C\:/Users/LGE/.m2/repository
