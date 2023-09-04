@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <input type="button" value="오리진 체크" onclick="fOrigin()">
+</body>
+<script>
+    function fOrigin(){
+        // 아작스 변수는 항상 지역변수로
+        // 전역변수로 쓰는 건 1명의 심부름꾼을 여러명이 나누어 쓰는 것으로
+        // 결국 제대로 동작하려면 비동기가 아니고 동기로 일을 시켜야 한다
+        var xhr = new XMLHttpRequest();
+        //
+        //아래 요청은 http://localhost:8272가 같기 때문에 same-origin
+        //xhr.open("get", "http://localhost:8272/jsstudy/AJAX/data.json", true);
+        xhr.open("get", "https://e-7-e.tistory.com/", true);
+        xhr.onreadystatechange = function(){
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                console.log("응답", xhr.responseText);
+            }
+        }
+        xhr.send();
+    }
+
+    // Origin => 프로토콜 + 도메인 + 포트번호
+    // 3가지 중 1개라도 다르면 다른 Origin
+    //  http://localhost:80 과 
+    // https://localhost:80은 다름
+    // origin의 기본 정책은 Same-Origin Policy.
+    /*
+    ajax에서 크로스 오리진을 요청하면 막혀있는데 
+    ajax는 요청의 응답결과를 변수에 받기 때문에 맘대로 조작이 가능하기 때문.
+    */ 
+</script>
+</html>

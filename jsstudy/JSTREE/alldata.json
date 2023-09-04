@@ -1,0 +1,17 @@
+[
+    { "id" : "S1", "parent" : "#", "text" : "SI 사업부" },
+    { "id" : "S2", "parent" : "#", "text" : "솔루션 사업부","alias":"ㅋㅋㅋ" },
+    { "id" : "S3", "parent" : "#", "text" : "AI 사업부" },
+    { "id" : "S4", "parent" : "#", "text" : "더헉", "icon" : "glyphicon glyphicon-camera"},
+    { "id" : "S41", "parent" : "S4", "text" : "커피묵", "icon" : "glyphicon glyphicon-heart-empty"},
+    { "id" : "S11", "parent" : "S1", "text" : "공공SI"},
+    { "id" : "S12", "parent" : "S1", "text" : "일반SI" },
+    { "id" : "S21", "parent" : "S2", "text" : "그룹웨어" },
+    { "id" : "S22", "parent" : "S2", "text" : "MES" },
+    { "id" : "S23", "parent" : "S2", "text" : "ERP" },
+    { "id" : "S31", "parent" : "S3", "text" : "이미지처리" },
+    { "id" : "S32", "parent" : "S3", "text" : "음성처리" },
+    { "id" : "S33", "parent" : "S3", "text" : "자연어처리" },
+    { "id" : "S231", "parent" : "S23", "text" : "조수인" },
+    { "id" : "S411", "parent" : "S41", "text" : "편의점", "hansome" : "마자", "icon" : "glyphicon glyphicon-heart" }
+]

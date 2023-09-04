@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>수인 Tree</title>
+<!--css -->
+<link rel="stylesheet" href="//static.jstree.com/3.3.15/assets/bootstrap/css/bootstrap.min.css" />  
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.15/themes/default/style.min.css" integrity="sha512-A5OJVuNqxRragmJeYTW19bnw9M2WyxoshScX/rGTgZYj5hRXuqwZ+1AVn2d6wYTZPzPXxDeAGlae0XwTQdXjQA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<!-- jQuery plugin으로 만들어졌으니 jQuery 필수 -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<!-- jstree lib 포함 -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.15/jstree.min.js" integrity="sha512-zTdDEt8tOqDRVRFKgypzg8g7FJE7A9lhnTZ6YpUlufaF/XvjIGF/zaPljDhER8XmIwePEAjBjv27TEuubED0/A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+</head>
+<body>
+    <!-- 요것이 딱 기본! 추가적인 검색과 문서읽기 능력을 키워서 -->
+    <!-- jsTree를 넣을 위치를 잡아 줌! -->
+    <div id="suinTree"></div>
+    <input type="text" id="schText" value="">
+        <button onclick="fSch()">찾아볼까용~</button>
+<script>
+
+    //찾기!
+    function fSch(){
+        //true가 있으면 만들어진 걸 가져오고, 없으면 새로 만든다고 되어 있는데,
+        //설명이 쫌 부족!
+        $('#suinTree').jstree(true).search($("#schText").val());
+    }
+
+    // 디폴트값 설정법!, 리스트는 나중에 찾기로
+    $.jstree.defaults.core.themes.variant = "large";
+
+    //AJAX 사용! (요게 중요!)
+    
+    $('#suinTree').jstree({
+        "plugins" : [ "search" ], // search 시 search 플러그인 추가
+        'core' : {
+            'data' : {
+                'url' : function (node) {
+                            return "alldata.json"; 
+                        }
+            },
+            check_callback: true
+        }
+    }); // Tree 컴포넌트 생성
+
+
+    /* 위에 거는 URL과 보내는 data만 쓸 수 있어서, 좀 더 세세한 제어가
+       불가능한데, 그런 경우 아래처럼 직접 ajax를 넣어서 제어한다
+    
+    $('#suinTree').jstree({
+    'core' : {
+        'data' : function (obj, cb) {
+                let xhr = new XMLHttpRequest();
+                xhr.open("get", "alldata.json", true);
+                xhr.onreadystatechange == function(){
+                    if(xhr.readyState == 4 && xhr.status == 200) {
+                        cb.call(this.JSON.parse(xhr.responseText));
+                    }
+                }
+                // Loading 메시지가 계속 나오는 건 보통 data가 없는 경우
+                xhr.send();
+        }
+    }});
+    */
+
+    /*
+    //이벤트 등록법
+    $('#suinTree').on("changed.jstree", function (e, data) {
+        console.log("체크 :", data);
+        console.log("실제로 많이 쓰는 건 node 정보:", data.node);
+        console.log("실제로 많이 쓰는 건 node 정보:", data.node.original.hansome);
+    });
+    */
+
+    // node open 이벤트(이벤트명은 문서에서 검색해서 복사 붙여넣기)
+
+    // 상태변수, 요런 걸 초보자들이 잘 못해용
+    let isAdded = false; // 초기값 false, 아직 추가 안 됐음!!
+
+    $('#suinTree').on("open_node.jstree", function(e, data) {
+            console.log("열린노드:", data.node);
+
+            if (!isAdded && data.node.id === 'S4') {
+                alert("왔어?");
+                $("#suinTree").jstree(true).create_node( "S4",
+                    {"text": "머야머야", "slug": "hhhhhhhhh", "id": "S42"},
+                    'last', function () {
+                        alert("추가추가");
+             });
+             isAdded = true; // 추가되었습!
+            }
+    });
+
+    // node select(선택) 이벤트
+    $('#suinTree').on("select_node.jstree", function(e, data) {
+        console.log("선택한노드:", data.node);
+    });
+
+    /* 아래 3개는 같은 동작
+    $('#jstree').jstree(true).select_node('child_node_1');
+    $('#jstree').jstree('select_node', 'child_node_1');
+    $.jstree.reference('#jstree').select_node('child_node_1');
+    */
+</script>
+</body>
+</html>

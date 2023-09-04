@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ChartJS 샘플</title>
+<!-- 바닐라JS로 만들어져서 아래 1줄로 설치 끝! -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <h1>들쭉날쭉 내칭구들 차트</h1>
+    작년 값<input type="text" id="lastVal" value=""><br>
+    올해 값<input type="text" id="thisVal" value=""><br>
+    <button onclick="fReDraw()">차트 다시 그리기</button>
+
+    <div style="width: 600px; height: 400px; border: 2px solid black;">
+        <!-- canvas는 webGL이라고 그래픽라이브러리 엔진을 사용~! 
+             차트 크기는 부모영역 크기에 따라 자동으로 달라짐,
+        -->
+        <canvas id="myChart"></canvas>
+    </div>
+
+    <script>
+        const myLastVal = document.querySelector("#lastVal");
+        const myThisVal = document.querySelector("#thisVal");
+
+        function fRanDate(){
+            let ranData = []; //빈 배열 생성
+            for (let i = 1; i <= 7; i++) { //7개 랜덤 데이터 넣기
+                ranData.push(Math.round(Math.random() * 70) + 30 );
+            }
+            return ranData; // 배열 리턴
+        }
+
+
+        function fReDraw(){
+            //suinChart.data.datasets[0].data = myLastVal.value.split(",");
+            //suinChart.data.datasets[1].data = myThisVal.value.split(",");
+            suinChart.data.labels=["조수인", "이혜진", "이소연", "최서연", "무력", "꺄롱", "오뚝"]
+            suinChart.data.datasets[0].data = fRanDate();
+            suinChart.data.datasets[1].data = fRanDate();
+            suinChart.data.datasets.push({
+                        type:"bar",
+                        laber: '미래예측',
+                        data: fRanDate(),
+                        borderWidth: 1
+            })
+            suinChart.update();
+            setTimeout(fReDraw,1000);
+        }
+
+
+        const ctx = document.getElementById('myChart');
+      
+        //bar와 line은 mix될 수 있음. (딴 건 안 됨! 생각해 보면 안 되는 이유 추측 가능)
+        //chart.js가 잘 만들어진 이유는 생성자 리턴값에 설정옵션들이 거의 다
+        //포함되어서 리턴되고, 그것으로 모든 걸 제어할 수 있음!(아주 훌륭)
+        const suinChart = new Chart(ctx, {
+          type: 'bar', // bar, line, doughnut, pie, radar
+          data: {
+            // labels 갯수가 맞아야만 해당 데이터가 나옴
+            labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange', 'Merong'],
+            datasets: [
+                {
+                    type: "line",
+                    label: '작년',
+                    data: [12, 19, 3, 5, 2, 3, 20],
+                    borderWidth: 1
+                },
+                {
+                    type:"bar",
+                    label: '올해',
+                    data: [22, 29, 13, 15, 12, 13, 16],
+                    borderWidth: 1
+                }
+            ]
+        },
+        // 필요한 옵션은 구글 검색을 통해 해결!
+          options: {
+            scales: {
+              y: {
+                beginAtZero: true
+              }
+            }
+          }
+        });
+
+        // suinChart 전역변수를 이용하여 차트 내부 정보를 읽어올 수 있음!
+        console.log("체크: ", suinChart.data.labels);
+        console.log("체크: ", suinChart.data.datasets[1]);
+        console.log("체크: ", suinChart.data.datasets[1].data);
+
+        // 값을 바로 줄 수 있음!
+        //suinChart.data.datasets[1].data = [1,2,3,4,5,6,7];
+
+        // chart.js의 가장 중요한 메소드 update() => 다시 그려라(rendering)
+        //suinChart.update();
+
+      </script>
+</body>
+</html>
