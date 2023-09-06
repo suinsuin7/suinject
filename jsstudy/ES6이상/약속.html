@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<meta charset="UTF-8">
+<script>
+// 자바스크립트에선 비동기 처리시에 콜백함수를 많이 사용하는데,
+// 비동기 안에 비동기 그 안에 비동기 식으로 구성될 때
+// 코드가 콜백 안에 콜백 그 안에 콜백식으로 콜백이 줄줄이 비엔나가 되는 상황을
+// 사람들은 Hell of Callback이라 불렀고,
+// 이에 대한 대책을 끊임ㅁ없이 요구했다.
+// 그 당식 Bluebird란 회사가 Promise란 라이브러리를 제공해서
+// 이 부분을 좀 편하게 해주고 있었는데, 이를 받아들여서 자바스크립트에 넣어버렸다
+// 약속(Promise)은 미래에 결과(성공, 실패)가 나온다, 지금은 모른다
+
+function fCheck() {
+    //일단 머릿속에 약속이 성공하면 res를 부르고, 실패하면 rej를 부른다로 기억
+    return new Promise((res, rej) => { // 약속(Promise) 만들기
+        //rej({name:"조수인",merong:"짱"})
+
+        //let bjError = new Error("우와");
+        rej("실패");
+    });
+}
+
+// Promise에는 then, catch, finally를 사용할 수 있다
+fCheck().then((sucess)=>{
+    console.log("성공:",sucess);
+}).catch((error)=>{
+    console.log("실패:",error);
+}).finally(()=>{
+    console.log("야는 그냥 막 실행됨");
+    console.log("야는 그냥 막 실행됨");
+});
+
+</script>

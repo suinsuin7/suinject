@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<meta charset="UTF-8">
+<script>
+// es6 이상에서 class 키워드 지원
+// 하지만 내부적으로 function 키워드로 바뀌어 처리된다고 해서 사용에 소극적
+// 단 마이크로소프트의 tranfiler인 typescript를 사용한다면 많이 사용하게 됨
+// typescript는 자바스크립트이지만 데이타타입 지정이 가능해서
+// 자바나 c++한 사람들도 좋아함!
+
+class ChoS {
+    // 생성자
+    constructor(pName, pAge){
+        this.name = pName;
+        this.age = pAge;
+    }
+
+    // 메소드
+    msg() {
+        return this.name;
+    }
+}
+
+let suin = new ChoS("수인", 100);
+
+alert(suin.msg());
+
+</script>

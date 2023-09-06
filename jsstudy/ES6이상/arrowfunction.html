@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<meta charset="UTF-8">
+<script>
+    // 화살표 함수 (Arrow function)
+    // 안 써도 암무도 안 죽여! -> 단지 없어 보이고 늙어 보임
+    // 공식 함수 선언법
+
+    /*
+    function fBC(){
+        alert("메롱");
+    }
+
+    // 표현식 함수 선언
+    const fBC = function(){
+        alert("메롱");
+    }
+    */
+
+    /*
+    const fBC = function(pName){
+        return `${pName}님 안농`;
+    }
+    */
+
+    /*
+    // 매개변수 1개일 때 () 생략 가능
+    // {} 블럭 안에 return문밖에 없을 때, {}도 생략 가능
+    // 주의: this에 대한 제약사항(무조건 1단계 위 상위 객체를 가리킴)
+    // 요게 불편할 수 있는데, 그때는 그냥 function 키워드를 사용함!
+
+    const fBC = (pName) => {
+        return `${pName}님 안농`;
+    }
+    */
+
+    const fBC = pName => `${pName}님 안농`;
+
+    alert(fBC("수인"))
+
+</script>

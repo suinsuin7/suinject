@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<meta charset="UTF-8">
+<script>
+// 아주 다행인 건 실제 응용개발자들이 promise를 직접 만들 일은 거의 없음
+// 라이브러리나, 웹 컴포넌트를 만드는 회사들이 다 제공해 줌 잘 쓰면 그만
+// 개념 이해만 잘!
+
+const axios = {}; // 네임스페이스용 객체
+
+axios.get = function(pUrl) {        // axios의 객체 get 메소드로
+    return new Promise((res, rej) => { 
+        // 비동기 때문에 만들어짐, 비동기 처리를 개발자가 편하게 느끼게 하려고
+        let xhr = new XMLHttpRequest();
+        xhr.open("get", pUrl, true);
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                //미래에 결과가 나오는 ajax 성공 시 res 콜
+                res(xhr.responseText);
+            }
+        }
+        xhr.send();
+    });
+}
+
+// async와 await는 떨어질 수 없는 베.프 콤비다!
+async function fFinal(){
+    let rslt = await axios.get("/jsstudy/AJAX/data.json");
+    console.log("받은결과:", JSON.parse(rslt));
+    // 뭐야 이건 비동기 아니잖아 기다렸잖아 그럼 동기잖아 ㅠ
+    // 그럼 성능 안 좋아지잖아 왜 써?
+}
+
+fFinal(); // 비동기로 동작!!! 제어를 바로 다음 라인으로 넘김
+console.log("중요 포인트:", "누가누가 빠르게?"); // 얘가 먼저 찍힘!
+
+/*
+    await를 이용 함수 안에서는 동기식으로 프로그램 코딩(개발자 기쁨)
+    사람 머리는 비동기에 약하고, 동기에 강함
+
+    시스템에서 알아서 함수 자체를 비동기로 실행시켜줌
+    결국 내부코드는 동기식 코드인데, 외부적으로 보면 비동기로 동작
+
+    2마리 토끼를 다 잡았다는 칭찬이 난무하는 이유!!!
+*/
+
+
+axios.get("/jsstudy/AJAX/data.json")
+    .then((rslt)=>{
+        console.log("받은값:", JSON.parse(rslt));
+    }).catch((err)=>{})
+    .finally(()=>{console.log("전 항상 실행!")})
+
+axios.get("/jsstudy/AJAX/data.csv")
+    .then((rslt)=>{
+        console.log("받은값:", rslt);
+    }).catch((err)=>{})
+    .finally(()=>{console.log("전 항상 실행!")})
+
+
+/*
+function fCheck() {
+    return new Promise((res, rej) => { 
+        // 비동기 때문에 만들어짐, 비동기 처리를 개발자가 편하게 느끼게 하려고
+        let xhr = new XMLHttpRequest();
+        xhr.open("get", "/jsstudy/AJAX/data.json", true);
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                //미래에 결과가 나오는 ajax 성공 시 res 콜
+                res(xhr.responseText);
+            }
+        }
+        xhr.send();
+    });
+}
+
+fCheck().then((sucess)=>{
+    console.log("성공:",sucess);
+}).catch((error)=>{
+    console.log("실패:",error);
+}).finally(()=>{
+    console.log("야는 그냥 막 실행됨");
+    console.log("야는 그냥 막 실행됨");
+});
+*/
+</script>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<meta charset="UTF-8">
+<script type="module">
+    import {itzy as iZ, blackPink as bP} from "./idolModule.js"; // 확장자 안 빼먹기
+
+    console.log("체크:", iZ); //itzy는 공유가 안 됨! 영역 분리!
+    window.merong = "나도 졸려";
+</script>
+
+<script type="module">
+    import {blackPink as bP} from "./idolModule.js"; // 확장자 안 빼먹기
+    console.log("체크3:", bP);
+    console.log("체크5:", merong); // 공유됨 (모듈끼리 전역변수 공유 가능, 주의)
+    console.log("체크4:", iZ); // itzy는 공유가 안 됨! 모듈끼리도 공유 안 됨
+</script>
+
+<script type="module">
+    import mysuin from './idolModule.js'; // 기본적으로 suin 함수가 수입됨 default 때문!
+    mysuin("수인이");
+</script>
+
+<script>
+// module 너무 중요
+// 여기는 import 없어서 오류 남
+    console.log("체크2:", itzy);
+    console.log("체크6:", merong); // 전역이어도 공유 안 됨
+</script>
